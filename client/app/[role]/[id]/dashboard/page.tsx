@@ -62,7 +62,7 @@ export default function Page() {
                 setFiles={setFiles}
                 setDialogTrigger={setDialogTrigger}
             />
-            {/* <ShowFiles files={files}/> */}
+            <ShowFiles files={files}/>
         </>
     );
 }

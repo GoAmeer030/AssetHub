@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unescaped-entities */
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -34,8 +33,7 @@ import { z } from "zod";
 import { useFileStore } from "@/stores/fileStore";
 import { fileType } from "@/types/fileType";
 import { useUploadFileMutation } from "@/hooks/fileHooks";
-import { set } from "date-fns";
-import React from "react";
+import React, { useEffect } from "react";
 
 const formSchema = z.object({
     batch: z.string().refine((value) => /^\d{4}$/.test(value), {
@@ -85,19 +83,19 @@ export default function FileUploadDialog({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            batch,
-            year,
-            department,
-            semester,
-            subjectcode,
-            filename,
-            file,
+            batch: batch || "",
+            year: year || "",
+            department: department || "",
+            semester: semester || "",
+            subjectcode: subjectcode || "",
+            filename: filename || "",
+            file: file || undefined,
         },
     });
 
     const mutation = useUploadFileMutation();
 
-    const handleSave = async (data: z.infer<typeof formSchema>) => {
+    const handleSave = (data: z.infer<typeof formSchema>) => {
         const uploadFile: fileType = {
             batch,
             year,
@@ -109,10 +107,17 @@ export default function FileUploadDialog({
         };
 
         mutation.mutate(uploadFile);
-        setDialogTrigger(false);
-        resetFile();
-        form.reset();
     };
+
+    useEffect(() => {
+        console.log(mutation.isSuccess);
+        if (mutation.isSuccess) {
+            setDialogTrigger(false);
+            resetFile();
+            form.reset();
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mutation.isSuccess]);
 
     return (
         <Dialog
@@ -126,7 +131,7 @@ export default function FileUploadDialog({
                     <DialogTitle>Upload File</DialogTitle>
                     <DialogDescription>
                         Choose the File and update the details. Click save when
-                        you're done.
+                        you&apos;re done.
                     </DialogDescription>
                 </DialogHeader>
                 <Form {...form}>
@@ -155,11 +160,10 @@ export default function FileUploadDialog({
                         <FormField
                             control={form.control}
                             name="department"
-                            render={({ field }) => (
+                            render={({ field }: { field: any }) => (
                                 <FormItem>
                                     <FormLabel>Department</FormLabel>
                                     <Select
-                                        {...field}
                                         onValueChange={(value) => {
                                             field.onChange(value);
                                             setDepartment(value);
@@ -192,11 +196,10 @@ export default function FileUploadDialog({
                         <FormField
                             control={form.control}
                             name="year"
-                            render={({ field }) => (
+                            render={({ field }: { field: any }) => (
                                 <FormItem>
                                     <FormLabel>Year</FormLabel>
                                     <Select
-                                        {...field}
                                         onValueChange={(value) => {
                                             field.onChange(value);
                                             setYear(value);
@@ -227,11 +230,10 @@ export default function FileUploadDialog({
                         <FormField
                             control={form.control}
                             name="semester"
-                            render={({ field }) => (
+                            render={({ field }: { field: any }) => (
                                 <FormItem>
                                     <FormLabel>Semester</FormLabel>
                                     <Select
-                                        {...field}
                                         onValueChange={(value) => {
                                             field.onChange(value);
                                             setSemester(value);
@@ -310,9 +312,7 @@ export default function FileUploadDialog({
                         <FormField
                             control={form.control}
                             name="file"
-                            render={({
-                                field: { onChange, onBlur, name },
-                            }) => (
+                            render={({ field: { onChange, onBlur, name } }) => (
                                 <FormItem>
                                     <FormLabel>Upload</FormLabel>
                                     <FormControl>

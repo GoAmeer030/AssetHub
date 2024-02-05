@@ -15,8 +15,6 @@ export const postUploadFile = async (uploadFile: fileType): Promise<AxiosRespons
         formData.append('file', uploadFile.file);
     }
 
-    console.log(formData);
-
     const response: AxiosResponse = await axios.post(`${process.env.NEXT_PUBLIC_SERVER_URL}/addfile`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',

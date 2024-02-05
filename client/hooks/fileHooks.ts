@@ -25,6 +25,7 @@ export function useGetFilesMutation() {
     const mutation = useMutation({
         mutationFn: getFiles,
         gcTime: 0,
+        retry: false,
         onSuccess: (data) => {
             console.log("success");
             console.log(data.data.file);

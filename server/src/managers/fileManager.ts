@@ -35,7 +35,7 @@ export default class FileManager {
             }
         });
 
-        res.status(200);
+        res.status(200).send();
     }
 
     getFileHandler = async (req: Request, res: Response) => {

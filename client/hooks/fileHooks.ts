@@ -1,11 +1,10 @@
 "use client";
 
 import {
-    useQuery,
     useMutation
 } from "@tanstack/react-query";
 
-import { postUploadFile, getFiles } from "@/api/fileApi";
+import { postUploadFile, getFiles, deleteFile } from "@/api/fileApi";
 
 export function useUploadFileMutation() {
     const mutation = useMutation({
@@ -29,6 +28,20 @@ export function useGetFilesMutation() {
         onSuccess: (data) => {
             console.log("success");
             console.log(data.data.file);
+        },
+        onError: () => {
+            console.log("error");
+        }
+    })
+
+    return mutation;
+}
+
+export function useDeleteFileMutation() {
+    const mutation = useMutation({
+        mutationFn: deleteFile,
+        onSuccess: () => {
+            console.log("file deleted");
         },
         onError: () => {
             console.log("error");

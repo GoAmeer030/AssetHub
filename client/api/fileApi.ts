@@ -40,3 +40,13 @@ export const getFiles = async (data: fileType): Promise<AxiosResponse> => {
 
     return response;
 }
+
+export const deleteFile = async (fileId: string): Promise<AxiosResponse> => {
+    const response: AxiosResponse = await axios.delete(`${process.env.NEXT_PUBLIC_SERVER_URL}/deletefile/${fileId}`, {
+        headers: {
+            'authorization': `Bearer ${useAccessTokenStore.getState().accessToken}`
+        }
+    });
+
+    return response;
+}

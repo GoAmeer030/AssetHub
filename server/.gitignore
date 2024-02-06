@@ -5,6 +5,7 @@ node_modules
 
 # data
 data/
+public/
 
 # Prisma generated files
 prisma/migrations

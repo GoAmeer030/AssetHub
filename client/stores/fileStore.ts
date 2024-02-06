@@ -2,6 +2,7 @@ import { create } from 'zustand';
 import { fileState } from '@/types/fileType';
 
 export const useFileStore = create<fileState>((set) => ({
+    id: '',
     batch: '',
     year: '',
     department: '',
@@ -9,7 +10,9 @@ export const useFileStore = create<fileState>((set) => ({
     subjectcode: '',
     filename: '',
     file: null,
+    fileurl: '',
 
+    setId: (fileid: string) => set({ id: fileid }),
     setBatch: (batch: string) => set({ batch }),
     setYear: (year: string) => set({ year }),
     setDepartment: (department: string) => set({ department }),
@@ -17,6 +20,7 @@ export const useFileStore = create<fileState>((set) => ({
     setSubjectCode: (subjectCode: string) => set({ subjectcode: subjectCode }),
     setFileName: (fileName: string) => set({ filename: fileName }),
     setFile: (file: File) => set({ file }),
+    setFileUrl: (fileUrl: string) => set({ fileurl: fileUrl }),
 
-    resetFile: () => set({ batch: '', year: '', department: '', semester: '', subjectcode: '', filename: '', file: null })
+    resetFile: () => set({ id: '', batch: '', year: '', department: '', semester: '', subjectcode: '', filename: '', file: null, fileurl: '' })
 }));

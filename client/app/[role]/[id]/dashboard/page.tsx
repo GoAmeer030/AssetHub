@@ -19,13 +19,15 @@ export default function Page() {
     const mutation = useGetFilesMutation();
 
     const {
+        id,
         filename,
         batch,
         department,
         year,
         semester,
         subjectcode,
-        file
+        file,
+        fileurl
     } = useFileStore();
 
     const role = Array.isArray(params.role) ? params.role[0] : params.role;
@@ -36,21 +38,27 @@ export default function Page() {
     const [dialogTrigger, setDialogTrigger] = useState(false);
 
     useEffect(() => {
-        const data: fileType = {
-            filename,
-            batch,
-            department,
-            year,
-            semester,
-            subjectcode,
-            file
-        }
-        mutation.mutate(data);
-        if (mutation.isSuccess) {
-            setFiles(mutation.data?.data?.file);
+        if (dialogTrigger == false) {
+            const data: fileType = {
+                id,
+                filename,
+                batch,
+                department,
+                year,
+                semester,
+                subjectcode,
+                file,
+                fileurl,
+            };
+            mutation.mutate(data, {
+                onSuccess: (data) => {
+                    setFiles(data?.data?.file);
+                },
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dialogTrigger]);
+    
     return (
         <>
             <FileUploadDialog
@@ -62,7 +70,7 @@ export default function Page() {
                 setFiles={setFiles}
                 setDialogTrigger={setDialogTrigger}
             />
-            <ShowFiles files={files}/>
+            <ShowFiles role={role} files={files} setFiles={setFiles} />
         </>
     );
 }

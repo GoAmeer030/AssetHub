@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from "@prisma/client";
 import AuthManager from './authManager';
+import fs from 'fs';
 
 export default class FileManager {
     private prisma: PrismaClient;
@@ -47,5 +48,41 @@ export default class FileManager {
         }
 
         res.status(200).send({ file });
+    }
+
+    deleteFileHandler = async (req: Request, res: Response, id: number, authManager: AuthManager) => {
+        const staff = await authManager.authUser(req, res);
+
+        if (!staff || !('id' in staff.user)) {
+            res.status(401).send({ error: 'Unauthorized' });
+            return;
+        }
+
+        const file = await this.prisma.file.findUnique({
+            where: {
+                id: id
+            }
+        });
+
+        if (!file) {
+            res.status(400).send({ error: 'File not found' });
+            return;
+        }
+
+        if (file.staffid !== staff.user.id) {
+            res.status(401).send({ error: 'Unauthorized' });
+            return;
+        }
+
+        await this.prisma.file.delete({
+            where: {
+                id: id
+            }
+        });
+
+        const filePath = file.fileurl;
+        fs.unlinkSync(filePath);
+
+        res.status(200).send();
     }
 }

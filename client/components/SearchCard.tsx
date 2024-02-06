@@ -41,6 +41,7 @@ export default function SearchCard({
     const router = useRouter();
 
     const {
+        id: fileid,
         filename,
         batch,
         department,
@@ -48,13 +49,16 @@ export default function SearchCard({
         semester,
         subjectcode,
         file,
+        fileurl,
 
+        setId: setFileId,
         setFileName,
         setBatch,
         setDepartment,
         setYear,
         setSemester,
         setSubjectCode,
+        setFileUrl,
 
         resetFile,
     } = useFileStore();
@@ -65,20 +69,21 @@ export default function SearchCard({
     const mutation = useGetFilesMutation();
 
     const handleLogout = () => {
-        return () => {
-            setAccessToken("");
-            localStorage.removeItem("accessToken");
+        console.log("logout");
+        setAccessToken("");
+        localStorage.removeItem("accessToken");
 
-            resetFile();
-            resetStaff();
-            resetStudent();
+        resetFile();
+        resetStaff();
+        resetStudent();
 
-            router.push("/auth/signin");
-        };
+        router.push("/auth/signin");
+        return;
     };
 
     const handleSearch = () => {
         const data: fileType = {
+            id: fileid,
             filename,
             batch,
             department,
@@ -86,6 +91,7 @@ export default function SearchCard({
             semester,
             subjectcode,
             file,
+            fileurl,
         };
         mutation.mutate(data);
     };

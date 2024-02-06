@@ -25,6 +25,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Spinner } from "@nextui-org/react";
 
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -63,6 +64,7 @@ export default function FileUploadDialog({
     setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const {
+        id: fileid,
         batch,
         year,
         department,
@@ -70,6 +72,8 @@ export default function FileUploadDialog({
         subjectcode,
         filename,
         file,
+        fileurl,
+        setId: setFileId,
         setBatch,
         setYear,
         setDepartment,
@@ -97,6 +101,7 @@ export default function FileUploadDialog({
 
     const handleSave = (data: z.infer<typeof formSchema>) => {
         const uploadFile: fileType = {
+            id: fileid,
             batch,
             year,
             department,
@@ -104,6 +109,7 @@ export default function FileUploadDialog({
             subjectcode,
             filename,
             file,
+            fileurl,
         };
 
         mutation.mutate(uploadFile);
@@ -337,7 +343,14 @@ export default function FileUploadDialog({
                             )}
                         />
                         <Button type="submit" className="mt-6">
-                            Save changes
+                            {mutation.isPending ? (
+                                <>
+                                    <Spinner color="white" size="sm" className="pr-2"/>
+                                    Uploading
+                                </>
+                            ) : (
+                                "Upload"
+                            )}
                         </Button>
                     </form>
                 </Form>

@@ -11,12 +11,16 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 import Image from "next/image";
+import React from "react";
 
-import React, { useEffect } from "react";
+import { saveAs } from "file-saver";
 
 import { fileType } from "@/types/fileType";
+import { useDeleteFileMutation } from "@/hooks/fileHooks";
 
-export default function App({ files }: { files: fileType[] }) {
+export default function App({ role, files, setFiles }: { role: string, files: fileType[], setFiles: React.Dispatch<React.SetStateAction<fileType[]>>}) {
+    const mutation = useDeleteFileMutation();
+
     const keysToShow = [
         "S.NO",
         "FILENAME",
@@ -64,24 +68,76 @@ export default function App({ files }: { files: fileType[] }) {
                                 <TableCell>{file.subjectcode}</TableCell>
                                 <TableCell>
                                     <div className="flex justify-around">
-                                        <Image
-                                            src="/ViewIcon.svg"
-                                            alt="View"
-                                            width={20}
-                                            height={20}
-                                        />
-                                        <Image
-                                            src="/DownloadIcon.svg"
-                                            alt="Download"
-                                            width={20}
-                                            height={20}
-                                        />
-                                        <Image
-                                            src="/DeleteIcon.svg"
-                                            alt="Delete"
-                                            width={20}
-                                            height={20}
-                                        />
+                                        <button
+                                            onClick={() =>
+                                                window.open(
+                                                    `${process.env.NEXT_PUBLIC_SERVER_URL}/${file.fileurl}`,
+                                                    "_blank"
+                                                )
+                                            }
+                                        >
+                                            <Image
+                                                src="/ViewIcon.svg"
+                                                alt="View"
+                                                width={20}
+                                                height={20}
+                                            />
+                                        </button>
+                                        <button
+                                            onClick={async () => {
+                                                const fileUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${file.fileurl}`;
+                                                const response = await fetch(
+                                                    fileUrl
+                                                );
+                                                const blob =
+                                                    await response.blob();
+                                                const fileUrlList =
+                                                    file.fileurl.split("/");
+                                                const fileName = fileUrlList[
+                                                    fileUrlList.length - 1
+                                                ]
+                                                    .split(".")
+                                                    .pop();
+                                                saveAs(
+                                                    blob,
+                                                    file.filename +
+                                                        "." +
+                                                        fileName
+                                                );
+                                            }}
+                                        >
+                                            <Image
+                                                src="/DownloadIcon.svg"
+                                                alt="Download"
+                                                width={20}
+                                                height={20}
+                                            />
+                                        </button>
+                                        {role === "staff" && (
+                                            <button
+                                                onClick={() => {
+                                                    const fileId = file.id;
+                                                    const newFiles =
+                                                        files.filter(
+                                                            (file) =>
+                                                                file.id !==
+                                                                fileId
+                                                        );
+                                                    mutation.mutate(fileId, {
+                                                        onSuccess: () => {
+                                                            setFiles(newFiles);
+                                                        },
+                                                    });
+                                                }}
+                                            >
+                                                <Image
+                                                    src="/DeleteIcon.svg"
+                                                    alt="Delete"
+                                                    width={20}
+                                                    height={20}
+                                                />
+                                            </button>
+                                        )}
                                     </div>
                                 </TableCell>
                             </TableRow>

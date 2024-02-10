@@ -19,6 +19,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { Spinner } from "@nextui-org/react";
 
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
@@ -66,7 +67,7 @@ export function Login() {
 
     const router = useRouter();
 
-    const mutaion = useLoginMutation();
+    const mutation = useLoginMutation();
 
     const handleLogin = () => {
         if (staffID && password) {
@@ -74,18 +75,18 @@ export function Login() {
                 staffID,
                 password,
             };
-            mutaion.mutate(staff);
+            mutation.mutate(staff);
         } else if (regNo) {
             const student: studentType = {
                 regNo,
             };
-            mutaion.mutate(student);
+            mutation.mutate(student);
         }
         password && setPassword("");
     };
 
     useEffect(() => {
-        if (mutaion.isSuccess) {
+        if (mutation.isSuccess) {
             if (regNo) {
                 router.push(`/student/${regNo}/dashboard`);
             } else if (staffID) {
@@ -93,7 +94,7 @@ export function Login() {
             }
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [mutaion.isSuccess]);
+    }, [mutation.isSuccess]);
 
     const staffForm = useForm({
         resolver: zodResolver(staffFormSchema),
@@ -111,7 +112,7 @@ export function Login() {
     });
 
     return (
-        <div className="w-[500px]">
+        <div className="w-11/12">
             <h1 className="text-center text-xl p-4 text-bold">I AM A</h1>
             <Tabs defaultValue="2">
                 <TabsList className="grid w-full grid-cols-2">
@@ -182,8 +183,23 @@ export function Login() {
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" className="mt-6">
-                                        Login
+                                    <Button
+                                        type="submit"
+                                        className="mt-6"
+                                        disabled={mutation.isPending}
+                                    >
+                                        {mutation.isPending ? (
+                                            <>
+                                                <Spinner
+                                                    color="white"
+                                                    size="sm"
+                                                    className="pr-2"
+                                                />
+                                                Logging In
+                                            </>
+                                        ) : (
+                                            "Login"
+                                        )}
                                     </Button>
                                 </form>
                             </Form>
@@ -231,8 +247,23 @@ export function Login() {
                                             </FormItem>
                                         )}
                                     />
-                                    <Button type="submit" className="mt-6">
-                                        Login
+                                    <Button
+                                        type="submit"
+                                        className="mt-6"
+                                        disabled={mutation.isPending}
+                                    >
+                                        {mutation.isPending ? (
+                                            <>
+                                                <Spinner
+                                                    color="white"
+                                                    size="sm"
+                                                    className="pr-2"
+                                                />
+                                                Logging In
+                                            </>
+                                        ) : (
+                                            "Login"
+                                        )}
                                     </Button>
                                 </form>
                             </Form>

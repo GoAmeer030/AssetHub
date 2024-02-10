@@ -16,11 +16,12 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Spinner } from "@nextui-org/react";
 
 import Image from "next/image";
 
 import { useRouter } from "next/navigation";
-import { useEffect } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useGetFilesMutation } from "@/hooks/fileHooks";
 import { useAccessTokenStore } from "@/stores/tokenStore/accessTokenStore";
@@ -31,11 +32,19 @@ import { fileType } from "@/types/fileType";
 
 export default function SearchCard({
     role,
+    userId,
     setFiles,
+    searchResultTrigger,
+    setSearchResultTrigger,
+    setSearchFiles,
     setDialogTrigger,
 }: {
     role: string;
+    userId: string;
     setFiles: React.Dispatch<React.SetStateAction<fileType[]>>;
+    searchResultTrigger: boolean;
+    setSearchResultTrigger: React.Dispatch<React.SetStateAction<boolean>>;
+    setSearchFiles: React.Dispatch<React.SetStateAction<fileType[]>>;
     setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const router = useRouter();
@@ -43,7 +52,7 @@ export default function SearchCard({
     const {
         id: fileid,
         filename,
-        batch,
+        syllabus,
         department,
         year,
         semester,
@@ -53,7 +62,7 @@ export default function SearchCard({
 
         setId: setFileId,
         setFileName,
-        setBatch,
+        setSyllabus,
         setDepartment,
         setYear,
         setSemester,
@@ -68,6 +77,8 @@ export default function SearchCard({
 
     const mutation = useGetFilesMutation();
 
+    const [loggingOut, setLoggingOut] = useState(false);
+
     const handleLogout = () => {
         console.log("logout");
         setAccessToken("");
@@ -76,6 +87,11 @@ export default function SearchCard({
         resetFile();
         resetStaff();
         resetStudent();
+        setSearchResultTrigger(false);
+        setFiles([]);
+        setSearchFiles([]);
+
+        setLoggingOut(false);
 
         router.push("/auth/signin");
         return;
@@ -85,7 +101,7 @@ export default function SearchCard({
         const data: fileType = {
             id: fileid,
             filename,
-            batch,
+            syllabus,
             department,
             year,
             semester,
@@ -93,20 +109,61 @@ export default function SearchCard({
             file,
             fileurl,
         };
-        mutation.mutate(data);
+
+        const defaultData: fileType = {
+            id: "",
+            filename: "",
+            syllabus: "",
+            department: "",
+            year: "",
+            semester: "",
+            subjectcode: "",
+            file: null,
+            fileurl: "",
+        };
+
+        const hasChanged = Object.keys(data).some(
+            (key) => (data as any)[key] !== (defaultData as any)[key]
+        );
+
+        if (hasChanged) {
+            mutation.mutate(data);
+        }
     };
 
     useEffect(() => {
-        if (mutation.isSuccess) {
+        if (mutation.isSuccess && !searchResultTrigger) {
             setFiles(mutation.data?.data?.file);
         }
+
+        if (mutation.isSuccess && searchResultTrigger) {
+            setSearchFiles(mutation.data?.data?.file);
+        }
+        resetFile();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mutation.isSuccess]);
 
     useEffect(() => {
+        console.log(userId);
+        if (userId.length != 12) {
+            const data: any = {};
+            data.staffId = Number(userId);
+            mutation.mutate(data);
+        } else {
+            let num = Number("20" + userId.slice(4, 6));
+            let num_copy = num;
+            for (; num % 4 !== 1; num--);
+            setSyllabus(num.toString());
+            setYear((new Date().getFullYear() - num_copy).toString());
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId]);
+
+    useEffect(() => {
+        console.log(syllabus, year);
         handleSearch();
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
+    }, [syllabus, year]);
 
     return (
         <div className="flex justify-center pt-20">
@@ -132,27 +189,65 @@ export default function SearchCard({
                                     />
                                     Upload
                                 </Button>
-                                <Button onClick={handleLogout}>
-                                    <Image
-                                        src="/LogoutIcon.svg"
-                                        alt="Search"
-                                        width={20}
-                                        height={20}
-                                        className="mr-2"
-                                    />
-                                    Logout
+                                <Button
+                                    onClick={() => {
+                                        handleLogout();
+                                        setLoggingOut(true);
+                                    }}
+                                    disabled={loggingOut}
+                                >
+                                    {loggingOut ? (
+                                        <>
+                                            <Spinner
+                                                color="white"
+                                                size="sm"
+                                                className="pr-2"
+                                            />
+                                            Logging Out
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Image
+                                                src="/LogoutIcon.svg"
+                                                alt="Search"
+                                                width={20}
+                                                height={20}
+                                                className="mr-2"
+                                            />
+                                            Logout
+                                        </>
+                                    )}
                                 </Button>
                             </div>
                         ) : (
-                            <Button onClick={handleLogout}>
-                                <Image
-                                    src="/LogoutIcon.svg"
-                                    alt="Search"
-                                    width={20}
-                                    height={20}
-                                    className="mr-2"
-                                />
-                                Logout
+                            <Button
+                                onClick={() => {
+                                    handleLogout();
+                                    setLoggingOut(true);
+                                }}
+                                disabled={loggingOut}
+                            >
+                                {loggingOut ? (
+                                    <>
+                                        <Spinner
+                                            color="white"
+                                            size="sm"
+                                            className="pr-2"
+                                        />
+                                        Logging Out
+                                    </>
+                                ) : (
+                                    <>
+                                        <Image
+                                            src="/LogoutIcon.svg"
+                                            alt="Search"
+                                            width={20}
+                                            height={20}
+                                            className="mr-2"
+                                        />
+                                        Logout
+                                    </>
+                                )}
                             </Button>
                         )}
                     </div>
@@ -168,15 +263,34 @@ export default function SearchCard({
                             />
                         </div>
                         <div className="md:w-1/12 lg:w-1/12 flex justify-center">
-                            <Button className="w-full" onClick={handleSearch}>
-                                <Image
-                                    src="/SearchIcon.svg"
-                                    alt="Search"
-                                    width={20}
-                                    height={20}
-                                    className="mr-2"
-                                />
-                                Search
+                            <Button
+                                disabled={mutation.isPending}
+                                onClick={() => {
+                                    setSearchResultTrigger(true);
+                                    handleSearch();
+                                }}
+                            >
+                                {mutation.isPending ? (
+                                    <>
+                                        <Spinner
+                                            color="white"
+                                            size="sm"
+                                            className="pr-2"
+                                        />
+                                        Searching
+                                    </>
+                                ) : (
+                                    <>
+                                        <Image
+                                            src="/SearchIcon.svg"
+                                            alt="Search"
+                                            width={20}
+                                            height={20}
+                                            className="mr-2"
+                                        />
+                                        Search
+                                    </>
+                                )}
                             </Button>
                         </div>
                     </>
@@ -184,9 +298,9 @@ export default function SearchCard({
                 <CardFooter className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 justify-between">
                     <Input
                         type="number"
-                        placeholder="Batch"
+                        placeholder="Syllabus"
                         onChange={(e) => {
-                            setBatch(e.target.value);
+                            setSyllabus(e.target.value);
                         }}
                     />
                     <Select

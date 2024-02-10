@@ -1,6 +1,6 @@
 export type fileState = {
     id: string;
-    batch: string;
+    syllabus: string;
     year: string;
     department: string;
     semester: string;
@@ -10,7 +10,7 @@ export type fileState = {
     fileurl: string;
 
     setId: (fileid: string) => void;
-    setBatch: (batch: string) => void;
+    setSyllabus: (syllabus: string) => void;
     setYear: (year: string) => void;
     setDepartment: (department: string) => void;
     setSemester: (semester: string) => void;
@@ -24,7 +24,7 @@ export type fileState = {
 
 export type fileType = {
     id: string;
-    batch: string;
+    syllabus: string;
     year: string;
     department: string;
     semester: string;

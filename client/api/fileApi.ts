@@ -5,7 +5,7 @@ import { fileType } from "@/types/fileType";
 
 export const postUploadFile = async (uploadFile: fileType): Promise<AxiosResponse> => {
     const formData = new FormData();
-    formData.append('batch', uploadFile.batch);
+    formData.append('syllabus', uploadFile.syllabus);
     formData.append('year', uploadFile.year);
     formData.append('department', uploadFile.department);
     formData.append('semester', uploadFile.semester);
@@ -25,18 +25,24 @@ export const postUploadFile = async (uploadFile: fileType): Promise<AxiosRespons
     return response;
 }
 
-export const getFiles = async (data: fileType): Promise<AxiosResponse> => {
-    const formData = new FormData();
-    formData.append('batch', data.batch);
-    formData.append('year', data.year);
-    formData.append('department', data.department);
-    formData.append('semester', data.semester);
-    formData.append('subjectCode', data.subjectcode);
-    formData.append('fileName', data.filename);
+export const getFiles = async (data: fileType | any): Promise<AxiosResponse> => {
+    const params: any = {};
+    if ('staffId' in data) {
+        params.staffId = data.staffId;
+    } else {
+        params.syllabus = data.syllabus;
+        params.year = data.year;
+        params.department = data.department;
+        params.semester = data.semester;
+        params.subjectCode = data.subjectcode;
+        params.fileName = data.filename;
+    }
 
-    console.log("searching");
-    
-    const response: AxiosResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/getfiles`);
+    console.log(params);
+
+    const response: AxiosResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/getfiles`, {
+        params: params
+    });
 
     return response;
 }

@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
             3: 'ECE',
             4: 'EEE'
         }
-        const dir = 'public/data/' + req.body.batch + '/' + departmentMap[req.body.department as keyof typeof departmentMap] + '/' + req.body.year + '/' + req.body.semester + '/' + req.body.subjectCode;
+        const dir = 'public/data/' + req.body.syllabus + '/' + departmentMap[req.body.department as keyof typeof departmentMap] + '/' + req.body.year + '/' + req.body.semester + '/' + req.body.subjectCode;
         fs.mkdirSync(path.join(__dirname, '../' + dir), { recursive: true });
         cb(null, dir);
     },
@@ -36,13 +36,15 @@ const app = express();
 
 const corsOptions = {
     origin: process.env.CLIENT_URL,
+    methods: ['GET', 'POST', 'DELETE'],
+    credentials: true,
 };
 app.use(cors(corsOptions));
 app.use('/public', express.static('public'));
 
 const prisma = new PrismaClient();
 
-app.get("/",async (req, res) => {
+app.get("/", async (req, res) => {
     const staffCount = await prisma.staff.count();
     res.json({ staffCount });
 })

@@ -10,22 +10,22 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model staff{
-  id Int @id @default(autoincrement())
-  staffid String @unique
+model staff {
+  id       Int    @id @default(autoincrement())
+  staffid  String @unique
   password String
-  files file[]
+  files    file[]
 }
 
-model file{
-  id Int @id @default(autoincrement())
-  filename String
-  fileurl String
-  batch String
-  department String
-  year String
-  semester String
+model file {
+  id          Int    @id @default(autoincrement())
+  filename    String
+  fileurl     String
+  syllabus    String
+  department  String
+  year        String
+  semester    String
   subjectcode String
-  staff staff @relation(fields: [staffid], references: [id])
-  staffid Int
+  staff       staff  @relation(fields: [staffid], references: [id])
+  staffid     Int
 }

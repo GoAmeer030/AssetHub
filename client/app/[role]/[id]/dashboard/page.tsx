@@ -1,7 +1,7 @@
 "use client";
 
 import { useParams, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import { useGetFilesMutation } from "@/hooks/fileHooks";
 import { useFileStore } from "@/stores/fileStore";
@@ -18,38 +18,24 @@ export default function Page() {
 
     const mutation = useGetFilesMutation();
 
-    const {
-        id,
-        filename,
-        batch,
-        department,
-        year,
-        semester,
-        subjectcode,
-        file,
-        fileurl
-    } = useFileStore();
-
     const role = Array.isArray(params.role) ? params.role[0] : params.role;
+
+    const userId = Array.isArray(params.id) ? params.id[0] : params.id;
 
     role === "staff" || role === "student" ? null : router.push("/auth/signin");
 
     const [files, setFiles] = useState<fileType[]>([]);
     const [dialogTrigger, setDialogTrigger] = useState(false);
 
-    useEffect(() => {
-        if (dialogTrigger == false) {
-            const data: fileType = {
-                id,
-                filename,
-                batch,
-                department,
-                year,
-                semester,
-                subjectcode,
-                file,
-                fileurl,
+    const [searchResultTrigger, setSearchResultTrigger] = useState(false);
+    const [searchFiles, setSearchFiles] = useState<fileType[]>([]);
+
+    useMemo(() => {
+        if (dialogTrigger == false && role === "staff") {
+            const data = {
+                staffId: userId,
             };
+            console.log("page");
             mutation.mutate(data, {
                 onSuccess: (data) => {
                     setFiles(data?.data?.file);
@@ -58,7 +44,7 @@ export default function Page() {
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [dialogTrigger]);
-    
+
     return (
         <>
             <FileUploadDialog
@@ -67,10 +53,33 @@ export default function Page() {
             />
             <SearchCard
                 role={role}
+                userId={userId}
                 setFiles={setFiles}
+                searchResultTrigger={searchResultTrigger}
+                setSearchResultTrigger={setSearchResultTrigger}
+                setSearchFiles={setSearchFiles}
                 setDialogTrigger={setDialogTrigger}
             />
-            <ShowFiles role={role} files={files} setFiles={setFiles} />
+            {searchResultTrigger ? (
+                <>
+                    <ShowFiles
+                        role={"user"}
+                        lable={"Files For Your Search"}
+                        files={searchFiles}
+                        setFiles={setSearchFiles}
+                    />
+                </>
+            ) : (
+                <></>
+            )}
+            <ShowFiles
+                role={role === "staff" ? "owner" : "user"}
+                lable={
+                    role === "staff" ? "Files Uploaded By You" : "Files For you"
+                }
+                files={files}
+                setFiles={setFiles}
+            />
         </>
     );
 }

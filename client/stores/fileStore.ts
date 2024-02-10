@@ -3,7 +3,7 @@ import { fileState } from '@/types/fileType';
 
 export const useFileStore = create<fileState>((set) => ({
     id: '',
-    batch: '',
+    syllabus: '',
     year: '',
     department: '',
     semester: '',
@@ -13,7 +13,7 @@ export const useFileStore = create<fileState>((set) => ({
     fileurl: '',
 
     setId: (fileid: string) => set({ id: fileid }),
-    setBatch: (batch: string) => set({ batch }),
+    setSyllabus: (syllabus: string) => set({ syllabus }),
     setYear: (year: string) => set({ year }),
     setDepartment: (department: string) => set({ department }),
     setSemester: (semester: string) => set({ semester }),
@@ -22,5 +22,5 @@ export const useFileStore = create<fileState>((set) => ({
     setFile: (file: File) => set({ file }),
     setFileUrl: (fileUrl: string) => set({ fileurl: fileUrl }),
 
-    resetFile: () => set({ id: '', batch: '', year: '', department: '', semester: '', subjectcode: '', filename: '', file: null, fileurl: '' })
+    resetFile: () => set({ id: '', syllabus: '', year: '', department: '', semester: '', subjectcode: '', filename: '', file: null, fileurl: '' })
 }));

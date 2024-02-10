@@ -25,7 +25,7 @@ export default class FileManager {
 
         const file = await this.prisma.file.create({
             data: {
-                batch: req.body.batch,
+                syllabus: req.body.syllabus,
                 year: req.body.year,
                 department: req.body.department,
                 semester: req.body.semester,
@@ -40,7 +40,20 @@ export default class FileManager {
     }
 
     getFileHandler = async (req: Request, res: Response) => {
-        const file = await this.prisma.file.findMany();
+        let searchQuery: any = {};
+
+        if ('staffId' in req.query) {
+            searchQuery.staffid = Number(req.query.staffId);
+        } else {
+            const queryParameters = ['syllabus', 'department', 'year', 'semester', 'subjectCode', 'fileName'];
+            queryParameters.forEach(param => {
+                if (req.query[param] != '') searchQuery[param.toLowerCase()] = req.query[param];
+            });
+        }
+
+        const file = await this.prisma.file.findMany({
+            where: searchQuery
+        });
 
         if (!file) {
             res.status(400).send({ error: 'File not found' });

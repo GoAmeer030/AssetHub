@@ -37,10 +37,16 @@ import { useUploadFileMutation } from "@/hooks/fileHooks";
 import React, { useEffect } from "react";
 
 const formSchema = z.object({
-    batch: z.string().refine((value) => /^\d{4}$/.test(value), {
-        message: "Batch should be a 4-digit number",
-        params: { regex: "/^\\d{4}$/" },
-    }),
+    syllabus: z
+        .string()
+        .refine((value) => /^\d{4}$/.test(value), {
+            message: "Syllabus should be a 4-digit number represting the year.",
+            params: { regex: "/^\\d{4}$/" },
+        })
+        .refine((value) => parseInt(value) % 4 === 1, {
+            message:
+                "Syllabus regulation year you entered is not valid, Please refer online for the correct year.",
+        }),
     department: z.string().min(1, { message: "Please select a department." }),
     year: z.string().min(1, { message: "Year is required" }),
     semester: z.string().min(1, { message: "Semester is required" }),
@@ -65,7 +71,7 @@ export default function FileUploadDialog({
 }) {
     const {
         id: fileid,
-        batch,
+        syllabus,
         year,
         department,
         semester,
@@ -74,7 +80,7 @@ export default function FileUploadDialog({
         file,
         fileurl,
         setId: setFileId,
-        setBatch,
+        setSyllabus,
         setYear,
         setDepartment,
         setSemester,
@@ -87,7 +93,7 @@ export default function FileUploadDialog({
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            batch: batch || "",
+            syllabus: syllabus || "",
             year: year || "",
             department: department || "",
             semester: semester || "",
@@ -102,7 +108,7 @@ export default function FileUploadDialog({
     const handleSave = (data: z.infer<typeof formSchema>) => {
         const uploadFile: fileType = {
             id: fileid,
-            batch,
+            syllabus,
             year,
             department,
             semester,
@@ -144,10 +150,10 @@ export default function FileUploadDialog({
                     <form onSubmit={form.handleSubmit(handleSave)}>
                         <FormField
                             control={form.control}
-                            name="batch"
+                            name="syllabus"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel>Batch</FormLabel>
+                                    <FormLabel>Syllabus</FormLabel>
                                     <FormControl>
                                         <Input
                                             type="number"
@@ -155,7 +161,7 @@ export default function FileUploadDialog({
                                             {...field}
                                             onChange={(e) => {
                                                 field.onChange(e.target.value);
-                                                setBatch(e.target.value);
+                                                setSyllabus(e.target.value);
                                             }}
                                         />
                                     </FormControl>
@@ -342,10 +348,18 @@ export default function FileUploadDialog({
                                 </FormItem>
                             )}
                         />
-                        <Button type="submit" className="mt-6">
+                        <Button
+                            type="submit"
+                            className="mt-6"
+                            disabled={mutation.isPending}
+                        >
                             {mutation.isPending ? (
                                 <>
-                                    <Spinner color="white" size="sm" className="pr-2"/>
+                                    <Spinner
+                                        color="white"
+                                        size="sm"
+                                        className="pr-2"
+                                    />
                                     Uploading
                                 </>
                             ) : (

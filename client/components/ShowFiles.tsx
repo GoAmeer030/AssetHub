@@ -1,5 +1,6 @@
 "use client";
 
+// UI components
 import {
     Table,
     TableHeader,
@@ -14,14 +15,19 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 
+// Updated UI componenets
+import ButtonWithSpinner from "@/components/updatedui/ButtonWithSpinner";
+
+// React and NextJs stuff
 import Image from "next/image";
 import React from "react";
 
-import { saveAs } from "file-saver";
-
+// Types Stores Hooks
 import { fileType } from "@/types/fileType";
 import { useDeleteFileMutation } from "@/hooks/fileHooks";
-import { color } from "framer-motion";
+
+// Others
+import { saveAs } from "file-saver";
 
 export default function App({
     role,
@@ -37,6 +43,19 @@ export default function App({
     const mutation = useDeleteFileMutation();
 
     const { toast } = useToast();
+
+    const handleDeleteFile = (fileId: string) => {
+        const newFiles = files.filter((file) => file.id !== fileId);
+        mutation.mutate(fileId, {
+            onSuccess: () => {
+                setFiles(newFiles);
+                toast({
+                    title: "Deleted",
+                    description: "File deleted successfully",
+                });
+            },
+        });
+    };
 
     const [page, setPage] = React.useState(1);
     const rowsPerPage = 10;
@@ -238,38 +257,29 @@ export default function App({
                                                 content="Delete"
                                             >
                                                 {role === "owner" && (
-                                                    <Button
-                                                        variant={"ghost"}
-                                                        size={"icon"}
-                                                        onClick={() => {
-                                                            const fileId =
-                                                                file.id;
-                                                            const newFiles =
-                                                                files.filter(
-                                                                    (file) =>
-                                                                        file.id !==
-                                                                        fileId
+                                                    <ButtonWithSpinner
+                                                        mutation={mutation}
+                                                        innerContent={
+                                                            <Image
+                                                                src="/DeleteIcon.svg"
+                                                                alt="Delete"
+                                                                width={20}
+                                                                height={20}
+                                                            />
+                                                        }
+                                                        innerContentOnLoading={
+                                                            ""
+                                                        }
+                                                        props={{
+                                                            variant: "ghost",
+                                                            size: "icon",
+                                                            onClick: () => {
+                                                                handleDeleteFile(
+                                                                    file.id
                                                                 );
-                                                            mutation.mutate(
-                                                                fileId,
-                                                                {
-                                                                    onSuccess:
-                                                                        () => {
-                                                                            setFiles(
-                                                                                newFiles
-                                                                            );
-                                                                        },
-                                                                }
-                                                            );
+                                                            },
                                                         }}
-                                                    >
-                                                        <Image
-                                                            src="/DeleteIcon.svg"
-                                                            alt="Delete"
-                                                            width={20}
-                                                            height={20}
-                                                        />
-                                                    </Button>
+                                                    />
                                                 )}
                                             </Tooltip>
                                         </div>

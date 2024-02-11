@@ -1,7 +1,7 @@
 "use client";
 
+// UI components
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import {
     Card,
     CardContent,
@@ -16,14 +16,19 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
 import { Spinner } from "@nextui-org/react";
 
+// Updated UI components
+import ButtonWithSpinner from "@/components/updatedui/ButtonWithSpinner";
+
+// React and NextJs stuff
 import Image from "next/image";
-
 import { useRouter } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
+// Types Stores Hooks
 import { useGetFilesMutation } from "@/hooks/fileHooks";
 import { useAccessTokenStore } from "@/stores/tokenStore/accessTokenStore";
 import { useStaffStore } from "@/stores/usersStore/staffStore";
@@ -68,7 +73,6 @@ export default function SearchCard({
         setYear,
         setSemester,
         setSubjectCode,
-        setFileUrl,
 
         resetFile,
     } = useFileStore();
@@ -101,7 +105,7 @@ export default function SearchCard({
             title: "Logged Out",
             description: "You have been logged out",
         });
-        
+
         return;
     };
 
@@ -150,7 +154,7 @@ export default function SearchCard({
             toast({
                 title: "Search Result",
                 description: `${mutation.data?.data?.file.length} files found`,
-            })
+            });
         }
         resetFile();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -177,80 +181,43 @@ export default function SearchCard({
             mutation.mutate(data);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userId]);  
+    }, [userId]);
 
     return (
         <div className="flex justify-center pt-24">
             <Card className="w-11/12">
                 <CardHeader>
-                    <div className="flex justify-between w-full">
+                    <div className="flex justify-between">
                         <CardTitle className="pt-3">Welcome!</CardTitle>
 
-                        {role === "staff" ? (
-                            <div>
-                                <Button
-                                    className="mr-4"
-                                    onClick={() => {
-                                        setDialogTrigger(true);
-                                    }}
-                                >
-                                    <Image
-                                        src="/UploadIcon.svg"
-                                        alt="Search"
-                                        width={20}
-                                        height={20}
-                                        className="mr-2"
-                                    />
-                                    Upload
-                                </Button>
-                                <Button
-                                    onClick={() => {
-                                        handleLogout();
-                                        setLoggingOut(true);
-                                    }}
-                                    disabled={loggingOut}
-                                >
-                                    {loggingOut ? (
-                                        <>
-                                            <Spinner
-                                                color="white"
-                                                size="sm"
-                                                className="pr-2"
-                                            />
-                                            Logging Out
-                                        </>
-                                    ) : (
+                        <div className="flex">
+                            {role === "staff" ? (
+                                <ButtonWithSpinner
+                                    innerContent={
                                         <>
                                             <Image
-                                                src="/LogoutIcon.svg"
+                                                src="/UploadIcon.svg"
                                                 alt="Search"
                                                 width={20}
                                                 height={20}
                                                 className="mr-2"
                                             />
-                                            Logout
+                                            Upload
                                         </>
-                                    )}
-                                </Button>
-                            </div>
-                        ) : (
-                            <Button
-                                onClick={() => {
-                                    handleLogout();
-                                    setLoggingOut(true);
-                                }}
-                                disabled={loggingOut}
-                            >
-                                {loggingOut ? (
-                                    <>
-                                        <Spinner
-                                            color="white"
-                                            size="sm"
-                                            className="pr-2"
-                                        />
-                                        Logging Out
-                                    </>
-                                ) : (
+                                    }
+                                    props={{
+                                        className: "mr-4",
+                                        onClick: () => {
+                                            setDialogTrigger(true);
+                                        },
+                                    }}
+                                />
+                            ) : (
+                                <></>
+                            )}
+                            <ButtonWithSpinner
+                                mutation={{ isPending: loggingOut }}
+                                innerContent={
                                     <>
                                         <Image
                                             src="/LogoutIcon.svg"
@@ -261,9 +228,16 @@ export default function SearchCard({
                                         />
                                         Logout
                                     </>
-                                )}
-                            </Button>
-                        )}
+                                }
+                                innerContentOnLoading={"Logging Out"}
+                                props={{
+                                    onClick: () => {
+                                        handleLogout();
+                                        setLoggingOut(true);
+                                    },
+                                }}
+                            />
+                        </div>
                     </div>
                 </CardHeader>
                 <CardContent className="flex">
@@ -277,24 +251,9 @@ export default function SearchCard({
                             />
                         </div>
                         <div className="md:w-1/12 lg:w-1/12 flex justify-center">
-                            <Button
-                                disabled={mutation.isPending}
-                                onClick={() => {
-                                    setSearchResultTrigger(true);
-                                    handleSearch();
-                                }}
-                            >
-                                {mutation.isPending ? (
-                                    <>
-                                        <Spinner
-                                            color="white"
-                                            size="sm"
-                                            className="pr-2"
-                                        />
-                                        Searching
-                                    </>
-                                ) : (
-                                    <>
+                            <ButtonWithSpinner 
+                                mutation={mutation}
+                                innerContent={<>
                                         <Image
                                             src="/SearchIcon.svg"
                                             alt="Search"
@@ -303,9 +262,15 @@ export default function SearchCard({
                                             className="mr-2"
                                         />
                                         Search
-                                    </>
-                                )}
-                            </Button>
+                                    </>}
+                                innerContentOnLoading={"Searching"}
+                                props={{
+                                    onClick: () => {
+                                        setSearchResultTrigger(true);
+                                        handleSearch();
+                                    },
+                                }}
+                            />
                         </div>
                     </>
                 </CardContent>

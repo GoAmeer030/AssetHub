@@ -2,8 +2,6 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
     Card,
     CardContent,
@@ -19,20 +17,31 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+
+import {
+    Dialog,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
+import { Separator } from "@/components/ui/separator";
 import { Spinner } from "@nextui-org/react";
 
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { staffType } from "@/types/usersTypes/staffType";
+import { useLoginMutation } from "@/hooks/auth/loginHook";
+import { studentType } from "@/types/usersTypes/studentType";
 import { useStaffStore } from "@/stores/usersStore/staffStore";
 import { useStudentStore } from "@/stores/usersStore/studentStore";
-import { staffType } from "@/types/usersTypes/staffType";
-import { studentType } from "@/types/usersTypes/studentType";
-import { useLoginMutation } from "@/hooks/auth/loginHook";
 
 const staffFormSchema = z.object({
     staffID: z
@@ -65,9 +74,10 @@ const studentFormSchema = z.object({
             params: { regex: "/^\\d{12}$/" },
         }),
 });
+
 export function Login() {
-    const { staffID, password, setStaffID, setPassword } = useStaffStore();
     const { regNo, setRegNo } = useStudentStore();
+    const { staffID, password, setStaffID, setPassword } = useStaffStore();
 
     const { toast } = useToast();
 
@@ -122,38 +132,99 @@ export function Login() {
     });
 
     return (
-        <div className="w-11/12 lg:w-[500px] md:w-[500px]">
-            <h1 className="text-center text-xl p-4 text-bold">I AM A</h1>
-            <Tabs defaultValue="2">
-                <TabsList className="grid w-full grid-cols-2">
-                    <TabsTrigger value="1">Staff</TabsTrigger>
-                    <TabsTrigger value="2">Student</TabsTrigger>
-                </TabsList>
-                <TabsContent value="1">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Staff Login</CardTitle>
-                            <CardDescription>
-                                Enter Staff Unique ID and Password
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-2">
+        <div className="flex h-screen w-full flex-col justify-center items-center pb-5 pt-[13vh] mt-[-8rem]">
+            <Card className="w-[90vw] max-w-[400px]">
+                <CardHeader>
+                    <CardTitle>Noter</CardTitle>
+                    <CardDescription>
+                        Notes and resource sharing made easy.
+                    </CardDescription>
+                </CardHeader>
+
+                <CardContent className="flex flex-col space-y-4">
+                    <Form {...studentForm}>
+                        <form onSubmit={studentForm.handleSubmit(handleLogin)}>
+                            <FormField
+                                control={studentForm.control}
+                                name="regNo"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="ml-1">
+                                            Register Number
+                                        </FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                placeholder="732121104037"
+                                                onChange={(e) => {
+                                                    setRegNo(e.target.value);
+                                                    field.onChange(
+                                                        e.target.value
+                                                    );
+                                                }}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+                            <Button
+                                type="submit"
+                                className="mt-3 w-full"
+                                disabled={mutation.isPending}
+                            >
+                                {mutation.isPending ? (
+                                    <>
+                                        <Spinner
+                                            color="white"
+                                            size="sm"
+                                            className="pr-2"
+                                        />
+                                        Logging In
+                                    </>
+                                ) : (
+                                    "Login"
+                                )}
+                            </Button>
+                        </form>
+                    </Form>
+
+                    <div className="flex items-center space-x-2">
+                        <Separator className="w-[45%]" />
+                        <span className="text-xs text-muted-foreground">
+                            OR
+                        </span>
+                        <Separator className="w-[45%]" />
+                    </div>
+
+                    <Dialog>
+                        <DialogTrigger asChild>
+                            <Button variant="outline" className="w-full">
+                                Staff sign in
+                            </Button>
+                        </DialogTrigger>
+
+                        <DialogContent className="w-[90vw] max-w-[400px]">
+                            <DialogHeader className="pb-2">
+                                <DialogTitle>Sign in as Staff</DialogTitle>
+                            </DialogHeader>
+
                             <Form {...staffForm}>
                                 <form
                                     onSubmit={staffForm.handleSubmit(
                                         handleLogin
                                     )}
+                                    className="flex flex-col gap-3"
                                 >
                                     <FormField
                                         control={staffForm.control}
                                         name="staffID"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Staff ID</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
-                                                        placeholder="nts/1/1"
+                                                        placeholder="Staff ID"
                                                         onChange={(e) => {
                                                             setStaffID(
                                                                 e.target.value
@@ -173,7 +244,6 @@ export function Login() {
                                         name="password"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Password</FormLabel>
                                                 <FormControl>
                                                     <Input
                                                         {...field}
@@ -195,7 +265,7 @@ export function Login() {
                                     />
                                     <Button
                                         type="submit"
-                                        className="mt-6"
+                                        className="mt-3 w-full"
                                         disabled={mutation.isPending}
                                     >
                                         {mutation.isPending ? (
@@ -213,74 +283,34 @@ export function Login() {
                                     </Button>
                                 </form>
                             </Form>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-                <TabsContent value="2">
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Student login</CardTitle>
-                            <CardDescription>
-                                Enter your Register Number
-                            </CardDescription>
-                        </CardHeader>
-                        <CardContent className="space-y-2">
-                            <Form {...studentForm}>
-                                <form
-                                    onSubmit={studentForm.handleSubmit(
-                                        handleLogin
-                                    )}
-                                >
-                                    <FormField
-                                        control={studentForm.control}
-                                        name="regNo"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>
-                                                    Register Number
-                                                </FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        {...field}
-                                                        placeholder="732121104037"
-                                                        onChange={(e) => {
-                                                            setRegNo(
-                                                                e.target.value
-                                                            );
-                                                            field.onChange(
-                                                                e.target.value
-                                                            );
-                                                        }}
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                    <Button
-                                        type="submit"
-                                        className="mt-6"
-                                        disabled={mutation.isPending}
-                                    >
-                                        {mutation.isPending ? (
-                                            <>
-                                                <Spinner
-                                                    color="white"
-                                                    size="sm"
-                                                    className="pr-2"
-                                                />
-                                                Logging In
-                                            </>
-                                        ) : (
-                                            "Login"
-                                        )}
-                                    </Button>
-                                </form>
-                            </Form>
-                        </CardContent>
-                    </Card>
-                </TabsContent>
-            </Tabs>
+                        </DialogContent>
+                    </Dialog>
+                </CardContent>
+            </Card>
+
+            <div className="fixed bottom-5">
+                <p className="text-sm text-muted-foreground">
+                    Crafted by{" "}
+                    <a
+                        href="https://github.com/GoAmeer030"
+                        target="__blank"
+                        rel="noreferrer"
+                        className="font-medium underline underline-offset-4 text-primary"
+                    >
+                        GoAmeer030
+                    </a>
+                    . The source code is on{" "}
+                    <a
+                        href="https://github.com/GoAmeer030/Noter"
+                        target="__blank"
+                        rel="noreferrer"
+                        className="font-medium underline underline-offset-4 text-primary"
+                    >
+                        GitHub
+                    </a>
+                    .
+                </p>
+            </div>
         </div>
     );
 }

@@ -10,8 +10,8 @@ import Providers from "@/app/providers";
 import Navbar from "@/components/Navbar";
 
 export const fontSans = FontSans({
-    subsets: ["latin"],
-    variable: "--font-sans",
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
 export default function RootLayout({

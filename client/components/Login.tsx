@@ -200,7 +200,7 @@ export function Login() {
                     <Dialog>
                         <DialogTrigger asChild>
                             <Button variant="outline" className="w-full">
-                                Staff sign in
+                                Staff SignIn
                             </Button>
                         </DialogTrigger>
 
@@ -224,7 +224,7 @@ export function Login() {
                                                 <FormControl>
                                                     <Input
                                                         {...field}
-                                                        placeholder="Staff ID"
+                                                        placeholder="b/nts/00"
                                                         onChange={(e) => {
                                                             setStaffID(
                                                                 e.target.value

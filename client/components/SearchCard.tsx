@@ -180,7 +180,7 @@ export default function SearchCard({
     }, [userId]);  
 
     return (
-        <div className="flex justify-center pt-20">
+        <div className="flex justify-center pt-24">
             <Card className="w-11/12">
                 <CardHeader>
                     <div className="flex justify-between w-full">

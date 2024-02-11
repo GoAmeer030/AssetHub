@@ -10,6 +10,7 @@ import {
     Pagination,
     Tooltip,
 } from "@nextui-org/react";
+import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { useToast } from "@/components/ui/use-toast";
 
@@ -20,6 +21,7 @@ import { saveAs } from "file-saver";
 
 import { fileType } from "@/types/fileType";
 import { useDeleteFileMutation } from "@/hooks/fileHooks";
+import { color } from "framer-motion";
 
 export default function App({
     role,
@@ -109,13 +111,17 @@ export default function App({
 
     return (
         <>
-            <h1 className="flex justify-center mt-6 mb-6">{lable}</h1>
-            <div className="flex justify-center pt-2">
+            <div className="flex justify-center">
                 <ScrollArea className="w-11/12">
                     <Table
                         isHeaderSticky={true}
                         classNames={classNames}
                         aria-label="Files files table"
+                        topContent={
+                            <h1 className="flex justify-center mt-2 mb-2">
+                                {lable}
+                            </h1>
+                        }
                         bottomContent={bottomContent()}
                     >
                         <TableHeader>
@@ -155,12 +161,14 @@ export default function App({
                                     <TableCell>{file.semester}</TableCell>
                                     <TableCell>{file.subjectcode}</TableCell>
                                     <TableCell>
-                                        <div className="flex justify-between w-full">
+                                        <div>
                                             <Tooltip
                                                 showArrow={true}
                                                 content="View"
                                             >
-                                                <button
+                                                <Button
+                                                    variant={"ghost"}
+                                                    size={"icon"}
                                                     onClick={() =>
                                                         window.open(
                                                             `${process.env.NEXT_PUBLIC_SERVER_URL}/${file.fileurl}`,
@@ -174,13 +182,15 @@ export default function App({
                                                         width={20}
                                                         height={20}
                                                     />
-                                                </button>
+                                                </Button>
                                             </Tooltip>
                                             <Tooltip
                                                 showArrow={true}
                                                 content="Download"
                                             >
-                                                <button
+                                                <Button
+                                                    variant={"ghost"}
+                                                    size={"icon"}
                                                     onClick={async () => {
                                                         toast({
                                                             title: "Downloading",
@@ -220,7 +230,7 @@ export default function App({
                                                         width={20}
                                                         height={20}
                                                     />
-                                                </button>
+                                                </Button>
                                             </Tooltip>
                                             <Tooltip
                                                 showArrow={true}
@@ -228,7 +238,9 @@ export default function App({
                                                 content="Delete"
                                             >
                                                 {role === "owner" && (
-                                                    <button
+                                                    <Button
+                                                        variant={"ghost"}
+                                                        size={"icon"}
                                                         onClick={() => {
                                                             const fileId =
                                                                 file.id;
@@ -257,7 +269,7 @@ export default function App({
                                                             width={20}
                                                             height={20}
                                                         />
-                                                    </button>
+                                                    </Button>
                                                 )}
                                             </Tooltip>
                                         </div>

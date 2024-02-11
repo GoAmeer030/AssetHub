@@ -1,3 +1,5 @@
+import { useToast } from "@/components/ui/use-toast";
+
 import {
     useMutation
 } from "@tanstack/react-query";
@@ -8,6 +10,8 @@ import { useStaffStore } from "@/stores/usersStore/staffStore";
 
 export function useLoginMutation() {
     const {setAccessToken, accessToken} = useAccessTokenStore();
+
+    const { toast } = useToast();
 
     const mutation = useMutation({
         mutationFn: postLogin,
@@ -20,7 +24,12 @@ export function useLoginMutation() {
             }
         },
         onError: () => {
-            console.log("error");
+            // console.log("error");
+            toast({
+                title: "Something went wrong",
+                description: "Error while logging in!! Please try again later or contact developer",
+                variant: "destructive"
+            })
         }
     })
 

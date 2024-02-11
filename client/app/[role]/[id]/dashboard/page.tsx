@@ -35,7 +35,7 @@ export default function Page() {
             const data = {
                 staffId: userId,
             };
-            console.log("page");
+            // console.log("page");
             mutation.mutate(data, {
                 onSuccess: (data) => {
                     setFiles(data?.data?.file);

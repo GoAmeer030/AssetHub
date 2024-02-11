@@ -1,11 +1,13 @@
+import { useToast } from "@/components/ui/use-toast";
+
 import { useMutation } from "@tanstack/react-query";
-import { SingletonRouter } from 'next/router';
 
 import { postVerifyToken } from "@/api/auth/verifyToken";
 import { useStaffStore } from "@/stores/usersStore/staffStore";
 import { useStudentStore } from "@/stores/usersStore/studentStore";
 
 export function useVerifyTokenMutation() {
+    const { toast } = useToast();
 
     const mutation = useMutation({
         mutationFn: postVerifyToken,
@@ -19,6 +21,13 @@ export function useVerifyTokenMutation() {
                 useStudentStore.getState().setRegNo(regNo);
                 data.data.role = 0;
             }
+        },
+        onError: () => {
+            toast({
+                title: "Something went wrong",
+                description: "Error while verifying token!! Please try again later or contact developer",
+                variant: "destructive"
+            })
         },
         retry: 0,
     })

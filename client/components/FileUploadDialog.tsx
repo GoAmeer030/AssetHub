@@ -25,6 +25,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { toast, useToast } from "@/components/ui/use-toast";
 import { Spinner } from "@nextui-org/react";
 
 import { useForm } from "react-hook-form";
@@ -90,6 +91,8 @@ export default function FileUploadDialog({
         resetFile,
     } = useFileStore();
 
+    const { toast } = useToast();
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
@@ -122,11 +125,16 @@ export default function FileUploadDialog({
     };
 
     useEffect(() => {
-        console.log(mutation.isSuccess);
+        // console.log(mutation.isSuccess);
         if (mutation.isSuccess) {
             setDialogTrigger(false);
             resetFile();
             form.reset();
+
+            toast({
+                title: "File Uploaded",
+                description: "File uploaded successfully",
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mutation.isSuccess]);

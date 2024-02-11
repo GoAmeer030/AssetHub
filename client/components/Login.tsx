@@ -19,6 +19,7 @@ import {
     FormLabel,
     FormMessage,
 } from "@/components/ui/form";
+import { useToast } from "@/components/ui/use-toast";
 import { Spinner } from "@nextui-org/react";
 
 import { useForm } from "react-hook-form";
@@ -44,26 +45,31 @@ const staffFormSchema = z.object({
 });
 
 const studentFormSchema = z.object({
-    regNo: z.string()
+    regNo: z
+        .string()
         .min(1, {
             message: "Bro Enter Something",
         })
-        .refine(value => /^\d+$/.test(value), {
+        .refine((value) => /^\d+$/.test(value), {
             message: "Dont you see it is a field for Numbers",
-            params: { regex: "/^\\d+$/" }
+            params: { regex: "/^\\d+$/" },
         })
-        .refine(value => /^7321/.test(value), {
-            message: "Where are you studying? if Nandha College of Technology, then Register Number should start with 7321",
-            params: { regex: "/^7321/" }
+        .refine((value) => /^7321/.test(value), {
+            message:
+                "Where are you studying? if Nandha College of Technology, then Register Number should start with 7321",
+            params: { regex: "/^7321/" },
         })
-        .refine(value => /^\d{12}$/.test(value), {
-            message: "Which year you are studying? the Register Number is 12 digits long",
-            params: { regex: "/^\\d{12}$/" }
+        .refine((value) => /^\d{12}$/.test(value), {
+            message:
+                "Which year you are studying? the Register Number is 12 digits long",
+            params: { regex: "/^\\d{12}$/" },
         }),
 });
 export function Login() {
     const { staffID, password, setStaffID, setPassword } = useStaffStore();
     const { regNo, setRegNo } = useStudentStore();
+
+    const { toast } = useToast();
 
     const router = useRouter();
 
@@ -92,6 +98,10 @@ export function Login() {
             } else if (staffID) {
                 router.push(`/staff/${staffID}/dashboard`);
             }
+            toast({
+                title: "Logged in",
+                description: "Logged in successfully!!",
+            });
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mutation.isSuccess]);
@@ -112,7 +122,7 @@ export function Login() {
     });
 
     return (
-        <div className="w-11/12">
+        <div className="w-11/12 lg:w-[500px] md:w-[500px]">
             <h1 className="text-center text-xl p-4 text-bold">I AM A</h1>
             <Tabs defaultValue="2">
                 <TabsList className="grid w-full grid-cols-2">

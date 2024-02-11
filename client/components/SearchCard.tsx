@@ -16,6 +16,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 import { Spinner } from "@nextui-org/react";
 
 import Image from "next/image";
@@ -78,9 +79,10 @@ export default function SearchCard({
     const mutation = useGetFilesMutation();
 
     const [loggingOut, setLoggingOut] = useState(false);
+    const { toast } = useToast();
 
     const handleLogout = () => {
-        console.log("logout");
+        // console.log("logout");
         setAccessToken("");
         localStorage.removeItem("accessToken");
 
@@ -94,6 +96,12 @@ export default function SearchCard({
         setLoggingOut(false);
 
         router.push("/auth/signin");
+
+        toast({
+            title: "Logged Out",
+            description: "You have been logged out",
+        });
+        
         return;
     };
 
@@ -138,13 +146,18 @@ export default function SearchCard({
 
         if (mutation.isSuccess && searchResultTrigger) {
             setSearchFiles(mutation.data?.data?.file);
+
+            toast({
+                title: "Search Result",
+                description: `${mutation.data?.data?.file.length} files found`,
+            })
         }
         resetFile();
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [mutation.isSuccess]);
 
     useEffect(() => {
-        console.log(userId);
+        // console.log(userId);
         if (userId.length != 12) {
             const data: any = {};
             data.staffId = Number(userId);
@@ -153,17 +166,18 @@ export default function SearchCard({
             let num = Number("20" + userId.slice(4, 6));
             let num_copy = num;
             for (; num % 4 !== 1; num--);
-            setSyllabus(num.toString());
-            setYear((new Date().getFullYear() - num_copy).toString());
+            const localSyllabus = num.toString();
+            const localYear = (new Date().getFullYear() - num_copy).toString();
+            setSyllabus(localSyllabus);
+            setYear(localYear);
+
+            const data: any = {};
+            data.syllabus = localSyllabus;
+            data.year = localYear;
+            mutation.mutate(data);
         }
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [userId]);
-
-    useEffect(() => {
-        console.log(syllabus, year);
-        handleSearch();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [syllabus, year]);
+    }, [userId]);  
 
     return (
         <div className="flex justify-center pt-20">

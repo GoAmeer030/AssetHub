@@ -53,7 +53,7 @@ export default class AuthManager {
         }
 
         this.authUser(req, res)?.then(data => {
-            console.log(data);
+            // console.log(data);
             if ('staffid' in data.user) {
                 res.status(200).send({ staffID: data.user.id });
             } else if ('regNo' in data.user) {

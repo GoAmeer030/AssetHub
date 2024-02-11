@@ -4,6 +4,7 @@ import "@/styles/globals.css";
 import { Inter as FontSans } from "next/font/google";
 
 import { cn } from "@/lib/utils";
+import { Toaster } from "@/components/ui/toaster";
 
 import Providers from "@/app/providers";
 import Navbar from "@/components/Navbar";
@@ -13,7 +14,11 @@ export const fontSans = FontSans({
     variable: "--font-sans",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
         <html lang="en" suppressHydrationWarning>
             <head />
@@ -30,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     }}
                 >
                     <Navbar />
+                    <Toaster />
                     {children}
                 </Providers>
             </body>

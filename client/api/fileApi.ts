@@ -38,7 +38,7 @@ export const getFiles = async (data: fileType | any): Promise<AxiosResponse> => 
         params.fileName = data.filename;
     }
 
-    console.log(params);
+    // console.log(params);
 
     const response: AxiosResponse = await axios.get(`${process.env.NEXT_PUBLIC_SERVER_URL}/getfiles`, {
         params: params

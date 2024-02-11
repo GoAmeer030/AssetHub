@@ -9,30 +9,34 @@ import Providers from "@/app/providers";
 import Navbar from "@/components/Navbar";
 
 export const fontSans = FontSans({
-    subsets: ["latin"],
-    variable: "--font-sans",
+  subsets: ["latin"],
+  variable: "--font-sans",
 });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
-    return (
-        <html lang="en" suppressHydrationWarning>
-            <head />
-            <body
-                className={cn(
-                    "min-h-screen bg-background font-sans antialiased",
-                    fontSans.variable
-                )}
-            >
-                <Providers
-                    themeProps={{
-                        attribute: "class",
-                        defaultTheme: "dark",
-                    }}
-                >
-                    <Navbar />
-                    {children}
-                </Providers>
-            </body>
-        </html>
-    );
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en" suppressHydrationWarning>
+      <head />
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+      >
+        <Providers
+          themeProps={{
+            attribute: "class",
+            defaultTheme: "dark",
+          }}
+        >
+          <Navbar />
+          {children}
+        </Providers>
+      </body>
+    </html>
+  );
 }

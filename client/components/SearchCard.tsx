@@ -1,9 +1,7 @@
 "use client";
 
-import { Spinner } from "@nextui-org/react";
-import { Input } from "@/components/ui/input";
+// UI components
 import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
 import {
   Card,
   CardContent,
@@ -17,13 +15,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { Spinner } from "@nextui-org/react";
 
+// Updated UI components
+import ButtonWithSpinner from "@/components/updatedui/ButtonWithSpinner";
+
+// React and NextJs stuff
 import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-import { useEffect } from "react";
-
-import { fileType } from "@/types/fileType";
-import { useFileStore } from "@/stores/fileStore";
+// Types Stores Hooks
 import { useGetFilesMutation } from "@/hooks/fileHooks";
 import { useParamStore } from "@/stores/paramStore";
 
@@ -48,12 +52,13 @@ export default function SearchCard({
     file,
     fileurl,
 
-    setFileName,
-    setSyllabus,
-    setDepartment,
-    setYear,
-    setSemester,
-    setSubjectCode,
+        setId: setFileId,
+        setFileName,
+        setSyllabus,
+        setDepartment,
+        setYear,
+        setSemester,
+        setSubjectCode,
 
     resetFile,
   } = useFileStore();
@@ -69,7 +74,32 @@ export default function SearchCard({
 
   const mutation = useGetFilesMutation();
 
-  const { toast } = useToast();
+    const [loggingOut, setLoggingOut] = useState(false);
+    const { toast } = useToast();
+
+    const handleLogout = () => {
+        // console.log("logout");
+        setAccessToken("");
+        localStorage.removeItem("accessToken");
+
+        resetFile();
+        resetStaff();
+        resetStudent();
+        setSearchResultTrigger(false);
+        setFiles([]);
+        setSearchFiles([]);
+
+        setLoggingOut(false);
+
+        router.push("/auth/signin");
+
+        toast({
+            title: "Logged Out",
+            description: "You have been logged out",
+        });
+
+        return;
+    };
 
   const handleSearch = () => {
     const data: fileType = {
@@ -113,14 +143,14 @@ export default function SearchCard({
     if (mutation.isSuccess && searchResultTrigger) {
       setSearchFiles(mutation.data?.data?.file);
 
-      toast({
-        title: "Search Result",
-        description: `${mutation.data?.data?.file.length} files found`,
-      });
-    }
-    resetFile();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [mutation.isSuccess]);
+            toast({
+                title: "Search Result",
+                description: `${mutation.data?.data?.file.length} files found`,
+            });
+        }
+        resetFile();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [mutation.isSuccess]);
 
   useEffect(() => {
     // console.log(userId);
@@ -137,155 +167,187 @@ export default function SearchCard({
       setSyllabus(localSyllabus);
       setYear(localYear);
 
-      const data: any = {};
-      data.syllabus = localSyllabus;
-      data.year = localYear;
-      mutation.mutate(data);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+            const data: any = {};
+            data.syllabus = localSyllabus;
+            data.year = localYear;
+            mutation.mutate(data);
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [userId]);
 
-  return (
-    <div className="flex justify-center pt-24">
-      <Card className="w-11/12">
-        <CardHeader>
-          <div className="flex justify-between w-full">
-            {role === "staff" && (
-              <Button
-                className="mr-4"
-                onClick={() => {
-                  setDialogTrigger(true);
-                }}
-              >
-                <Image
-                  src="/UploadIcon.svg"
-                  alt="Search"
-                  width={20}
-                  height={20}
-                  className="mr-2"
-                />
-                Upload
-              </Button>
-            )}
-          </div>
-        </CardHeader>
-        <CardContent className="flex">
-          <>
-            <div className="md:w-11/12 lg:w-11/12 mr-5">
-              <Input
-                placeholder="File Name"
-                onChange={(e) => {
-                  setFileName(e.target.value);
-                }}
-              />
-            </div>
-            <div className="md:w-1/12 lg:w-1/12 flex justify-center">
-              <Button
-                disabled={mutation.isPending}
-                onClick={() => {
-                  setSearchResultTrigger(true);
-                  handleSearch();
-                }}
-              >
-                {mutation.isPending ? (
-                  <>
-                    <Spinner color="white" size="sm" className="pr-2" />
-                    Searching
-                  </>
-                ) : (
-                  <>
-                    <Image
-                      src="/SearchIcon.svg"
-                      alt="Search"
-                      width={20}
-                      height={20}
-                      className="mr-2"
+    return (
+        <div className="flex justify-center pt-24">
+            <Card className="w-11/12">
+                <CardHeader>
+                    <div className="flex justify-between">
+                        <CardTitle className="pt-3">Welcome!</CardTitle>
+
+                        <div className="flex">
+                            {role === "staff" ? (
+                                <ButtonWithSpinner
+                                    innerContent={
+                                        <>
+                                            <Image
+                                                src="/UploadIcon.svg"
+                                                alt="Search"
+                                                width={20}
+                                                height={20}
+                                                className="mr-2"
+                                            />
+                                            Upload
+                                        </>
+                                    }
+                                    props={{
+                                        className: "mr-4",
+                                        onClick: () => {
+                                            setDialogTrigger(true);
+                                        },
+                                    }}
+                                />
+                            ) : (
+                                <></>
+                            )}
+                            <ButtonWithSpinner
+                                mutation={{ isPending: loggingOut }}
+                                innerContent={
+                                    <>
+                                        <Image
+                                            src="/LogoutIcon.svg"
+                                            alt="Search"
+                                            width={20}
+                                            height={20}
+                                            className="mr-2"
+                                        />
+                                        Logout
+                                    </>
+                                }
+                                innerContentOnLoading={"Logging Out"}
+                                props={{
+                                    onClick: () => {
+                                        handleLogout();
+                                        setLoggingOut(true);
+                                    },
+                                }}
+                            />
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent className="flex">
+                    <>
+                        <div className="md:w-11/12 lg:w-11/12 mr-5">
+                            <Input
+                                placeholder="File Name"
+                                onChange={(e) => {
+                                    setFileName(e.target.value);
+                                }}
+                            />
+                        </div>
+                        <div className="md:w-1/12 lg:w-1/12 flex justify-center">
+                            <ButtonWithSpinner 
+                                mutation={mutation}
+                                innerContent={<>
+                                        <Image
+                                            src="/SearchIcon.svg"
+                                            alt="Search"
+                                            width={20}
+                                            height={20}
+                                            className="mr-2"
+                                        />
+                                        Search
+                                    </>}
+                                innerContentOnLoading={"Searching"}
+                                props={{
+                                    onClick: () => {
+                                        setSearchResultTrigger(true);
+                                        handleSearch();
+                                    },
+                                }}
+                            />
+                        </div>
+                    </>
+                </CardContent>
+                <CardFooter className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 justify-between">
+                    <Input
+                        type="number"
+                        placeholder="Syllabus"
+                        onChange={(e) => {
+                            setSyllabus(e.target.value);
+                        }}
                     />
-                    Search
-                  </>
-                )}
-              </Button>
-            </div>
-          </>
-        </CardContent>
-        <CardFooter className="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-3 justify-between">
-          <Input
-            type="number"
-            placeholder="Syllabus"
-            onChange={(e) => {
-              setSyllabus(e.target.value);
-            }}
-          />
-          <Select
-            onValueChange={(val) => {
-              setDepartment(val);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Department" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">CSE</SelectItem>
-              <SelectItem value="2">IT</SelectItem>
-              <SelectItem value="3">ECE</SelectItem>
-              <SelectItem value="4">EEE</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select
-            onValueChange={(val) => {
-              setYear(val);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Year" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="1">I</SelectItem>
-              <SelectItem value="2">II</SelectItem>
-              <SelectItem value="3">III</SelectItem>
-              <SelectItem value="4">IV</SelectItem>
-            </SelectContent>
-          </Select>
-          <Select
-            onValueChange={(val) => {
-              setSemester(val);
-            }}
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Semester" />
-            </SelectTrigger>
-            <SelectContent>
-              {(year && (
-                <>
-                  <SelectItem value={String(Number(year) * 2 - 1)}>
-                    {Number(year) * 2 - 1}
-                  </SelectItem>
-                  <SelectItem value={String(Number(year) * 2)}>
-                    {Number(year) * 2}
-                  </SelectItem>
-                </>
-              )) || (
-                <>
-                  <SelectItem value="1">I</SelectItem>
-                  <SelectItem value="2">II</SelectItem>
-                  <SelectItem value="3">III</SelectItem>
-                  <SelectItem value="4">IV</SelectItem>
-                  <SelectItem value="5">V</SelectItem>
-                  <SelectItem value="6">VI</SelectItem>
-                  <SelectItem value="7">VII</SelectItem>
-                  <SelectItem value="8">VIII</SelectItem>
-                </>
-              )}
-            </SelectContent>
-          </Select>
-          <Input
-            placeholder="Subject Code"
-            onChange={(e) => {
-              setSubjectCode(e.target.value);
-            }}
-          />
-        </CardFooter>
-      </Card>
-    </div>
-  );
+                    <Select
+                        onValueChange={(val) => {
+                            setDepartment(val);
+                        }}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Department" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="1">CSE</SelectItem>
+                            <SelectItem value="2">IT</SelectItem>
+                            <SelectItem value="3">ECE</SelectItem>
+                            <SelectItem value="4">EEE</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select
+                        onValueChange={(val) => {
+                            setYear(val);
+                        }}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Year" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            <SelectItem value="1">I</SelectItem>
+                            <SelectItem value="2">II</SelectItem>
+                            <SelectItem value="3">III</SelectItem>
+                            <SelectItem value="4">IV</SelectItem>
+                        </SelectContent>
+                    </Select>
+                    <Select
+                        onValueChange={(val) => {
+                            setSemester(val);
+                        }}
+                    >
+                        <SelectTrigger>
+                            <SelectValue placeholder="Semester" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {(year && (
+                                <>
+                                    <SelectItem
+                                        value={String(Number(year) * 2 - 1)}
+                                    >
+                                        {Number(year) * 2 - 1}
+                                    </SelectItem>
+                                    <SelectItem
+                                        value={String(Number(year) * 2)}
+                                    >
+                                        {Number(year) * 2}
+                                    </SelectItem>
+                                </>
+                            )) || (
+                                <>
+                                    <SelectItem value="1">I</SelectItem>
+                                    <SelectItem value="2">II</SelectItem>
+                                    <SelectItem value="3">III</SelectItem>
+                                    <SelectItem value="4">IV</SelectItem>
+                                    <SelectItem value="5">V</SelectItem>
+                                    <SelectItem value="6">VI</SelectItem>
+                                    <SelectItem value="7">VII</SelectItem>
+                                    <SelectItem value="8">VIII</SelectItem>
+                                </>
+                            )}
+                        </SelectContent>
+                    </Select>
+                    <Input
+                        placeholder="Subject Code"
+                        onChange={(e) => {
+                            setSubjectCode(e.target.value);
+                        }}
+                    />
+                </CardFooter>
+            </Card>
+        </div>
+    );
 }

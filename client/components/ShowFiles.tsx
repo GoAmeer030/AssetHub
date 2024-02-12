@@ -1,8 +1,6 @@
 "use client";
 
-import React from "react";
-import Image from "next/image";
-import { saveAs } from "file-saver";
+// UI components
 import {
   Table,
   TableHeader,
@@ -18,8 +16,20 @@ import { fileType } from "@/types/fileType";
 import { Button } from "@/components/ui/button";
 import { useParamStore } from "@/stores/paramStore";
 import { useToast } from "@/components/ui/use-toast";
+
+// Updated UI componenets
+import ButtonWithSpinner from "@/components/updatedui/ButtonWithSpinner";
+
+// React and NextJs stuff
+import Image from "next/image";
+import React from "react";
+
+// Types Stores Hooks
+import { fileType } from "@/types/fileType";
 import { useDeleteFileMutation } from "@/hooks/fileHooks";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+
+// Others
+import { saveAs } from "file-saver";
 
 export default function App({
   role,
@@ -30,10 +40,22 @@ export default function App({
   lable: string;
   files: fileType[];
 }) {
-  const { toast } = useToast();
+    const mutation = useDeleteFileMutation();
 
-  const mutation = useDeleteFileMutation();
-  const setFiles = useParamStore((state) => state.setFiles);
+    const { toast } = useToast();
+
+    const handleDeleteFile = (fileId: string) => {
+        const newFiles = files.filter((file) => file.id !== fileId);
+        mutation.mutate(fileId, {
+            onSuccess: () => {
+                setFiles(newFiles);
+                toast({
+                    title: "Deleted",
+                    description: "File deleted successfully",
+                });
+            },
+        });
+    };
 
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 10;
@@ -186,63 +208,80 @@ export default function App({
                               description: "Your file is downloading...",
                             });
 
-                            const fileUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${file.fileurl}`;
-                            const response = await fetch(fileUrl);
-                            const blob = await response.blob();
-                            const fileUrlList = file.fileurl.split("/");
-                            const fileName = fileUrlList[fileUrlList.length - 1]
-                              .split(".")
-                              .pop();
-                            saveAs(blob, file.filename + "." + fileName);
-                          }}
-                        >
-                          <Image
-                            src="/DownloadIcon.svg"
-                            alt="Download"
-                            width={20}
-                            height={20}
-                          />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip
-                        showArrow={true}
-                        color={"danger"}
-                        content="Delete"
-                      >
-                        {role === "owner" && (
-                          <Button
-                            variant={"ghost"}
-                            size={"icon"}
-                            onClick={() => {
-                              const fileId = file.id;
-                              const newFiles = files.filter(
-                                (file) => file.id !== fileId
-                              );
-                              mutation.mutate(fileId, {
-                                onSuccess: () => {
-                                  setFiles(newFiles);
-                                },
-                              });
-                            }}
-                          >
-                            <Image
-                              src="/DeleteIcon.svg"
-                              alt="Delete"
-                              width={20}
-                              height={20}
-                            />
-                          </Button>
-                        )}
-                      </Tooltip>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </div>
-    </>
-  );
+                                                        const fileUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${file.fileurl}`;
+                                                        const response =
+                                                            await fetch(
+                                                                fileUrl
+                                                            );
+                                                        const blob =
+                                                            await response.blob();
+                                                        const fileUrlList =
+                                                            file.fileurl.split(
+                                                                "/"
+                                                            );
+                                                        const fileName =
+                                                            fileUrlList[
+                                                                fileUrlList.length -
+                                                                    1
+                                                            ]
+                                                                .split(".")
+                                                                .pop();
+                                                        saveAs(
+                                                            blob,
+                                                            file.filename +
+                                                                "." +
+                                                                fileName
+                                                        );
+                                                    }}
+                                                >
+                                                    <Image
+                                                        src="/DownloadIcon.svg"
+                                                        alt="Download"
+                                                        width={20}
+                                                        height={20}
+                                                    />
+                                                </Button>
+                                            </Tooltip>
+                                            <Tooltip
+                                                showArrow={true}
+                                                color={"danger"}
+                                                content="Delete"
+                                            >
+                                                {role === "owner" && (
+                                                    <ButtonWithSpinner
+                                                        mutation={mutation}
+                                                        innerContent={
+                                                            <Image
+                                                                src="/DeleteIcon.svg"
+                                                                alt="Delete"
+                                                                width={20}
+                                                                height={20}
+                                                            />
+                                                        }
+                                                        innerContentOnLoading={
+                                                            ""
+                                                        }
+                                                        props={{
+                                                            variant: "ghost",
+                                                            size: "icon",
+                                                            onClick: () => {
+                                                                handleDeleteFile(
+                                                                    file.id
+                                                                );
+                                                            },
+                                                        }}
+                                                    />
+                                                )}
+                                            </Tooltip>
+                                        </div>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                        </TableBody>
+                    </Table>
+                    <ScrollBar orientation="horizontal" />
+                </ScrollArea>
+            </div>
+        </>
+    );
 }

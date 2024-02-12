@@ -142,12 +142,12 @@ export default function SearchCard({
   }, [userId]);
 
   return (
-    <div className="flex justify-center pt-24">
-      <Card className="w-11/12">
-        <CardHeader>
-          {role === "staff" && (
+    <div className="flex flex-col gap-4 items-center justify-center pt-24 w-full">
+      {role === "staff" && (
+        <Card className="w-11/12">
+          <CardContent className="mt-6 flex gap-5 items-center">
             <Button
-              className="mr-4"
+              className=""
               onClick={() => {
                 setDialogTrigger(true);
               }}
@@ -161,11 +161,22 @@ export default function SearchCard({
               />
               Upload
             </Button>
-          )}
-        </CardHeader>
+
+            <div className="flex flex-col h-full justify-center">
+              <p className="font-bold">Upload file</p>
+              <p className="text-small text-gray-400">
+                upload files to be accessed by students.
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      <Card className="w-11/12">
+        <CardHeader className="font-bold">Search files</CardHeader>
         <CardContent className="flex">
           <>
-            <div className="md:w-11/12 lg:w-11/12 mr-5">
+            <div className="md:w-10/12 lg:w-10/12 mr-5">
               <Input
                 placeholder="File Name"
                 onChange={(e) => {
@@ -173,8 +184,9 @@ export default function SearchCard({
                 }}
               />
             </div>
-            <div className="md:w-1/12 lg:w-1/12 flex justify-center">
+            <div className="md:w-2/12 lg:w-2/12 flex justify-center">
               <Button
+                className="w-full"
                 disabled={mutation.isPending}
                 onClick={() => {
                   setSearchResultTrigger(true);

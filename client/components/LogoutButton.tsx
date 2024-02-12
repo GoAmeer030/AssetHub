@@ -1,7 +1,7 @@
 import Image from "next/image";
 
 import { useState } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Spinner } from "@nextui-org/react";
 
 import { Button } from "@/components/ui/button";
@@ -21,10 +21,10 @@ export default function LogoutButton() {
   const { resetStudent } = useStudentStore();
   const { setAccessToken } = useAccessTokenStore();
   const setFiles = useParamStore((state) => state.setFiles);
+  const setSearchFiles = useParamStore((state) => state.setSearchFiles);
   const setSearchResultTrigger = useParamStore(
     (state) => state.setSearchResultTrigger
   );
-  const setSearchFiles = useParamStore((state) => state.setSearchFiles);
 
   const [loggingOut, setLoggingOut] = useState(false);
 

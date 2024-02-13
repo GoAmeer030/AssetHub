@@ -1,24 +1,34 @@
 "use client";
 
-import Image from "next/image";
+import { useEffect } from "react";
+import { useParams, useRouter } from "next/navigation";
+
 import { ThemeMenuButton } from "./ThemeMenuButton";
 
+import LogoutButton from "./LogoutButton";
+
 export default function Navbar() {
-    return (
-        <nav className="fixed top-0 mt-5 left-1/2 transform -translate-x-1/2 w-11/12 flex justify-between items-center bg-card py-2 px-6 rounded-lg shadow border border-primary">
-            <div className="flex items-center">
-                <Image
-                    src="/NotesIcon.svg"
-                    alt="Search"
-                    width={20}
-                    height={20}
-                    className="mr-2"
-                />
-                <p className="text-2xl font-bold">Noter</p>
-            </div>
-            <div>
-                <ThemeMenuButton />
-            </div>
-        </nav>
-    );
+  const params = useParams();
+  const router = useRouter();
+
+  const role = Array.isArray(params.role) ? params.role[0] : params.role;
+  const userId = Array.isArray(params.id) ? params.id[0] : params.id;
+
+  useEffect(() => {
+    role === "staff" || role === "student" ? null : router.push("/auth/signin");
+  }, [role, router]);
+
+  return (
+    <nav className="fixed top-0 w-full py-7 px-[4.2rem] flex justify-between">
+      <div className="flex">
+        <p className="text-2xl font-bold">Noter</p>
+      </div>
+
+      <div className="flex gap-2">
+        <ThemeMenuButton />
+
+        {(role === "staff" || role === "student") && userId && <LogoutButton />}
+      </div>
+    </nav>
+  );
 }

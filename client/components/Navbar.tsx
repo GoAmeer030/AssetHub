@@ -19,16 +19,20 @@ export default function Navbar() {
   }, [role, router]);
 
   return (
-    <nav className="fixed top-0 w-full py-7 px-[4.2rem] flex justify-between">
-      <div className="flex">
-        <p className="text-2xl font-bold">Noter</p>
-      </div>
+    <div className="w-[90%] m-auto">
+      <nav className="fixed top-0 h-[10vh] w-[90%] flex justify-between items-center">
+        <div className="flex">
+          <p className="text-2xl font-bold">Noter</p>
+        </div>
 
-      <div className="flex gap-2">
-        <ThemeMenuButton />
+        <div className="flex gap-2">
+          <ThemeMenuButton />
 
-        {(role === "staff" || role === "student") && userId && <LogoutButton />}
-      </div>
-    </nav>
+          {(role === "staff" || role === "student") && userId && (
+            <LogoutButton />
+          )}
+        </div>
+      </nav>
+    </div>
   );
 }

@@ -1,101 +1,121 @@
-import { Request, Response } from 'express';
+import fs from "fs";
+
 import { PrismaClient } from "@prisma/client";
-import AuthManager from './authManager';
-import fs from 'fs';
+
+import { Request, Response } from "express";
+
+import AuthManager from "./authManager";
 
 export default class FileManager {
-    private prisma: PrismaClient;
+  private prisma: PrismaClient;
 
-    constructor() {
-        this.prisma = new PrismaClient();
+  constructor() {
+    this.prisma = new PrismaClient();
+  }
+
+  addFileHandler = async (
+    req: Request,
+    res: Response,
+    authManager: AuthManager
+  ) => {
+    if (!req.file || !req.file.path) {
+      res.status(400).send({ error: "No file uploaded" });
+      return;
     }
 
-    addFileHandler = async (req: Request, res: Response, authManager: AuthManager) => {
-        if (!req.file || !req.file.path) {
-            res.status(400).send({ error: 'No file uploaded' });
-            return;
-        }
+    const staff = await authManager.authUser(req, res);
 
-        const staff = await authManager.authUser(req, res);
-
-        if (!staff || !('id' in staff.user)) {
-            res.status(401).send({ error: 'Unauthorized' });
-            return;
-        }
-
-        const file = await this.prisma.file.create({
-            data: {
-                syllabus: req.body.syllabus,
-                year: req.body.year,
-                department: req.body.department,
-                semester: req.body.semester,
-                subjectcode: req.body.subjectCode,
-                filename: req.body.fileName,
-                fileurl: req.file.path,
-                staffid: staff.user.id
-            }
-        });
-
-        res.status(200).send();
+    if (!staff || !("id" in staff.user)) {
+      res.status(401).send({ error: "Unauthorized" });
+      return;
     }
 
-    getFileHandler = async (req: Request, res: Response) => {
-        let searchQuery: any = {};
+    const file = await this.prisma.file.create({
+      data: {
+        syllabus: req.body.syllabus,
+        year: req.body.year,
+        department: req.body.department,
+        semester: req.body.semester,
+        subjectcode: req.body.subjectCode,
+        filename: req.body.fileName,
+        fileurl: req.file.path,
+        staffid: staff.user.id,
+      },
+    });
 
-        if ('staffId' in req.query) {
-            searchQuery.staffid = Number(req.query.staffId);
-        } else {
-            const queryParameters = ['syllabus', 'department', 'year', 'semester', 'subjectCode', 'fileName'];
-            queryParameters.forEach(param => {
-                if (req.query[param] != '') searchQuery[param.toLowerCase()] = req.query[param];
-            });
-        }
+    res.status(200).send();
+  };
 
-        const file = await this.prisma.file.findMany({
-            where: searchQuery
-        });
+  getFileHandler = async (req: Request, res: Response) => {
+    let searchQuery: any = {};
 
-        if (!file) {
-            res.status(400).send({ error: 'File not found' });
-            return;
-        }
-
-        res.status(200).send({ file });
+    if ("staffId" in req.query) {
+      searchQuery.staffid = Number(req.query.staffId);
+    } else {
+      const queryParameters = [
+        "syllabus",
+        "department",
+        "year",
+        "semester",
+        "subjectCode",
+        "fileName",
+      ];
+      queryParameters.forEach((param) => {
+        if (req.query[param] != "")
+          searchQuery[param.toLowerCase()] = req.query[param];
+      });
     }
 
-    deleteFileHandler = async (req: Request, res: Response, id: number, authManager: AuthManager) => {
-        const staff = await authManager.authUser(req, res);
+    const file = await this.prisma.file.findMany({
+      where: searchQuery,
+    });
 
-        if (!staff || !('id' in staff.user)) {
-            res.status(401).send({ error: 'Unauthorized' });
-            return;
-        }
-
-        const file = await this.prisma.file.findUnique({
-            where: {
-                id: id
-            }
-        });
-
-        if (!file) {
-            res.status(400).send({ error: 'File not found' });
-            return;
-        }
-
-        if (file.staffid !== staff.user.id) {
-            res.status(401).send({ error: 'Unauthorized' });
-            return;
-        }
-
-        await this.prisma.file.delete({
-            where: {
-                id: id
-            }
-        });
-
-        const filePath = file.fileurl;
-        fs.unlinkSync(filePath);
-
-        res.status(200).send();
+    if (!file) {
+      res.status(400).send({ error: "File not found" });
+      return;
     }
+
+    res.status(200).send({ file });
+  };
+
+  deleteFileHandler = async (
+    req: Request,
+    res: Response,
+    id: number,
+    authManager: AuthManager
+  ) => {
+    const staff = await authManager.authUser(req, res);
+
+    if (!staff || !("id" in staff.user)) {
+      res.status(401).send({ error: "Unauthorized" });
+      return;
+    }
+
+    const file = await this.prisma.file.findUnique({
+      where: {
+        id: id,
+      },
+    });
+
+    if (!file) {
+      res.status(400).send({ error: "File not found" });
+      return;
+    }
+
+    if (file.staffid !== staff.user.id) {
+      res.status(401).send({ error: "Unauthorized" });
+      return;
+    }
+
+    await this.prisma.file.delete({
+      where: {
+        id: id,
+      },
+    });
+
+    const filePath = file.fileurl;
+    fs.unlinkSync(filePath);
+
+    res.status(200).send();
+  };
 }

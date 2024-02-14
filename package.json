@@ -9,8 +9,8 @@
     "prettier": "^3.2.5"
   },
   "scripts": {
-    "prepare": "husky",
-    "install-all": "concurrently \"cd client && npm i\" \"cd server && npm i && npx prisma generate\"",
+    "prepare": "husky install",
+    "install-all": "concurrently \"npm i\" \"cd client && npm i\" \"cd server && npm i && npx prisma generate\"",
     "dev": "concurrently \"npm run dev --prefix client\" \"npm run start --prefix server\""
   },
   "lint-staged": {

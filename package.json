@@ -12,7 +12,6 @@
     "install-all": "concurrently \"npm i\" \"cd client && npm i\" \"cd server && npm i && npx prisma generate\"",
     "dev": "concurrently \"npm run dev --prefix client\" \"npm run start --prefix server\"",
     "format": "prettier --write",
-    "prepare": "husky",
-    "lint:fix": "eslint --fix ."
+    "prepare": "husky"
   }
 }

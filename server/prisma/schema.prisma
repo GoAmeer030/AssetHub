@@ -11,21 +11,34 @@ datasource db {
 }
 
 model staff {
-  id       Int    @id @default(autoincrement())
-  staffid  String @unique
-  password String
-  files    file[]
+  id          Int     @id @default(autoincrement())
+  staffid     String  @unique
+  password    String
+  staffname   String
+  designation String
+  photourl    String
+  topic       topic[]
 }
 
-model file {
-  id          Int    @id @default(autoincrement())
-  filename    String
-  fileurl     String
+model topic {
+  id          Int      @id @default(autoincrement())
+  topicname   String
   syllabus    String
   department  String
   year        String
   semester    String
   subjectcode String
-  staff       staff  @relation(fields: [staffid], references: [id])
+  topicdisc   String
+  staff       staff    @relation(fields: [id], references: [id])
   staffid     Int
+  asset       asset[]
+}
+
+model asset {
+  id        Int    @id @default(autoincrement())
+  assetname String
+  assettype String
+  asseturl  String
+  topic     topic  @relation(fields: [id], references: [id])
+  topicid   Int
 }

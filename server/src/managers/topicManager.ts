@@ -3,19 +3,14 @@ import { PrismaClient } from "@prisma/client";
 import AuthManager from './authManager';
 import fs from 'fs';
 
-export default class FileManager {
+export default class TopicManager {
     private prisma: PrismaClient;
 
     constructor() {
         this.prisma = new PrismaClient();
     }
 
-    addFileHandler = async (req: Request, res: Response, authManager: AuthManager) => {
-        if (!req.file || !req.file.path) {
-            res.status(400).send({ error: 'No file uploaded' });
-            return;
-        }
-
+    addTopicHandler = async (req: Request, res: Response, authManager: AuthManager) => {
         const staff = await authManager.authUser(req, res);
 
         if (!staff || !('id' in staff.user)) {
@@ -23,47 +18,47 @@ export default class FileManager {
             return;
         }
 
-        const file = await this.prisma.file.create({
+        await this.prisma.topic.create({
             data: {
+                topicname: req.body.topicName,
+                topicdisc: req.body?.topicDisc,
                 syllabus: req.body.syllabus,
                 year: req.body.year,
                 department: req.body.department,
                 semester: req.body.semester,
                 subjectcode: req.body.subjectCode,
-                filename: req.body.fileName,
-                fileurl: req.file.path,
-                staffid: staff.user.id
+                staffid: staff.user.id,
             }
         });
 
         res.status(200).send();
     }
 
-    getFileHandler = async (req: Request, res: Response) => {
+    getTopicHandler = async (req: Request, res: Response) => {
         let searchQuery: any = {};
 
         if ('staffId' in req.query) {
             searchQuery.staffid = Number(req.query.staffId);
         } else {
-            const queryParameters = ['syllabus', 'department', 'year', 'semester', 'subjectCode', 'fileName'];
+            const queryParameters = ['syllabus', 'department', 'year', 'semester', 'subjectCode', 'fileName', 'staffId'];
             queryParameters.forEach(param => {
                 if (req.query[param] != '') searchQuery[param.toLowerCase()] = req.query[param];
             });
         }
 
-        const file = await this.prisma.file.findMany({
+        const topic = await this.prisma.topic.findMany({
             where: searchQuery
         });
 
-        if (!file) {
-            res.status(400).send({ error: 'File not found' });
+        if (!topic) {
+            res.status(400).send({ error: 'No Topics found' });
             return;
         }
 
-        res.status(200).send({ file });
+        res.status(200).send({ topic });
     }
 
-    deleteFileHandler = async (req: Request, res: Response, id: number, authManager: AuthManager) => {
+    deleteTopicHandler = async (req: Request, res: Response, id: number, authManager: AuthManager) => {
         const staff = await authManager.authUser(req, res);
 
         if (!staff || !('id' in staff.user)) {
@@ -71,31 +66,26 @@ export default class FileManager {
             return;
         }
 
-        const file = await this.prisma.file.findUnique({
+        const topic = await this.prisma.topic.findUnique({
             where: {
                 id: id
             }
         });
 
-        if (!file) {
-            res.status(400).send({ error: 'File not found' });
+        if (!topic) {
+            res.status(400).send({ error: 'Topic not found' });
             return;
         }
 
-        if (file.staffid !== staff.user.id) {
+        if (topic.staffid !== staff.user.id) {
             res.status(401).send({ error: 'Unauthorized' });
             return;
         }
 
-        await this.prisma.file.delete({
+        await this.prisma.topic.delete({
             where: {
                 id: id
             }
         });
-
-        const filePath = file.fileurl;
-        fs.unlinkSync(filePath);
-
-        res.status(200).send();
     }
 }

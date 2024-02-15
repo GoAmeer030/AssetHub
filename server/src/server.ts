@@ -52,12 +52,12 @@ const upload = multer({ storage: storage });
 // Express app configuration
 const app = express();
 const corsOptions = {
-    origin: process.env.CLIENT_URL,
-    methods: ['GET', 'POST', 'DELETE'],
-    credentials: true,
+  origin: process.env.CLIENT_URL,
+  methods: ["GET", "POST", "DELETE"],
+  credentials: true,
 };
 app.use(cors(corsOptions));
-app.use('/public', express.static('public'));
+app.use("/public", express.static("public"));
 
 
 // Prisma client configuration
@@ -82,11 +82,11 @@ app.get("/", async (req, res) => {
 const authManager = new AuthManager();
 
 app.post("/verify-token", upload.none(), (req, res) => {
-    authManager.verifyTokenHandler(req, res);
+  authManager.verifyTokenHandler(req, res);
 });
 
 app.post("/login", upload.none(), (req, res) => {
-    authManager.loginHandler(req, res);
+  authManager.loginHandler(req, res);
 });
 
 
@@ -108,5 +108,5 @@ app.delete("/deletetopic/:id", upload.none(), (req, res) => {
 
 // Server configuration
 app.listen(3001, (): void => {
-    console.log("\nServer Ready\n> Port : 3001");
+  console.log("\nServer Ready\n> Port : 3001");
 });

@@ -1,7 +1,10 @@
-import { Request, Response } from 'express';
+import fs from "fs";
+
 import { PrismaClient } from "@prisma/client";
-import AuthManager from './authManager';
-import fs from 'fs';
+
+import { Request, Response } from "express";
+
+import AuthManager from "./authManager";
 
 export default class TopicManager {
     private prisma: PrismaClient;

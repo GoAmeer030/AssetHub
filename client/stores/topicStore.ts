@@ -1,16 +1,15 @@
 import { create } from 'zustand';
-import { fileState } from '@/types/fileType';
+import { topicState } from '@/types/topicType';
 
-export const useFileStore = create<fileState>((set) => ({
+export const useTopicStore = create<topicState>((set) => ({
     id: '',
     syllabus: '',
     year: '',
     department: '',
     semester: '',
     subjectcode: '',
-    filename: '',
-    file: null,
-    fileurl: '',
+    topicname: '',
+    topicdisc: '',
 
     setId: (fileid: string) => set({ id: fileid }),
     setSyllabus: (syllabus: string) => set({ syllabus }),
@@ -18,9 +17,8 @@ export const useFileStore = create<fileState>((set) => ({
     setDepartment: (department: string) => set({ department }),
     setSemester: (semester: string) => set({ semester }),
     setSubjectCode: (subjectCode: string) => set({ subjectcode: subjectCode }),
-    setFileName: (fileName: string) => set({ filename: fileName }),
-    setFile: (file: File) => set({ file }),
-    setFileUrl: (fileUrl: string) => set({ fileurl: fileUrl }),
+    setTopicName: (topicname: string) => set({ topicname }),
+    setTopicDisc: (topicdisc: string) => set({ topicdisc }),
 
-    resetFile: () => set({ id: '', syllabus: '', year: '', department: '', semester: '', subjectcode: '', filename: '', file: null, fileurl: '' })
+    resetTopic: () => set({ id: '', syllabus: '', year: '', department: '', semester: '', subjectcode: '', topicname: '', topicdisc: '' })
 }));

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Spinner } from "@nextui-org/react";
 
 import { Button } from "@/components/ui/button";
-import { useFileStore } from "@/stores/fileStore";
+import { useTopicStore } from "@/stores/topicStore";
 import { useParamStore } from "@/stores/paramStore";
 import { useToast } from "@/components/ui/use-toast";
 import { useStaffStore } from "@/stores/usersStore/staffStore";
@@ -16,12 +16,12 @@ export default function LogoutButton() {
   const router = useRouter();
   const { toast } = useToast();
 
-  const { resetFile } = useFileStore();
+  const { resetTopic: resetFile } = useTopicStore();
   const { resetStaff } = useStaffStore();
   const { resetStudent } = useStudentStore();
   const { setAccessToken } = useAccessTokenStore();
-  const setFiles = useParamStore((state) => state.setFiles);
-  const setSearchFiles = useParamStore((state) => state.setSearchFiles);
+  const setFiles = useParamStore((state) => state.setTopics);
+  const setSearchFiles = useParamStore((state) => state.setSearchTopics);
   const setSearchResultTrigger = useParamStore(
     (state) => state.setSearchResultTrigger
   );

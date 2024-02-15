@@ -5,9 +5,9 @@ import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { fileType } from "@/types/fileType";
-import { useFileStore } from "@/stores/fileStore";
-import { useUploadFileMutation } from "@/hooks/fileHooks";
+import { topicType } from "@/types/topicType";
+import { useTopicStore } from "@/stores/topicStore";
+import { useUploadTopicMutation } from "@/hooks/topicHooks";
 
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
@@ -46,40 +46,38 @@ const formSchema = z.object({
   subjectcode: z.string().length(6, {
     message: "Subject Code should be exactly 6 letters long",
   }),
-  filename: z
+  topicname: z
     .string()
-    .min(5, { message: "File Name should have at least 5 characters" })
-    .max(30, { message: "File Name should have at most 30 characters" }),
-  file: z
-    .any()
-    .refine((value) => value !== null, { message: "File is required" }),
+    .min(5, { message: "Topic should have at least 5 characters" })
+    .max(30, { message: "Topic should have at most 30 characters" }),
 });
 
-export default function FileUploadForm({
+export default function TopicAddForm({
   setDialogTrigger,
 }: {
   setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const {
-    id: fileid,
+    id,
+    topicname,
+    topicdisc,
     syllabus,
     year,
     department,
     semester,
     subjectcode,
-    filename,
-    file,
-    fileurl,
-    setId: setFileId,
+
+    setTopicName,
+    setTopicDisc,
+    setId,
     setSyllabus,
     setYear,
     setDepartment,
     setSemester,
     setSubjectCode,
-    setFileName,
-    setFile,
-    resetFile,
-  } = useFileStore();
+
+    resetTopic
+  } = useTopicStore();
 
   const { toast } = useToast();
 
@@ -91,24 +89,22 @@ export default function FileUploadForm({
       department: department || "",
       semester: semester || "",
       subjectcode: subjectcode || "",
-      filename: filename || "",
-      file: file || undefined,
+      topicname: topicname || "",
     },
   });
 
-  const mutation = useUploadFileMutation();
+  const mutation = useUploadTopicMutation();
 
   const handleSave = (data: z.infer<typeof formSchema>) => {
-    const uploadFile: fileType = {
-      id: fileid,
+    const uploadFile: topicType = {
+      id,
+      topicname,
+      topicdisc,
       syllabus,
       year,
       department,
       semester,
       subjectcode,
-      filename,
-      file,
-      fileurl,
     };
 
     mutation.mutate(uploadFile);
@@ -117,7 +113,7 @@ export default function FileUploadForm({
   useEffect(() => {
     if (mutation.isSuccess) {
       setDialogTrigger(false);
-      resetFile();
+      resetTopic();
       form.reset();
 
       toast({
@@ -267,17 +263,17 @@ export default function FileUploadForm({
         />
         <FormField
           control={form.control}
-          name="filename"
+          name="topicname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel className="ml-1">File Name</FormLabel>
+              <FormLabel className="ml-1">Topic Name</FormLabel>
               <FormControl>
                 <Input
-                  placeholder="Unit 1 Imp Ques"
+                  placeholder="Newtons Laws"
                   {...field}
                   onChange={(e) => {
                     field.onChange(e.target.value);
-                    setFileName(e.target.value);
+                    setTopicName(e.target.value);
                   }}
                 />
               </FormControl>
@@ -285,12 +281,12 @@ export default function FileUploadForm({
             </FormItem>
           )}
         />
-        <FormField
+        {/* <FormField
           control={form.control}
           name="file"
           render={({ field: { onChange, onBlur, name } }) => (
             <FormItem>
-              {/* <FormLabel>Upload</FormLabel> */}
+              <FormLabel>Upload</FormLabel>
               <FormControl>
                 <Input
                   id="file"
@@ -313,11 +309,11 @@ export default function FileUploadForm({
               <FormMessage className="ml-1" />
             </FormItem>
           )}
-        />
+        /> */}
         <ButtonWithSpinner
           mutation={mutation}
-          innerContent={"Upload"}
-          innerContentOnLoading={"Uploading"}
+          innerContent={"Adding"}
+          innerContentOnLoading={"Adding"}
           props={{
             type: "submit",
             className: "mt-6",

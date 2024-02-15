@@ -4,17 +4,17 @@ import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { useParamStore } from "@/stores/paramStore";
-import { useGetFilesMutation } from "@/hooks/fileHooks";
+import { useGetTopicsMutation } from "@/hooks/topicHooks";
 
-import ShowFiles from "@/components/ShowFiles";
+import ShowTopics from "@/components/ShowTopics";
 import SearchCard from "@/components/SearchCard";
-import FileUploadDialog from "@/components/FileUploadDialog";
+import TopicAddDialog from "@/components/TopicAddDialog";
 
 export default function Page() {
     const params = useParams();
     const router = useRouter();
 
-    const mutation = useGetFilesMutation();
+    const mutation = useGetTopicsMutation();
 
     const role = Array.isArray(params.role) ? params.role[0] : params.role;
     const userId = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -22,9 +22,9 @@ export default function Page() {
 
     const [dialogTrigger, setDialogTrigger] = useState(false);
 
-    const files = useParamStore((state) => state.files);
-    const setFiles = useParamStore((state) => state.setFiles);
-    const searchFiles = useParamStore((state) => state.searchFiles);
+    const topics = useParamStore((state) => state.topics);
+    const setTopics = useParamStore((state) => state.setTopics);
+    const searchTopics = useParamStore((state) => state.searchTopics);
     const searchResultTrigger = useParamStore((state) => state.searchResultTrigger);
 
     useMemo(() => {
@@ -35,7 +35,7 @@ export default function Page() {
             // console.log("page");
             mutation.mutate(data, {
                 onSuccess: (data) => {
-                    setFiles(data?.data?.file);
+                    setTopics(data?.data?.file);
                 },
             });
         }
@@ -44,7 +44,7 @@ export default function Page() {
 
     return (
         <>
-            <FileUploadDialog
+            <TopicAddDialog
                 dialogTrigger={dialogTrigger}
                 setDialogTrigger={setDialogTrigger}
             />
@@ -55,19 +55,19 @@ export default function Page() {
             />
             {searchResultTrigger && (
                 <>
-                    <ShowFiles
+                    <ShowTopics
                         role={"user"}
                         lable={"Files For Your Search"}
-                        files={searchFiles}
+                        topics={searchTopics}
                     />
                 </>
             )}
-            <ShowFiles
+            <ShowTopics
                 role={role === "staff" ? "owner" : "user"}
                 lable={
                     role === "staff" ? "Files Uploaded By You" : "Files For you"
                 }
-                files={files}
+                topics={topics}
             />
         </>
     );

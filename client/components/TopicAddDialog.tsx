@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-import FileUploadForm from "@/components/form/FileUploadForm";
+import TopicAddForm from "@/components/form/TopicAddForm";
 
-export default function FileUploadDialog({
+export default function TopicAddDialog({
   dialogTrigger,
   setDialogTrigger,
 }: {
@@ -26,13 +26,13 @@ export default function FileUploadDialog({
     >
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Upload File</DialogTitle>
+          <DialogTitle>Add Topic</DialogTitle>
           <DialogDescription>
-            Choose the File and update the details. Click save when you&apos;re
+            Add Topic by entering the details. Click save when you&apos;re
             done.
           </DialogDescription>
         </DialogHeader>
-        <FileUploadForm setDialogTrigger={setDialogTrigger} />
+        <TopicAddForm setDialogTrigger={setDialogTrigger} />
       </DialogContent>
     </Dialog>
   );

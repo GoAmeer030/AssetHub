@@ -6,12 +6,12 @@ import {
     useMutation
 } from "@tanstack/react-query";
 
-import { postUploadFile, getFiles, deleteFile } from "@/api/fileApi";
+import { postUploadTopic, getTopics, deleteTopic } from "@/api/topicApi";
 
-export function useUploadFileMutation() {
+export function useUploadTopicMutation() {
     const { toast } = useToast();
     const mutation = useMutation({
-        mutationFn: postUploadFile,
+        mutationFn: postUploadTopic,
         onSuccess: () => {
             // console.log("file uploaded");
         },
@@ -28,9 +28,9 @@ export function useUploadFileMutation() {
     return mutation;
 }
 
-export function useGetFilesMutation() {
+export function useGetTopicsMutation() {
     const mutation = useMutation({
-        mutationFn: getFiles,
+        mutationFn: getTopics,
         gcTime: 0,
         retry: false,
         onSuccess: (data) => {
@@ -41,7 +41,7 @@ export function useGetFilesMutation() {
             // console.log("error");
             toast({
                 title: "Something went wrong",
-                description: "Error while fetching files!! Please try again later or contact developer",
+                description: "Error while fetching topics!! Please try again later or contact developer",
                 variant: "destructive"
             })
         }
@@ -50,9 +50,9 @@ export function useGetFilesMutation() {
     return mutation;
 }
 
-export function useDeleteFileMutation() {
+export function useDeleteTopicMutation() {
     const mutation = useMutation({
-        mutationFn: deleteFile,
+        mutationFn: deleteTopic,
         onSuccess: () => {
             // console.log("file deleted");
         },

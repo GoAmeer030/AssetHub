@@ -21,10 +21,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { fileType } from "@/types/fileType";
-import { useFileStore } from "@/stores/fileStore";
+import { topicType } from "@/types/topicType";
+import { useTopicStore } from "@/stores/topicStore";
 import { useParamStore } from "@/stores/paramStore";
-import { useGetFilesMutation } from "@/hooks/fileHooks";
+import { useGetTopicsMutation } from "@/hooks/topicHooks";
 
 export default function SearchCard({
   role,
@@ -36,60 +36,58 @@ export default function SearchCard({
   setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const {
-    id: fileid,
-    filename,
+    id,
+    topicname,
+    topicdisc,
     syllabus,
     department,
     year,
     semester,
     subjectcode,
-    file,
-    fileurl,
 
-    setFileName,
+    setTopicName,
+    setTopicDisc,
     setSyllabus,
     setDepartment,
     setYear,
     setSemester,
     setSubjectCode,
 
-    resetFile,
-  } = useFileStore();
+    resetTopic,
+  } = useTopicStore();
 
-  const setFiles = useParamStore((state) => state.setFiles);
+  const setTopics = useParamStore((state) => state.setTopics);
   const searchResultTrigger = useParamStore(
     (state) => state.searchResultTrigger
   );
   const setSearchResultTrigger = useParamStore(
     (state) => state.setSearchResultTrigger
   );
-  const setSearchFiles = useParamStore((state) => state.setSearchFiles);
-  const mutation = useGetFilesMutation();
+  const setSearchTopics = useParamStore((state) => state.setSearchTopics);
+  const mutation = useGetTopicsMutation();
   const { toast } = useToast();
 
   const handleSearch = () => {
-    const data: fileType = {
-      id: fileid,
-      filename,
+    const data: topicType = {
+      id,
+      topicname,
+      topicdisc,
       syllabus,
       department,
       year,
       semester,
       subjectcode,
-      file,
-      fileurl,
     };
 
-    const defaultData: fileType = {
+    const defaultData: topicType = {
       id: "",
-      filename: "",
+      topicname: "",
+      topicdisc: "",
       syllabus: "",
       department: "",
       year: "",
       semester: "",
       subjectcode: "",
-      file: null,
-      fileurl: "",
     };
 
     const hasChanged = Object.keys(data).some(
@@ -103,18 +101,18 @@ export default function SearchCard({
 
   useEffect(() => {
     if (mutation.isSuccess && !searchResultTrigger) {
-      setFiles(mutation.data?.data?.file);
+      setTopics(mutation.data?.data?.topic);
     }
 
     if (mutation.isSuccess && searchResultTrigger) {
-      setSearchFiles(mutation.data?.data?.file);
+      setSearchTopics(mutation.data?.data?.topic);
 
       toast({
         title: "Search Result",
-        description: `${mutation.data?.data?.file.length} files found`,
+        description: `${mutation.data?.data?.topic.length} topics found`,
       });
     }
-    resetFile();
+    resetTopic();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutation.isSuccess]);
 
@@ -159,13 +157,13 @@ export default function SearchCard({
                 height={20}
                 className="mr-2"
               />
-              Upload
+              Add Topic
             </Button>
 
             <div className="flex flex-col h-full justify-center">
-              <p className="font-bold">Upload file</p>
+              <p className="font-bold">Add Topic</p>
               <p className="text-small text-gray-400">
-                upload files to be accessed by students.
+                Add topics to be accessed by students
               </p>
             </div>
           </CardContent>
@@ -178,9 +176,9 @@ export default function SearchCard({
           <>
             <div className="md:w-10/12 lg:w-10/12 mr-5">
               <Input
-                placeholder="File Name"
+                placeholder="Topic Name"
                 onChange={(e) => {
-                  setFileName(e.target.value);
+                  setTopicName(e.target.value);
                 }}
               />
             </div>

@@ -1,24 +1,14 @@
 import { create } from "zustand";
 
-import { fileType } from "@/types/fileType";
+import { ParamState } from "@/types/paramStore";
+import { topicType } from "@/types/topicType";
 
-type ParamStore = {
-    files: fileType[];
-    searchResultTrigger: boolean;
-    searchFiles: fileType[];
-
-    setFiles: (files: fileType[]) => void;
-    setSearchResultTrigger: (searchResultTrigger: boolean) => void;
-    setSearchFiles: (searchFiles: fileType[]) => void;
-}
-
-export const useParamStore = create<ParamStore>((set) => ({
-  files: [],
+export const useParamStore = create<ParamState>((set) => ({
+  topics: [],
   searchResultTrigger: false,
-  searchFiles: [],
+  searchTopics: [],
 
-  setFiles: (files: fileType[]) => set({ files }),
-  setSearchResultTrigger: (searchResultTrigger: boolean) =>
-    set({ searchResultTrigger }),
-  setSearchFiles: (searchFiles: fileType[]) => set({ searchFiles }),
+  setTopics: (files: topicType[]) => set({ topics: files }),
+  setSearchResultTrigger: (searchResultTrigger: boolean) => set({ searchResultTrigger }),
+  setSearchTopics: (searchFiles: topicType[]) => set({ searchTopics: searchFiles }),
 }));

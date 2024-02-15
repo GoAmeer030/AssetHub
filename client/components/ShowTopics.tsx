@@ -4,11 +4,11 @@ import React from "react";
 import Image from "next/image";
 import { saveAs } from "file-saver";
 
-import { fileType } from "@/types/fileType";
+import { topicType } from "@/types/topicType";
 import { Button } from "@/components/ui/button";
 import { useParamStore } from "@/stores/paramStore";
 import { useToast } from "@/components/ui/use-toast";
-import { useDeleteFileMutation } from "@/hooks/fileHooks";
+import { useDeleteTopicMutation } from "@/hooks/topicHooks";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import {
   Table,
@@ -21,35 +21,35 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 
-export default function App({
+export default function ShowTopics({
   role,
   lable,
-  files,
+  topics,
 }: {
   role: string;
   lable: string;
-  files: fileType[];
+  topics: topicType[];
 }) {
   const { toast } = useToast();
 
-  const mutation = useDeleteFileMutation();
-  const setFiles = useParamStore((state) => state.setFiles);
+  const mutation = useDeleteTopicMutation();
+  const setFiles = useParamStore((state) => state.setTopics);
 
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 10;
 
-  const pages = Math.ceil(files.length / rowsPerPage);
+  const pages = Math.ceil(topics.length / rowsPerPage);
 
-  const pageFiles = React.useMemo(() => {
+  const pageTopics = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return files.slice(start, end);
-  }, [page, files]);
+    return topics.slice(start, end);
+  }, [page, topics]);
 
   const keysToShow = [
     "S.NO",
-    "FILENAME",
+    "TOPIC",
     "SYLLABUS",
     "DEPARTMENT",
     "YEAR",
@@ -113,7 +113,7 @@ export default function App({
           <Table
             isHeaderSticky={true}
             classNames={classNames}
-            aria-label="Files files table"
+            aria-label="Topic topics table"
             topContent={
               <h1 className="flex justify-center mt-2 mb-2">{lable}</h1>
             }
@@ -138,32 +138,32 @@ export default function App({
               ))}
             </TableHeader>
             <TableBody emptyContent={"No files to display."}>
-              {pageFiles.map((file, index) => (
+              {pageTopics.map((topic, index) => (
                 <TableRow key={index}>
                   <TableCell className="hidden md:table-cell">
                     {index + 1}
                   </TableCell>
-                  <TableCell>{file.filename}</TableCell>
+                  <TableCell>{topic.topicname}</TableCell>
                   <TableCell className="hidden md:table-cell">
-                    {file.syllabus}
+                    {topic.syllabus}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    {getDepartmentName(file.department)}
+                    {getDepartmentName(topic.department)}
                   </TableCell>
                   <TableCell className="hidden md:table-cell">
-                    {getYearRoman(file.year)}
+                    {getYearRoman(topic.year)}
                   </TableCell>
-                  <TableCell>{file.semester}</TableCell>
-                  <TableCell>{file.subjectcode}</TableCell>
+                  <TableCell>{topic.semester}</TableCell>
+                  <TableCell>{topic.subjectcode}</TableCell>
                   <TableCell>
                     <div>
-                      <Tooltip showArrow={true} content="View">
+                      {/* <Tooltip showArrow={true} content="View">
                         <Button
                           variant={"ghost"}
                           size={"icon"}
                           onClick={() =>
                             window.open(
-                              `${process.env.NEXT_PUBLIC_SERVER_URL}/${file.fileurl}`,
+                              `${process.env.NEXT_PUBLIC_SERVER_URL}/${topic.fileurl}`,
                               "_blank"
                             )
                           }
@@ -186,14 +186,14 @@ export default function App({
                               description: "Your file is downloading...",
                             });
 
-                            const fileUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${file.fileurl}`;
+                            const fileUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${topic.fileurl}`;
                             const response = await fetch(fileUrl);
                             const blob = await response.blob();
-                            const fileUrlList = file.fileurl.split("/");
+                            const fileUrlList = topic.fileurl.split("/");
                             const fileName = fileUrlList[fileUrlList.length - 1]
                               .split(".")
                               .pop();
-                            saveAs(blob, file.filename + "." + fileName);
+                            saveAs(blob, topic.filename + "." + fileName);
                           }}
                         >
                           <Image
@@ -203,7 +203,7 @@ export default function App({
                             height={20}
                           />
                         </Button>
-                      </Tooltip>
+                      </Tooltip> */}
                       <Tooltip
                         showArrow={true}
                         color={"danger"}
@@ -214,11 +214,11 @@ export default function App({
                             variant={"ghost"}
                             size={"icon"}
                             onClick={() => {
-                              const fileId = file.id;
-                              const newFiles = files.filter(
-                                (file) => file.id !== fileId
+                              const topicId = topic.id;
+                              const newFiles = topics.filter(
+                                (topic) => topic.id !== topicId
                               );
-                              mutation.mutate(fileId, {
+                              mutation.mutate(topicId, {
                                 onSuccess: () => {
                                   setFiles(newFiles);
                                 },

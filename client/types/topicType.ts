@@ -1,13 +1,12 @@
-export type fileState = {
+export type topicState = {
     id: string;
     syllabus: string;
     year: string;
     department: string;
     semester: string;
     subjectcode: string;
-    filename: string;
-    file: File | null;
-    fileurl: string;
+    topicname: string;
+    topicdisc: string;
 
     setId: (fileid: string) => void;
     setSyllabus: (syllabus: string) => void;
@@ -15,21 +14,19 @@ export type fileState = {
     setDepartment: (department: string) => void;
     setSemester: (semester: string) => void;
     setSubjectCode: (subjectCode: string) => void;
-    setFileName: (fileName: string) => void;
-    setFile: (file: File) => void;
-    setFileUrl: (fileUrl: string) => void;
+    setTopicName: (topicname: string) => void;
+    setTopicDisc: (topicdesc: string) => void;
 
-    resetFile: () => void;
+    resetTopic: () => void;
 }
 
-export type fileType = {
+export type topicType = {
     id: string;
     syllabus: string;
     year: string;
     department: string;
     semester: string;
     subjectcode: string;
-    filename: string;
-    file: File | null;
-    fileurl: string;
+    topicname: string;
+    topicdisc: string;
 }

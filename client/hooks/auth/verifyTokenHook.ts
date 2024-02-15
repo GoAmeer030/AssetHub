@@ -25,7 +25,7 @@ export function useVerifyTokenMutation() {
         onError: () => {
             toast({
                 title: "Something went wrong",
-                description: "Error while verifying token!! Please try again later or contact developer",
+                description: "Error while verifying token!! Please Login Again!! (or) Please try again later or contact developer",
                 variant: "destructive"
             })
         },

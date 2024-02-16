@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
-import React from "react";
-import Image from "next/image";
-import { saveAs } from "file-saver";
+import React from 'react';
+import Image from 'next/image';
+import { saveAs } from 'file-saver';
 
-import { topicType } from "@/types/topicType";
-import { Button } from "@/components/ui/button";
-import { useParamStore } from "@/stores/paramStore";
-import { useToast } from "@/components/ui/use-toast";
-import { useDeleteTopicMutation } from "@/hooks/topicHooks";
-import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { topicType } from '@/types/topicType';
+import { Button } from '@/components/ui/button';
+import { useParamStore } from '@/stores/paramStore';
+import { useToast } from '@/components/ui/use-toast';
+import { useDeleteTopicMutation } from '@/hooks/topicHooks';
+import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
   Table,
   TableHeader,
@@ -19,9 +19,9 @@ import {
   TableCell,
   Pagination,
   Tooltip,
-} from "@nextui-org/react";
+} from '@nextui-org/react';
 
-import { DeleteIcon } from "@/components/icons/DeleteIcon";
+import { DeleteIcon } from '@/components/icons/DeleteIcon';
 
 export default function ShowTopics({
   role,
@@ -50,45 +50,45 @@ export default function ShowTopics({
   }, [page, topics]);
 
   const keysToShow = [
-    "S.NO",
-    "TOPIC",
-    "SYLLABUS",
-    "DEPARTMENT",
-    "YEAR",
-    "SEMESTER",
-    "SUBJECTCODE",
-    "ACTIONS",
+    'S.NO',
+    'TOPIC',
+    'SYLLABUS',
+    'DEPARTMENT',
+    'YEAR',
+    'SEMESTER',
+    'SUBJECTCODE',
+    'ACTIONS',
   ];
 
   const classNames = React.useMemo(
     () => ({
-      wrapper: ["bg-background"],
-      th: ["bg-primary", "text-primary-foreground", "text-center"],
-      td: ["text-center"],
+      wrapper: ['bg-background'],
+      th: ['bg-primary', 'text-primary-foreground', 'text-center'],
+      td: ['text-center'],
     }),
-    []
+    [],
   );
 
   const getDepartmentName = (id: string) => {
     const departementMap: { [key: string]: string } = {
-      "1": "CSE",
-      "2": "IT",
-      "3": "ECE",
-      "4": "EEE",
+      '1': 'CSE',
+      '2': 'IT',
+      '3': 'ECE',
+      '4': 'EEE',
     };
 
-    return departementMap[id] || "Unknown";
+    return departementMap[id] || 'Unknown';
   };
 
   const getYearRoman = (id: string) => {
     const departementMap: { [key: string]: string } = {
-      "1": "I",
-      "2": "II",
-      "3": "III",
-      "4": "IV",
+      '1': 'I',
+      '2': 'II',
+      '3': 'III',
+      '4': 'IV',
     };
 
-    return departementMap[id] || "Unknown";
+    return departementMap[id] || 'Unknown';
   };
 
   const bottomContent = () => {
@@ -111,7 +111,7 @@ export default function ShowTopics({
   return (
     <>
       <div className="flex justify-center">
-        <ScrollArea className="w-11/12 border-0">
+        <ScrollArea className="border-0">
           <Table
             isHeaderSticky={true}
             classNames={classNames}
@@ -127,19 +127,19 @@ export default function ShowTopics({
                   key={index}
                   align="center"
                   className={
-                    key === "S.NO" ||
-                    key === "DEPARTMENT" ||
-                    key === "SYLLABUS" ||
-                    key === "YEAR"
-                      ? "hidden md:table-cell"
-                      : ""
+                    key === 'S.NO' ||
+                    key === 'DEPARTMENT' ||
+                    key === 'SYLLABUS' ||
+                    key === 'YEAR'
+                      ? 'hidden md:table-cell'
+                      : ''
                   }
                 >
                   {key}
                 </TableColumn>
               ))}
             </TableHeader>
-            <TableBody emptyContent={"No files to display."}>
+            <TableBody emptyContent={'No files to display.'}>
               {pageTopics.map((topic, index) => (
                 <TableRow key={index}>
                   <TableCell className="hidden md:table-cell">
@@ -208,17 +208,17 @@ export default function ShowTopics({
                       </Tooltip> */}
                       <Tooltip
                         showArrow={true}
-                        color={"danger"}
+                        color={'danger'}
                         content="Delete"
                       >
-                        {role === "owner" && (
+                        {role === 'owner' && (
                           <Button
-                            variant={"ghost"}
-                            size={"icon"}
+                            variant={'ghost'}
+                            size={'icon'}
                             onClick={() => {
                               const topicId = topic.id;
                               const newFiles = topics.filter(
-                                (topic) => topic.id !== topicId
+                                (topic) => topic.id !== topicId,
                               );
                               mutation.mutate(topicId, {
                                 onSuccess: () => {

@@ -1,32 +1,31 @@
-"use client";
+'use client';
 
-import Image from "next/image";
-import { useEffect } from "react";
+import { useEffect } from 'react';
+import { PlusIcon } from '@radix-ui/react-icons';
 
-import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/ui/use-toast";
+import { Input } from '@/components/ui/input';
+import { Button } from '@/components/ui/button';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import ButtonWithSpinner from "@/components/updatedui/ButtonWithSpinner";
-import {SearchIcon} from "@/components/icons/SearchIcon";
-import { PlusIcon } from "@radix-ui/react-icons";
+} from '@/components/ui/select';
+import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
+import { SearchIcon } from '@/components/icons/SearchIcon';
 
-import { topicType } from "@/types/topicType";
-import { useTopicStore } from "@/stores/topicStore";
-import { useParamStore } from "@/stores/paramStore";
-import { useGetTopicsMutation } from "@/hooks/topicHooks";
+import { topicType } from '@/types/topicType';
+import { useTopicStore } from '@/stores/topicStore';
+import { useParamStore } from '@/stores/paramStore';
+import { useGetTopicsMutation } from '@/hooks/topicHooks';
 
 export default function SearchCard({
   role,
@@ -60,10 +59,10 @@ export default function SearchCard({
 
   const setTopics = useParamStore((state) => state.setTopics);
   const searchResultTrigger = useParamStore(
-    (state) => state.searchResultTrigger
+    (state) => state.searchResultTrigger,
   );
   const setSearchResultTrigger = useParamStore(
-    (state) => state.setSearchResultTrigger
+    (state) => state.setSearchResultTrigger,
   );
   const setSearchTopics = useParamStore((state) => state.setSearchTopics);
   const mutation = useGetTopicsMutation();
@@ -82,18 +81,18 @@ export default function SearchCard({
     };
 
     const defaultData: topicType = {
-      id: "",
-      topicname: "",
-      topicdisc: "",
-      syllabus: "",
-      department: "",
-      year: "",
-      semester: "",
-      subjectcode: "",
+      id: '',
+      topicname: '',
+      topicdisc: '',
+      syllabus: '',
+      department: '',
+      year: '',
+      semester: '',
+      subjectcode: '',
     };
 
     const hasChanged = Object.keys(data).some(
-      (key) => (data as any)[key] !== (defaultData as any)[key]
+      (key) => (data as any)[key] !== (defaultData as any)[key],
     );
 
     if (hasChanged) {
@@ -110,7 +109,7 @@ export default function SearchCard({
       setSearchTopics(mutation.data?.data?.topic);
 
       toast({
-        title: "Search Result",
+        title: 'Search Result',
         description: `${mutation.data?.data?.topic.length} topics found`,
       });
     }
@@ -125,7 +124,7 @@ export default function SearchCard({
       data.staffId = Number(userId);
       mutation.mutate(data);
     } else {
-      let num = Number("20" + userId.slice(4, 6));
+      let num = Number('20' + userId.slice(4, 6));
       let num_copy = num;
       for (; num % 4 !== 1; num--);
       const localSyllabus = num.toString();
@@ -143,8 +142,8 @@ export default function SearchCard({
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center pt-24 w-full">
-      {role === "staff" && (
-        <Card className="w-11/12">
+      {role === 'staff' && (
+        <Card>
           <CardContent className="mt-6 flex gap-5 items-center">
             <Button
               className=""
@@ -168,7 +167,7 @@ export default function SearchCard({
         </Card>
       )}
 
-      <Card className="w-11/12">
+      <Card>
         <CardHeader className="font-bold">Search files</CardHeader>
         <CardContent className="flex">
           <>
@@ -181,19 +180,25 @@ export default function SearchCard({
               />
             </div>
             <div className="md:w-2/12 lg:w-2/12 flex justify-center">
-              <ButtonWithSpinner mutation={mutation} innerContent={
-              <>
-                <span className="mr-2">
-                  <SearchIcon />
-                </span>
-                Search
-              </>} innerContentOnLoading={"Searching"} props={{
-                className: "w-full",
-                onClick: () => {
-                  setSearchResultTrigger(true);
-                  handleSearch();
+              <ButtonWithSpinner
+                mutation={mutation}
+                innerContent={
+                  <>
+                    <span className="mr-2">
+                      <SearchIcon />
+                    </span>
+                    Search
+                  </>
                 }
-              }}/>
+                innerContentOnLoading={'Searching'}
+                props={{
+                  className: 'w-full',
+                  onClick: () => {
+                    setSearchResultTrigger(true);
+                    handleSearch();
+                  },
+                }}
+              />
             </div>
           </>
         </CardContent>

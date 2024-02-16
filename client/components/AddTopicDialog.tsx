@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Dialog,
@@ -6,9 +6,9 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog";
+} from '@/components/ui/dialog';
 
-import TopicAddForm from "@/components/form/TopicAddForm";
+import TopicAddForm from '@/components/form/TopicAddForm';
 
 export default function TopicAddDialog({
   dialogTrigger,
@@ -28,8 +28,7 @@ export default function TopicAddDialog({
         <DialogHeader>
           <DialogTitle>Add Topic</DialogTitle>
           <DialogDescription>
-            Add Topic by entering the details. Click save when you&apos;re
-            done.
+            Add Topic by entering the details. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
         <TopicAddForm setDialogTrigger={setDialogTrigger} />

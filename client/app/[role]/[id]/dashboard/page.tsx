@@ -8,7 +8,7 @@ import { useGetTopicsMutation } from '@/hooks/topicHooks';
 
 import ShowTopics from '@/components/ShowTopics';
 import SearchCard from '@/components/SearchCard';
-import TopicAddDialog from '@/components/TopicAddDialog';
+import AddTopicDialog from '@/components/AddTopicDialog';
 
 export default function Page() {
   const params = useParams();
@@ -44,8 +44,8 @@ export default function Page() {
   }, [dialogTrigger]);
 
   return (
-    <>
-      <TopicAddDialog
+    <div className="w-[90%] m-auto">
+      <AddTopicDialog
         dialogTrigger={dialogTrigger}
         setDialogTrigger={setDialogTrigger}
       />
@@ -68,6 +68,6 @@ export default function Page() {
         lable={role === 'staff' ? 'Files Uploaded By You' : 'Files For you'}
         topics={topics}
       />
-    </>
+    </div>
   );
 }

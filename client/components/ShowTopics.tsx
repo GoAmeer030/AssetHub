@@ -21,6 +21,8 @@ import {
   Tooltip,
 } from "@nextui-org/react";
 
+import { DeleteIcon } from "@/components/icons/DeleteIcon";
+
 export default function ShowTopics({
   role,
   lable,
@@ -38,13 +40,13 @@ export default function ShowTopics({
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 10;
 
-  const pages = Math.ceil(topics.length / rowsPerPage);
+  const pages = Math.ceil(topics?.length / rowsPerPage);
 
   const pageTopics = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return topics.slice(start, end);
+    return topics ? topics.slice(start, end) : [];
   }, [page, topics]);
 
   const keysToShow = [
@@ -61,7 +63,7 @@ export default function ShowTopics({
   const classNames = React.useMemo(
     () => ({
       wrapper: ["bg-background"],
-      th: ["bg-primary", "text-white", "text-center"],
+      th: ["bg-primary", "text-primary-foreground", "text-center"],
       td: ["text-center"],
     }),
     []
@@ -225,12 +227,9 @@ export default function ShowTopics({
                               });
                             }}
                           >
-                            <Image
-                              src="/DeleteIcon.svg"
-                              alt="Delete"
-                              width={20}
-                              height={20}
-                            />
+                            <span className="text-lg">
+                              <DeleteIcon />
+                            </span>
                           </Button>
                         )}
                       </Tooltip>

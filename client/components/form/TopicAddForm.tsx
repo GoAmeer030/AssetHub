@@ -312,7 +312,7 @@ export default function TopicAddForm({
         /> */}
         <ButtonWithSpinner
           mutation={mutation}
-          innerContent={"Adding"}
+          innerContent={"Add"}
           innerContentOnLoading={"Adding"}
           props={{
             type: "submit",

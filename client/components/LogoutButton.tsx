@@ -2,9 +2,10 @@ import Image from "next/image";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Spinner } from "@nextui-org/react";
 
-import { Button } from "@/components/ui/button";
+import ButtonWithSpinner from "@/components/updatedui/ButtonWithSpinner";
+import {LogoutIcon} from "@/components/icons/LogoutIcon";
+
 import { useTopicStore } from "@/stores/topicStore";
 import { useParamStore } from "@/stores/paramStore";
 import { useToast } from "@/components/ui/use-toast";
@@ -52,30 +53,23 @@ export default function LogoutButton() {
   };
 
   return (
-    <Button
-      onClick={() => {
-        handleLogout();
-        setLoggingOut(true);
+    <ButtonWithSpinner 
+      mutation={{isPending: loggingOut}}
+      innerContent={
+          <>
+              <span className="text-lg mr-2">
+                  <LogoutIcon />
+              </span>
+              Logout
+          </>
+      }
+      innerContentOnLoading={"Logging Out"}
+      props={{
+        onClick: () => {
+          handleLogout();
+          setLoggingOut(true);
+        }
       }}
-      disabled={loggingOut}
-    >
-      {loggingOut ? (
-        <>
-          <Spinner color="white" size="sm" className="pr-2" />
-          Logging Out
-        </>
-      ) : (
-        <>
-          <Image
-            src="/LogoutIcon.svg"
-            alt="Search"
-            width={20}
-            height={20}
-            className="mr-2"
-          />
-          Logout
-        </>
-      )}
-    </Button>
+    />
   );
 }

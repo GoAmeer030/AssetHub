@@ -22,7 +22,7 @@ export default function Navbar() {
     <div className="w-[90%] m-auto">
       <nav className="fixed top-0 h-[10vh] w-[90%] flex justify-between items-center">
         <div className="flex">
-          <p className="text-2xl font-bold">Noter</p>
+          <p className="text-2xl font-bold">Assets Hub</p>
         </div>
 
         <div className="flex gap-2">

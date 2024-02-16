@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { Separator } from "@/components/ui/separator";
+import { Separator } from '@/components/ui/separator';
 
 export default function Footer() {
   return (
@@ -15,15 +15,7 @@ export default function Footer() {
             className="font-medium underline underline-offset-4 text-primary ml-1 mr-1"
           >
             Suresh Kumar V S
-
-
-
-
-
-
-
-
-                </a>
+          </a>
         </div>
         <Separator orientation="vertical" />
         <div>

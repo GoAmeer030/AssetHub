@@ -1,15 +1,15 @@
 /* eslint-disable react/no-unescaped-entities */
-"use client";
+'use client';
 
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
+} from '@/components/ui/card';
 
-import Footer from "@/components/Footer";
-import LoginForm from "@/components/form/LoginForm";
+import Footer from '@/components/Footer';
+import LoginForm from '@/components/form/LoginForm';
 
 export function Login() {
   return (

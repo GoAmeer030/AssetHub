@@ -1,1 +1,14 @@
+# Displaying commitlint conventional commit messages
+echo "Commitlint Conventional Commit Messages:"
+echo "Format: <type>(<scope>): <subject>"
+
+echo "Where:"
+echo "- type is required and must be one of: feat, fix, docs, style, refactor, perf, test, build, ci, chore, revert"
+echo "- scope is optional"
+echo "- subject is required and must not end with a period"
+
+echo "For more information, visit https://www.conventionalcommits.org/"
+
+echo "Please ensure your commit message follows the conventional commit format. See https://www.conventionalcommits.org/ for more information."
+
 npx --no -- commitlint --edit $1

@@ -2,7 +2,6 @@
 
 import Image from "next/image";
 import { useEffect } from "react";
-import { Spinner } from "@nextui-org/react";
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,6 +19,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import ButtonWithSpinner from "@/components/updatedui/ButtonWithSpinner";
+import {SearchIcon} from "@/components/icons/SearchIcon";
+import { PlusIcon } from "@radix-ui/react-icons";
 
 import { topicType } from "@/types/topicType";
 import { useTopicStore } from "@/stores/topicStore";
@@ -150,13 +152,9 @@ export default function SearchCard({
                 setDialogTrigger(true);
               }}
             >
-              <Image
-                src="/UploadIcon.svg"
-                alt="Search"
-                width={20}
-                height={20}
-                className="mr-2"
-              />
+              <span className="text-lg mr-2">
+                <PlusIcon />
+              </span>
               Add Topic
             </Button>
 
@@ -183,32 +181,19 @@ export default function SearchCard({
               />
             </div>
             <div className="md:w-2/12 lg:w-2/12 flex justify-center">
-              <Button
-                className="w-full"
-                disabled={mutation.isPending}
-                onClick={() => {
+              <ButtonWithSpinner mutation={mutation} innerContent={
+              <>
+                <span className="mr-2">
+                  <SearchIcon />
+                </span>
+                Search
+              </>} innerContentOnLoading={"Searching"} props={{
+                className: "w-full",
+                onClick: () => {
                   setSearchResultTrigger(true);
                   handleSearch();
-                }}
-              >
-                {mutation.isPending ? (
-                  <>
-                    <Spinner color="white" size="sm" className="pr-2" />
-                    Searching
-                  </>
-                ) : (
-                  <>
-                    <Image
-                      src="/SearchIcon.svg"
-                      alt="Search"
-                      width={20}
-                      height={20}
-                      className="mr-2"
-                    />
-                    Search
-                  </>
-                )}
-              </Button>
+                }
+              }}/>
             </div>
           </>
         </CardContent>

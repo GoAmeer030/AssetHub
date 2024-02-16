@@ -16,7 +16,6 @@ dotenvConfig();
 
 
 // Multer configuration
-// Multer configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
         let dir;
@@ -66,15 +65,19 @@ const prisma = new PrismaClient();
 
 // Basic Routes
 app.get("/", async (req, res) => {
-    const staffCount = await prisma.staff.count();
-    const topicCount = await prisma.topic.count();
-    const assetCount = await prisma.asset.count();
+    try {
+        const staffCount = await prisma.staff.count();
+        const topicCount = await prisma.topic.count();
+        const assetCount = await prisma.asset.count();
 
-    res.status(200).send({
-        staffCount,
-        topicCount,
-        assetCount
-    });
+        res.status(200).send({
+            staffCount,
+            topicCount,
+            assetCount
+        });
+    } catch (error: any) {
+        res.status(500).send({ error: error.message });
+    }
 })
 
 
@@ -82,11 +85,19 @@ app.get("/", async (req, res) => {
 const authManager = new AuthManager();
 
 app.post("/verify-token", upload.none(), (req, res) => {
-    authManager.verifyTokenHandler(req, res);
+    try {
+        authManager.verifyTokenHandler(req, res);
+    } catch (error: any) {
+        res.status(500).send({ error: error.message });
+    }
 });
 
 app.post("/login", upload.none(), (req, res) => {
-    authManager.loginHandler(req, res);
+    try {
+        authManager.loginHandler(req, res);
+    } catch (error: any) {
+        res.status(500).send({ error: error.message });
+    }
 });
 
 
@@ -94,15 +105,27 @@ app.post("/login", upload.none(), (req, res) => {
 const topicManager = new TopicManager();
 
 app.post("/addtopic", upload.single('file'), (req, res, next) => {
-    topicManager.addTopicHandler(req, res, authManager);
+    try {
+        topicManager.addTopicHandler(req, res, authManager);
+    } catch (error: any) {
+        res.status(500).send({ error: error.message });
+    }
 });
 
 app.get("/gettopics", upload.none(), (req, res) => {
-    topicManager.getTopicHandler(req, res);
+    try {
+        topicManager.getTopicHandler(req, res);
+    } catch (error: any) {
+        res.status(500).send({ error: error.message });
+    }
 });
 
 app.delete("/deletetopic/:id", upload.none(), (req, res) => {
-    topicManager.deleteTopicHandler(req, res, Number(req.params.id), authManager);
+    try {
+        topicManager.deleteTopicHandler(req, res, Number(req.params.id), authManager);
+    } catch (error: any) {
+        res.status(500).send({ error: error.message });
+    }
 });
 
 

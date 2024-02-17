@@ -4,13 +4,15 @@ import { useEffect } from 'react';
 import { PlusIcon } from '@radix-ui/react-icons';
 
 import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
 import { useToast } from '@/components/ui/use-toast';
+import { SearchIcon } from '@/components/icons/SearchIcon';
 import {
   Card,
   CardContent,
+  CardDescription,
   CardFooter,
   CardHeader,
+  CardTitle,
 } from '@/components/ui/card';
 import {
   Select,
@@ -19,8 +21,9 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+
+import AddTopicButton from './AddTopicButton';
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
-import { SearchIcon } from '@/components/icons/SearchIcon';
 
 import { topicType } from '@/types/topicType';
 import { useTopicStore } from '@/stores/topicStore';
@@ -141,37 +144,17 @@ export default function SearchCard({
   }, [userId]);
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center pt-24 w-full">
-      {role === 'staff' && (
-        <Card>
-          <CardContent className="mt-6 flex gap-5 items-center">
-            <Button
-              className=""
-              onClick={() => {
-                setDialogTrigger(true);
-              }}
-            >
-              <span className="text-lg mr-2">
-                <PlusIcon />
-              </span>
-              Add Topic
-            </Button>
-
-            <div className="flex flex-col h-full justify-center">
-              <p className="font-bold">Add Topic</p>
-              <p className="text-small text-gray-400">
-                Add topics to be accessed by students
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      <Card>
-        <CardHeader className="font-bold">Search files</CardHeader>
+    <div className="flex flex-col gap-4 items-center justify-center w-full">
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle className="font-bold">Search Topics</CardTitle>
+          <CardDescription className="text-small text-gray-400">
+            Explore the topic you desire to
+          </CardDescription>
+        </CardHeader>
         <CardContent className="flex">
           <>
-            <div className="md:w-10/12 lg:w-10/12 mr-5">
+            <div className="md:w-8/12 lg:w-10/12 mr-5">
               <Input
                 placeholder="Topic Name"
                 onChange={(e) => {
@@ -179,7 +162,7 @@ export default function SearchCard({
                 }}
               />
             </div>
-            <div className="md:w-2/12 lg:w-2/12 flex justify-center">
+            <div className="md:w-4/12 lg:w-2/12 flex justify-center">
               <ButtonWithSpinner
                 mutation={mutation}
                 innerContent={
@@ -273,7 +256,7 @@ export default function SearchCard({
             </SelectContent>
           </Select>
           <Input
-            placeholder="Subject Code"
+            placeholder="Sub Code"
             onChange={(e) => {
               setSubjectCode(e.target.value);
             }}

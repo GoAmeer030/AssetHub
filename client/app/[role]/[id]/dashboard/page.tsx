@@ -9,6 +9,7 @@ import { useGetTopicsMutation } from '@/hooks/topicHooks';
 import ShowTopics from '@/components/ShowTopics';
 import SearchCard from '@/components/SearchCard';
 import AddTopicDialog from '@/components/AddTopicDialog';
+import AddTopicButton from '@/components/AddTopicButton';
 
 export default function Page() {
   const params = useParams();
@@ -44,17 +45,24 @@ export default function Page() {
   }, [dialogTrigger]);
 
   return (
-    <div className="w-[90%] m-auto">
+    <div className="w-[90%] m-auto  pt-24">
       <AddTopicDialog
         dialogTrigger={dialogTrigger}
         setDialogTrigger={setDialogTrigger}
       />
-      <SearchCard
-        role={role}
-        userId={userId}
-        setDialogTrigger={setDialogTrigger}
-      />
-      {searchResultTrigger && (
+
+      <div className="flex gap-4">
+        {role === 'staff' && (
+          <AddTopicButton setDialogTrigger={setDialogTrigger} />
+        )}
+        <SearchCard
+          role={role}
+          userId={userId}
+          setDialogTrigger={setDialogTrigger}
+        />
+      </div>
+
+      {/* {searchResultTrigger && (
         <>
           <ShowTopics
             role={'user'}
@@ -67,7 +75,7 @@ export default function Page() {
         role={role === 'staff' ? 'owner' : 'user'}
         lable={role === 'staff' ? 'Files Uploaded By You' : 'Files For you'}
         topics={topics}
-      />
+      /> */}
     </div>
   );
 }

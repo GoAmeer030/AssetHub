@@ -3,6 +3,7 @@
 import { PlusIcon } from '@radix-ui/react-icons';
 
 import { Button } from './ui/button';
+import { SparklesCore } from './ui/sparkles';
 import { Card, CardContent } from './ui/card';
 
 export default function AddTopicButton({
@@ -11,9 +12,19 @@ export default function AddTopicButton({
   setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   return (
-    <Card className="h-[5.3rem]  min-w-fit">
-      <CardContent className="mt-5 mb-[-2] flex gap-5 items-center">
+    <Card className="relative h-[5.3rem]  min-w-fit">
+      <SparklesCore
+        id="tsparticlesfullpage"
+        background="transparent"
+        minSize={0.6}
+        maxSize={1.4}
+        particleDensity={100}
+        className="absolute h-[100%] w-[100%] z-0"
+        particleColor="#FFFFFF"
+      />
+      <CardContent className="mt-5 mb-[-2] flex gap-5 items-center z-10">
         <Button
+          className="z-20"
           onClick={() => {
             setDialogTrigger(true);
           }}

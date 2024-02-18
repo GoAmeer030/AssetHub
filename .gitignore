@@ -1,6 +1,6 @@
 # data
-data/
-public/
+*/data/
+*/public/
 
 # Prisma generated files
 */prisma/migrations

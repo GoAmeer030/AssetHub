@@ -1,12 +1,13 @@
 # data
-data/
-public/
+*/data/
+*/public/
 
 # Prisma generated files
 */prisma/migrations
 
 # dependencies
 node_modules
+node_modules/
 */node_modules
 /.pnp
 .pnp.js

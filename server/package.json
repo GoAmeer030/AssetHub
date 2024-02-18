@@ -1,5 +1,5 @@
 {
-  "name": "noter",
+  "name": "asset_hub",
   "version": "1.0.0",
   "description": "A notes and materials handler for local educational servers",
   "main": "src/server.ts",

@@ -144,7 +144,7 @@ export default function SearchCard({
   }, [userId]);
 
   return (
-    <div className="flex flex-col gap-4 items-center justify-center w-full">
+    <div className="flex flex-col gap-4 items-center justify-center w-full z-20">
       <Card className="w-full">
         <CardHeader>
           <CardTitle className="font-bold">Search Topics</CardTitle>

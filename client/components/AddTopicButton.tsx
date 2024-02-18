@@ -1,5 +1,6 @@
 'use client';
 
+import { useTheme } from 'next-themes';
 import { PlusIcon } from '@radix-ui/react-icons';
 
 import { Button } from './ui/button';
@@ -11,8 +12,15 @@ export default function AddTopicButton({
 }: {
   setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+  const { theme } = useTheme();
+
   return (
-    <Card className="relative h-[5.3rem]  min-w-fit">
+    <Card
+      className="relative h-[5.3rem]  min-w-fit cursor-pointer z-40"
+      onClick={() => {
+        setDialogTrigger(true);
+      }}
+    >
       <SparklesCore
         id="tsparticlesfullpage"
         background="transparent"
@@ -20,7 +28,7 @@ export default function AddTopicButton({
         maxSize={1.4}
         particleDensity={100}
         className="absolute h-[100%] w-[100%] z-0"
-        particleColor="#FFFFFF"
+        particleColor={theme === 'dark' ? '#ffffff' : '#000000'}
       />
       <CardContent className="mt-5 mb-[-2] flex gap-5 items-center z-10">
         <Button

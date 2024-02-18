@@ -8,9 +8,9 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 
-import TopicAddForm from '@/components/form/TopicAddForm';
+import AddTopicForm from '@/components/form/AddTopicForm';
 
-export default function TopicAddDialog({
+export default function AddTopicDialog({
   dialogTrigger,
   setDialogTrigger,
 }: {
@@ -31,7 +31,7 @@ export default function TopicAddDialog({
             Add Topic by entering the details. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <TopicAddForm setDialogTrigger={setDialogTrigger} />
+        <AddTopicForm setDialogTrigger={setDialogTrigger} />
       </DialogContent>
     </Dialog>
   );

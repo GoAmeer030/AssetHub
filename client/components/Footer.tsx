@@ -4,7 +4,7 @@ import { Separator } from '@/components/ui/separator';
 
 export default function Footer() {
   return (
-    <div className="fixed bottom-5 w-[90%] m-auto flex items-center justify-center">
+    <div className="fixed bottom-5 w-[90%] m-auto flex items-center justify-center z-30">
       <div className="flex h-5 items-center space-x-4 text-[0.6rem] sm:text-sm">
         <div className="w-fit">
           Mentored by <br className="sm:hidden" />
@@ -31,14 +31,14 @@ export default function Footer() {
         </div>
         <Separator orientation="vertical" />
         <div>
-          Source code is on <br className="sm:hidden" />
+          Source code - <br className="sm:hidden" />
           <a
             href="https://github.com/GoAmeer030/Noter"
             target="__blank"
             rel="noreferrer"
             className="font-medium underline underline-offset-4 text-primary"
           >
-            GitHub
+            Github
           </a>
         </div>
       </div>

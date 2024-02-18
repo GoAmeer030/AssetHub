@@ -21,8 +21,10 @@ export function Login() {
             Notes and resource sharing made easy.
           </CardDescription>
         </CardHeader>
+
         <LoginForm />
       </Card>
+
       <Footer />
     </div>
   );

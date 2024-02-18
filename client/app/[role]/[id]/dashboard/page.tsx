@@ -52,9 +52,9 @@ export default function Page() {
         setDialogTrigger={setDialogTrigger}
       />
 
-      <div className="flex gap-4">
+      <div className="flex flex-col md:flex-row gap-4">
         {role === 'staff' && (
-          <div className="flex flex-col justify-between gap-6 h-full min-w-fit">
+          <div className="flex flex-col justify-between gap-4 md:gap-6 h-full min-w-fit">
             <ProfileCard />
             <AddTopicButton setDialogTrigger={setDialogTrigger} />
           </div>
@@ -68,7 +68,7 @@ export default function Page() {
 
       {/* {searchResultTrigger && (
         <>
-          <ShowTopics
+          <ShowTopics 
             role={'user'}
             lable={'Files For Your Search'}
             topics={searchTopics}

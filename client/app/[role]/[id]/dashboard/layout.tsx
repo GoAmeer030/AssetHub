@@ -9,7 +9,7 @@ export default function DashboardLayout({
     <div className="min-h-screen w-full">
       {children}
 
-      <BackgroundBeams className="z-0" />
+      {/* <BackgroundBeams className="z-0" /> */}
     </div>
   );
 }

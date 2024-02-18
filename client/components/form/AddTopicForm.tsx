@@ -1,23 +1,23 @@
-"use client";
+'use client';
 
-import { z } from "zod";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from 'zod';
+import React, { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { topicType } from "@/types/topicType";
-import { useTopicStore } from "@/stores/topicStore";
-import { useUploadTopicMutation } from "@/hooks/topicHooks";
+import { topicType } from '@/types/topicType';
+import { useTopicStore } from '@/stores/topicStore';
+import { useUploadTopicMutation } from '@/hooks/topicHooks';
 
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+import { Input } from '@/components/ui/input';
+import { useToast } from '@/components/ui/use-toast';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from '@/components/ui/select';
 import {
   Form,
   FormControl,
@@ -25,34 +25,34 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from '@/components/ui/form';
 
-import ButtonWithSpinner from "@/components/updatedui/ButtonWithSpinner";
+import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
 const formSchema = z.object({
   syllabus: z
     .string()
     .refine((value) => /^\d{4}$/.test(value), {
-      message: "Syllabus should be a 4-digit number represting the year.",
-      params: { regex: "/^\\d{4}$/" },
+      message: 'Syllabus should be a 4-digit number represting the year.',
+      params: { regex: '/^\\d{4}$/' },
     })
     .refine((value) => parseInt(value) % 4 === 1, {
       message:
-        "Syllabus regulation year you entered is not valid, Please refer online for the correct year.",
+        'Syllabus regulation year you entered is not valid, Please refer online for the correct year.',
     }),
-  department: z.string().min(1, { message: "Please select a department." }),
-  year: z.string().min(1, { message: "Year is required" }),
-  semester: z.string().min(1, { message: "Semester is required" }),
+  department: z.string().min(1, { message: 'Please select a department.' }),
+  year: z.string().min(1, { message: 'Year is required' }),
+  semester: z.string().min(1, { message: 'Semester is required' }),
   subjectcode: z.string().length(6, {
-    message: "Subject Code should be exactly 6 letters long",
+    message: 'Subject Code should be exactly 6 letters long',
   }),
   topicname: z
     .string()
-    .min(5, { message: "Topic should have at least 5 characters" })
-    .max(30, { message: "Topic should have at most 30 characters" }),
+    .min(5, { message: 'Topic should have at least 5 characters' })
+    .max(30, { message: 'Topic should have at most 30 characters' }),
 });
 
-export default function TopicAddForm({
+export default function AddTopicForm({
   setDialogTrigger,
 }: {
   setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
@@ -76,7 +76,7 @@ export default function TopicAddForm({
     setSemester,
     setSubjectCode,
 
-    resetTopic
+    resetTopic,
   } = useTopicStore();
 
   const { toast } = useToast();
@@ -84,12 +84,12 @@ export default function TopicAddForm({
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      syllabus: syllabus || "",
-      year: year || "",
-      department: department || "",
-      semester: semester || "",
-      subjectcode: subjectcode || "",
-      topicname: topicname || "",
+      syllabus: syllabus || '',
+      year: year || '',
+      department: department || '',
+      semester: semester || '',
+      subjectcode: subjectcode || '',
+      topicname: topicname || '',
     },
   });
 
@@ -117,8 +117,8 @@ export default function TopicAddForm({
       form.reset();
 
       toast({
-        title: "File Uploaded",
-        description: "File uploaded successfully",
+        title: 'File Uploaded',
+        description: 'File uploaded successfully',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -312,11 +312,11 @@ export default function TopicAddForm({
         /> */}
         <ButtonWithSpinner
           mutation={mutation}
-          innerContent={"Add"}
-          innerContentOnLoading={"Adding"}
+          innerContent={'Add'}
+          innerContentOnLoading={'Adding'}
           props={{
-            type: "submit",
-            className: "mt-6",
+            type: 'submit',
+            className: 'mt-6',
           }}
         />
       </form>

@@ -8,6 +8,7 @@ import { useGetTopicsMutation } from '@/hooks/topicHooks';
 
 import ShowTopics from '@/components/ShowTopics';
 import SearchCard from '@/components/SearchCard';
+import ProfileCard from '@/components/ProfileCard';
 import AddTopicDialog from '@/components/AddTopicDialog';
 import AddTopicButton from '@/components/AddTopicButton';
 
@@ -53,7 +54,10 @@ export default function Page() {
 
       <div className="flex gap-4">
         {role === 'staff' && (
-          <AddTopicButton setDialogTrigger={setDialogTrigger} />
+          <div className="flex flex-col justify-between gap-6 h-full min-w-fit">
+            <ProfileCard />
+            <AddTopicButton setDialogTrigger={setDialogTrigger} />
+          </div>
         )}
         <SearchCard
           role={role}

@@ -27,6 +27,14 @@ const config = {
       },
     },
     extend: {
+      backgroundImage: (theme) => ({
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
+        'gradient-linear': 'linear-gradient(var(--tw-gradient-stops))',
+        'gradient-conic': 'conic-gradient(var(--tw-gradient-stops))',
+      }),
+      textColor: {
+        transparent: 'transparent',
+      },
       fontFamily: {
         sans: ['var(--font-sans)', ...fontFamily.sans],
       },
@@ -92,6 +100,11 @@ const config = {
     require('@tailwindcss/aspect-ratio'),
     addVariablesForColors,
   ],
+  variants: {
+    extend: {
+      backgroundImage: ['hover', 'focus'],
+    },
+  },
 } satisfies Config;
 
 function addVariablesForColors({ addBase, theme }: any) {

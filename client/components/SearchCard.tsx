@@ -173,7 +173,6 @@ export default function SearchCard({
                     Search
                   </>
                 }
-                innerContentOnLoading={'Searching'}
                 props={{
                   className: 'w-full',
                   onClick: () => {

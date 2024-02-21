@@ -1,5 +1,5 @@
 # Node.js LTS base image
-FROM node:lts-alpine
+FROM node:lts-alpine as test-target
 
 # ARGS
 ARG NEXT_PUBLIC_SERVER_URL
@@ -16,11 +16,25 @@ RUN npm install
 # Copy all files
 COPY . .
 
-# Build the Next.js app
+# Build
+FROM test-target as build-target
+ENV NODE_ENV=production
+
+# Use build tools, installed as development packages, to produce a release build.
 RUN npm run build
 
-# Expose the listening port
-EXPOSE 3000
+# Reduce installed packages to production-only.
+RUN npm prune --production
 
-# Run npm start script
-CMD ["npm", "start"]
+# Archive
+FROM node:lts-alpine as archive-target
+ENV NODE_ENV=production
+ENV PATH $PATH:/app/node_modules/.bin
+
+WORKDIR /app
+
+# Include only the release build and production packages.
+COPY --from=build-target /app/node_modules node_modules
+COPY --from=build-target /app/.next .next
+
+CMD ["next", "start"]

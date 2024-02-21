@@ -1,17 +1,17 @@
 version: '3.9'
 
 services:
-  # pgadmin:
-  #   image: dpage/pgadmin4
-  #   container_name: pgadmin
-  #   environment:
-  #     - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
-  #     - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
-  #   ports:
-  #     - 3004:80
-  #   depends_on:
-  #     db:
-  #       condition: service_healthy
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_DEFAULT_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - 3004:80
+    depends_on:
+      db:
+        condition: service_healthy
 
   db:
     image: postgres:latest
@@ -28,7 +28,7 @@ services:
       test: ['CMD-SHELL', 'pg_isready -U postgres']
       interval: 10s
       timeout: 10s
-      retries: 3
+      retries: 5
 
   backend:
     build:
@@ -46,18 +46,21 @@ services:
     depends_on:
       db:
         condition: service_healthy
-    command: ['sh', '-c', 'npx prisma migrate deploy && npm start']
+      pgadmin:
+        condition: service_started
+    command: ['sh', '-c', 'npx prisma migrate dev --name init && npm start']
+    volumes:
+      - ./server:/app
     healthcheck:
-      test: ["CMD", "wget", "-O", "-", "http://backend:3001"]
+      test: ['CMD', 'wget', '-O', '-', 'http://backend:3001']
       interval: 10s
       timeout: 10s
-      retries: 3
-    volumes:
-      - ./volumes/server_data:/app/public
+      retries: 5
 
   frontend:
     build:
       context: ./client
+      dockerfile: dev-Dockerfile
       args:
         - NEXT_PUBLIC_SERVER_URL=${NEXT_PUBLIC_SERVER_URL}
     container_name: frontend
@@ -68,6 +71,9 @@ services:
     depends_on:
       backend:
         condition: service_healthy
+    volumes:
+      - ./client:/app
+    command: ["npm", "run", "dev"]
 
 volumes:
   postgres_data:

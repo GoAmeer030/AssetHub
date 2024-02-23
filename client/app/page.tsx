@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
@@ -22,6 +22,8 @@ export default function Page() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [accessToken]);
 
+  const success = useMemo(() => mutation.isSuccess, [mutation.isSuccess]);
+
   useEffect(() => {
     if (mutation.isSuccess) {
       const role = mutation.data?.data?.role;
@@ -35,7 +37,8 @@ export default function Page() {
     } else if (mutation.isError) {
       router.push('/auth/signin');
     }
-  }, [mutation.isSuccess, mutation.isError, mutation.data, router]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [success]);
 
   return <main></main>;
 }

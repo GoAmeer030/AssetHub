@@ -69,7 +69,15 @@ const staffFormSchema = z.object({
 
 export default function LoginForm() {
   const { regNo, setRegNo } = useStudentStore();
-  const { staffID, password, setStaffID, setPassword } = useStaffStore();
+  const {
+    staffID,
+    password,
+    staffName,
+    designation,
+    photo,
+    setStaffID,
+    setPassword,
+  } = useStaffStore();
 
   const { toast } = useToast();
 
@@ -82,6 +90,9 @@ export default function LoginForm() {
       const staff: staffType = {
         staffID,
         password,
+        staffName,
+        designation,
+        photo,
       };
       mutation.mutate(staff);
     } else if (regNo) {
@@ -187,11 +198,11 @@ export default function LoginForm() {
                 name="staffID"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel className="ml-1">Staff ID</FormLabel> */}
+                    <FormLabel className="ml-1">Staff ID</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="Staff ID"
+                        placeholder="a/bc/123"
                         onChange={(e) => {
                           setStaffID(e.target.value);
                           field.onChange(e.target.value);
@@ -207,11 +218,11 @@ export default function LoginForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel className="ml-1">Password</FormLabel> */}
+                    <FormLabel className="ml-1">Password</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="Password"
+                        placeholder="••••••••"
                         type="password"
                         onChange={(e) => {
                           setPassword(e.target.value);

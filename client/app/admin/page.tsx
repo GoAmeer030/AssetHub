@@ -1,11 +1,11 @@
 'use client';
 
-import { Login } from '@/components/Login';
+import { RegisterStaff } from '@/components/RegisterStaff';
 
 export default function Page() {
   return (
     <div className="flex items-center justify-center h-screen">
-      <Login />
+      <RegisterStaff />
     </div>
   );
 }

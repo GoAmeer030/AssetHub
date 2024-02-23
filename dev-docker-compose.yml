@@ -50,7 +50,7 @@ services:
         condition: service_started
     command: ['sh', '-c', 'npx prisma migrate dev --name init && npm start']
     volumes:
-      - ./server:/app
+      - ./server:/app:delegated
     healthcheck:
       test: ['CMD', 'wget', '-O', '-', 'http://backend:3001']
       interval: 10s
@@ -72,8 +72,9 @@ services:
       backend:
         condition: service_healthy
     volumes:
-      - ./client:/app
-    command: ["npm", "run", "dev"]
+      - ./client:/app:delegated
+    command: ['npm', 'run', 'dev']
 
 volumes:
   postgres_data:
+    

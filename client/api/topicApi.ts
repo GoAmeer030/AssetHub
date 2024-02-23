@@ -1,12 +1,14 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
 import { topicType } from '@/types/topicType';
+
+import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
 
 export const postUploadTopic = async (
   uploadFile: topicType,
 ): Promise<AxiosResponse> => {
   const formData = new FormData();
+
   formData.append('syllabus', uploadFile.syllabus);
   formData.append('year', uploadFile.year);
   formData.append('department', uploadFile.department);
@@ -43,8 +45,6 @@ export const getTopics = async (
     params.subjectCode = data.subjectcode;
     params.fileName = data.filename;
   }
-
-  // console.log(params);
 
   const response: AxiosResponse = await axios.get(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/gettopics`,

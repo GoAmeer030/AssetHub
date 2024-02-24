@@ -46,7 +46,7 @@ export default function Page() {
   }, [dialogTrigger]);
 
   return (
-    <div className="w-[90%] m-auto  pt-24">
+    <div className="w-[90%] m-auto pt-4">
       <AddTopicDialog
         dialogTrigger={dialogTrigger}
         setDialogTrigger={setDialogTrigger}
@@ -66,9 +66,9 @@ export default function Page() {
         />
       </div>
 
-      {/* {searchResultTrigger && (
+      {searchResultTrigger && (
         <>
-          <ShowTopics 
+          <ShowTopics
             role={'user'}
             lable={'Files For Your Search'}
             topics={searchTopics}
@@ -79,7 +79,7 @@ export default function Page() {
         role={role === 'staff' ? 'owner' : 'user'}
         lable={role === 'staff' ? 'Files Uploaded By You' : 'Files For you'}
         topics={topics}
-      /> */}
+      />
     </div>
   );
 }

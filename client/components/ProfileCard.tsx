@@ -42,7 +42,7 @@ export default function ProfileCard({ userId }: { userId: string }) {
   }
 
   return (
-    <Card className="z-30">
+    <Card>
       <CardContent className="flex gap-5 mt-5">
         <Avatar
           isBordered

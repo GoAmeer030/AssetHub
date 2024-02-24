@@ -27,6 +27,10 @@ const config = {
       },
     },
     extend: {
+      backdropFilter: {
+        none: 'none',
+        blur: 'blur(5px)',
+      },
       backgroundImage: (theme) => ({
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
         'gradient-linear': 'linear-gradient(var(--tw-gradient-stops))',

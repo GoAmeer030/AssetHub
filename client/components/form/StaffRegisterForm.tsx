@@ -53,12 +53,20 @@ export default function StaffRegisterForm() {
   });
 
   const handleRegister = () => {
+    let photoFile: File | null = null;
+
+    if (typeof photo === 'string') {
+      photoFile = null;
+    } else if (photo instanceof File) {
+      photoFile = photo;
+    }
+
     const staffData: staffType = {
       staffID,
       password,
       staffName,
       designation,
-      photo,
+      photo: photoFile,
     };
 
     mutation.mutate(staffData);

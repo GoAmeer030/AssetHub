@@ -14,7 +14,7 @@ export const postStaffRegister = async (
   formData.append('photo', registerDetails.photo as Blob);
 
   const response: AxiosResponse = await axios.post(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/login`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/admin/staff-register`,
     formData,
     {
       headers: {

@@ -1,15 +1,62 @@
 import { Avatar } from '@nextui-org/react';
-import { Card, CardContent } from './ui/card';
+import { Card, CardContent } from '@/components/ui/card';
 
-export default function ProfileCard() {
+import { useGetStaffDetails } from '@/hooks/userHooks';
+import { useStaffStore } from '@/stores/usersStore/staffStore';
+import { useEffect } from 'react';
+
+export default function ProfileCard({ userId }: { userId: string }) {
+  const mutation = useGetStaffDetails();
+
+  const {
+    staffName,
+    designation,
+    photo,
+    setStaffName,
+    setDesignation,
+    setPhoto,
+  } = useStaffStore();
+
+  useEffect(() => {
+    mutation.mutate(userId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userId]);
+
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      const data = mutation.data?.data;
+      if (data) {
+        setStaffName(data.staffname);
+        setDesignation(data.designation);
+        setPhoto(data.photourl);
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mutation.isSuccess]);
+
+  let photoUrl = photo;
+  if (photoUrl === '') {
+    photoUrl = '';
+  } else {
+    photoUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${photo}`;
+  }
+
   return (
     <Card className="z-30">
       <CardContent className="flex gap-5 mt-5">
-        <Avatar isBordered color="secondary" size="lg" src="" name="DP" />
+        <Avatar
+          isBordered
+          color="secondary"
+          size="lg"
+          src={photoUrl}
+          name="DP"
+        />
 
         <div className="flex flex-col">
-          <p className="font-bold">{'staffName'}</p>
-          <p className="text-small text-gray-400">{'Designation'}</p>
+          <p className="font-bold">{staffName || 'StaffName'}</p>
+          <p className="text-small text-gray-400">
+            {designation || 'Destination'}
+          </p>
         </div>
       </CardContent>
     </Card>

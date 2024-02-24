@@ -6,13 +6,13 @@ export const useStaffStore = create<staffState>((set) => ({
   password: '',
   staffName: '',
   designation: '',
-  photo: null,
+  photo: '',
 
   setStaffID: (staffID: string) => set({ staffID }),
   setPassword: (password: string) => set({ password }),
   setStaffName: (staffName: string) => set({ staffName }),
   setDesignation: (designation: string) => set({ designation }),
-  setPhoto: (photo: File) => set({ photo }),
+  setPhoto: (photo: File | string) => set({ photo }),
 
   resetStaff: () =>
     set({

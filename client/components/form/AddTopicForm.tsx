@@ -5,10 +5,6 @@ import React, { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 
-import { topicType } from '@/types/topicType';
-import { useTopicStore } from '@/stores/topicStore';
-import { useUploadTopicMutation } from '@/hooks/topicHooks';
-
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import {
@@ -29,28 +25,10 @@ import {
 
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
-const formSchema = z.object({
-  syllabus: z
-    .string()
-    .refine((value) => /^\d{4}$/.test(value), {
-      message: 'Syllabus should be a 4-digit number represting the year.',
-      params: { regex: '/^\\d{4}$/' },
-    })
-    .refine((value) => parseInt(value) % 4 === 1, {
-      message:
-        'Syllabus regulation year you entered is not valid, Please refer online for the correct year.',
-    }),
-  department: z.string().min(1, { message: 'Please select a department.' }),
-  year: z.string().min(1, { message: 'Year is required' }),
-  semester: z.string().min(1, { message: 'Semester is required' }),
-  subjectcode: z.string().length(6, {
-    message: 'Subject Code should be exactly 6 letters long',
-  }),
-  topicname: z
-    .string()
-    .min(5, { message: 'Topic should have at least 5 characters' })
-    .max(30, { message: 'Topic should have at most 30 characters' }),
-});
+import { topicType } from '@/types/topicType';
+import { useTopicStore } from '@/stores/topicStore';
+import { useUploadTopicMutation } from '@/hooks/topicHooks';
+import { addTopicFormSchema } from '@/lib/validations/AddTopicFormSchema';
 
 export default function AddTopicForm({
   setDialogTrigger,
@@ -80,9 +58,10 @@ export default function AddTopicForm({
   } = useTopicStore();
 
   const { toast } = useToast();
+  const mutation = useUploadTopicMutation();
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
+  const form = useForm<z.infer<typeof addTopicFormSchema>>({
+    resolver: zodResolver(addTopicFormSchema),
     defaultValues: {
       syllabus: syllabus || '',
       year: year || '',
@@ -93,9 +72,7 @@ export default function AddTopicForm({
     },
   });
 
-  const mutation = useUploadTopicMutation();
-
-  const handleSave = (data: z.infer<typeof formSchema>) => {
+  const handleSave = (data: z.infer<typeof addTopicFormSchema>) => {
     const uploadFile: topicType = {
       id,
       topicname,
@@ -130,27 +107,6 @@ export default function AddTopicForm({
         onSubmit={form.handleSubmit(handleSave)}
         className="flex flex-col gap-3 mt-2"
       >
-        <FormField
-          control={form.control}
-          name="syllabus"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="ml-1">Syllabus</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="2021"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e.target.value);
-                    setSyllabus(e.target.value);
-                  }}
-                />
-              </FormControl>
-              <FormMessage className="ml-1" />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="department"
@@ -243,6 +199,27 @@ export default function AddTopicForm({
         />
         <FormField
           control={form.control}
+          name="syllabus"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel className="ml-1">Syllabus</FormLabel>
+              <FormControl>
+                <Input
+                  type="number"
+                  placeholder="2021"
+                  {...field}
+                  onChange={(e) => {
+                    field.onChange(e.target.value);
+                    setSyllabus(e.target.value);
+                  }}
+                />
+              </FormControl>
+              <FormMessage className="ml-1" />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
           name="subjectcode"
           render={({ field }) => (
             <FormItem>
@@ -281,35 +258,6 @@ export default function AddTopicForm({
             </FormItem>
           )}
         />
-        {/* <FormField
-          control={form.control}
-          name="file"
-          render={({ field: { onChange, onBlur, name } }) => (
-            <FormItem>
-              <FormLabel>Upload</FormLabel>
-              <FormControl>
-                <Input
-                  id="file"
-                  type="file"
-                  accept=".pdf,.doc,.docx,.xlsx,.csv,.xls,.txt"
-                  onChange={(e) => {
-                    const file = e.target.files?.[0];
-                    if (file) {
-                      setFile(file);
-                    }
-                    onChange(file);
-                  }}
-                  onBlur={onBlur}
-                  name={name}
-                  className="text-sm file:h-full
-                                 file:mr-5 file:py-0 file:px-0
-                                 hover:file:cursor-pointer"
-                />
-              </FormControl>
-              <FormMessage className="ml-1" />
-            </FormItem>
-          )}
-        /> */}
         <ButtonWithSpinner
           mutation={mutation}
           innerContent={'Add'}

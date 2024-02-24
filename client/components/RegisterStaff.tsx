@@ -2,7 +2,6 @@
 'use client';
 
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
-import { Meteors } from './ui/meteors';
 
 import Footer from '@/components/Footer';
 import StaffRegisterForm from '@/components/form/StaffRegisterForm';

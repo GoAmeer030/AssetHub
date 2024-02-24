@@ -34,38 +34,8 @@ import { useLoginMutation } from '@/hooks/auth/loginHook';
 import { studentType } from '@/types/usersTypes/studentType';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
-
-const studentFormSchema = z.object({
-  regNo: z
-    .string()
-    .min(1, {
-      message: 'Bro Enter Something',
-    })
-    .refine((value) => /^\d+$/.test(value), {
-      message: 'Dont you see it is a field for Numbers',
-      params: { regex: '/^\\d+$/' },
-    })
-    .refine((value) => /^7321/.test(value), {
-      message:
-        'Where are you studying? if Nandha College of Technology, then Register Number should start with 7321',
-      params: { regex: '/^7321/' },
-    })
-    .refine((value) => /^\d{12}$/.test(value), {
-      message:
-        'Which year you are studying? the Register Number is 12 digits long',
-      params: { regex: '/^\\d{12}$/' },
-    }),
-});
-
-const staffFormSchema = z.object({
-  staffID: z
-    .string()
-    .max(10, { message: 'Staff ID must be less than 10 characters' })
-    .min(1, { message: 'Staff ID must be more than 1 character' }),
-  password: z
-    .string()
-    .min(4, { message: 'Password must be more than 4 characters' }),
-});
+import { staffFormSchema } from '@/lib/validations/StaffLoginFormSchema';
+import { studentFormSchema } from '@/lib/validations/StudentLoginFormSchema';
 
 export default function LoginForm() {
   const { regNo, setRegNo } = useStudentStore();
@@ -79,10 +49,8 @@ export default function LoginForm() {
     setPassword,
   } = useStaffStore();
 
-  const { toast } = useToast();
-
   const router = useRouter();
-
+  const { toast } = useToast();
   const mutation = useLoginMutation();
 
   const handleLogin = () => {
@@ -198,11 +166,11 @@ export default function LoginForm() {
                 name="staffID"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="ml-1">Staff ID</FormLabel>
+                    {/* <FormLabel className="ml-1">Staff ID</FormLabel> */}
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="a/bc/123"
+                        placeholder="Staff ID"
                         onChange={(e) => {
                           setStaffID(e.target.value);
                           field.onChange(e.target.value);
@@ -218,11 +186,11 @@ export default function LoginForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="ml-1">Password</FormLabel>
+                    {/* <FormLabel className="ml-1">Password</FormLabel> */}
                     <FormControl>
                       <Input
                         {...field}
-                        placeholder="••••••••"
+                        placeholder="Password"
                         type="password"
                         onChange={(e) => {
                           setPassword(e.target.value);

@@ -10,6 +10,8 @@ import { config as dotenvConfig } from 'dotenv';
 
 import { ErrorHandlerMiddleware, CheckValidUser } from './middleware';
 
+import AdminManager from './managers/adminManager';
+import UserManager from './managers/userManager';
 import TopicManager from './managers/topicManager';
 import AuthManager from './managers/authManager';
 import AssetManager from './managers/assetManager';
@@ -21,7 +23,7 @@ dotenvConfig();
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
     let dir;
-    if (req.body.staffid) {
+    if (file.fieldname === 'photo') {
       dir = 'public/profilepic/';
     } else {
       const departmentMap = {
@@ -47,9 +49,9 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     let fileName;
-    if (req.body.staffid) {
+    if (req.body.staffID) {
       fileName =
-        req.body.staffid + 'profilepic.' + file.originalname.split('.').pop();
+        req.body.staffID + '_profilepic.' + file.originalname.split('.').pop();
     } else {
       const date = new Date();
       const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
@@ -89,6 +91,20 @@ app.get('/', (req, res) => {
     topicCount,
     assetCount,
   });
+});
+
+// Admin Routes
+const adminManager = new AdminManager();
+
+app.post('/admin/staff-register', upload.single('photo'), (req, res) => {
+  adminManager.addStaffHandler(req, res);
+});
+
+// User Routes
+const userManager = new UserManager();
+
+app.get('/getstaffdetails', CheckValidUser, upload.none(), (req, res) => {
+  userManager.getStaffHandler(req, res);
 });
 
 // Auth Routes

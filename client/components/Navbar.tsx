@@ -14,9 +14,9 @@ export default function Navbar() {
   const role = Array.isArray(params.role) ? params.role[0] : params.role;
   const userId = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  useEffect(() => {
-    role === 'staff' || role === 'student' ? null : router.push('/auth/signin');
-  }, [role, router]);
+  // useEffect(() => {
+  //   role === 'staff' || role === 'student' ? null : router.push('/auth/signin');
+  // }, [role, router]);
 
   return (
     <div className="w-[90%] m-auto z-50">

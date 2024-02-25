@@ -35,7 +35,7 @@ export default function ShowTopics({
   const { toast } = useToast();
 
   const mutation = useDeleteTopicMutation();
-  const setFiles = useParamStore((state) => state.setTopics);
+  const setTopics = useParamStore((state) => state.setTopics);
 
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 10;
@@ -217,12 +217,12 @@ export default function ShowTopics({
                             size={'icon'}
                             onClick={() => {
                               const topicId = topic.id;
-                              const newFiles = topics.filter(
+                              const newTopics = topics.filter(
                                 (topic) => topic.id !== topicId,
                               );
                               mutation.mutate(topicId, {
                                 onSuccess: () => {
-                                  setFiles(newFiles);
+                                  setTopics(newTopics);
                                 },
                               });
                             }}

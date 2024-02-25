@@ -28,8 +28,8 @@ model topic {
   year        String
   semester    String
   subjectcode String
-  topicdisc   String
-  staff       staff    @relation(fields: [id], references: [id])
+  topicdesc   String
+  staff       staff    @relation(fields: [staffid], references: [id])
   staffid     Int
   asset       asset[]
 }
@@ -39,6 +39,6 @@ model asset {
   assetname String
   assettype String
   asseturl  String
-  topic     topic  @relation(fields: [id], references: [id])
+  topic     topic  @relation(fields: [topicid], references: [id])
   topicid   Int
 }

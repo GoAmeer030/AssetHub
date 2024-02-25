@@ -1,15 +1,12 @@
 'use client';
 
-import React, { useMemo } from 'react';
-import { useEffect } from 'react';
+import React from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import {
   Navbar,
   NavbarBrand,
   NavbarContent,
   NavbarItem,
-  Link,
-  Button,
 } from '@nextui-org/react';
 
 import { ThemeMenuButton } from './ThemeMenuButton';
@@ -18,7 +15,6 @@ import LogoutButton from './LogoutButton';
 
 export default function Header() {
   const params = useParams();
-  const router = useRouter();
 
   const role = Array.isArray(params.role) ? params.role[0] : params.role;
   const userId = Array.isArray(params.id) ? params.id[0] : params.id;

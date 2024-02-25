@@ -1,24 +1,21 @@
 'use client';
 
-import { toast, useToast } from '@/components/ui/use-toast';
-
 import { useMutation, useQuery } from '@tanstack/react-query';
 
 import { postUploadTopic, getTopics, deleteTopic } from '@/api/topicApi';
+
+import { toast, useToast } from '@/components/ui/use-toast';
 
 export function useUploadTopicMutation() {
   const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: postUploadTopic,
-    onSuccess: () => {
-      // console.log("file uploaded");
-    },
+    onSuccess: () => {},
     onError: () => {
-      // console.log("error");
       toast({
-        title: 'Something went wrong',
+        title: 'Unable to create topic',
         description:
-          'Error while uploading file!! Please try again later or contact developer',
+          'Error while creating topic! Please try again later or contact developer',
         variant: 'destructive',
       });
     },

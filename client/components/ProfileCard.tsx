@@ -1,9 +1,10 @@
+import { useEffect } from 'react';
 import { Avatar } from '@nextui-org/react';
+
 import { Card, CardContent } from '@/components/ui/card';
 
 import { useGetStaffDetails } from '@/hooks/userHooks';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
-import { useEffect } from 'react';
 
 export default function ProfileCard({ userId }: { userId: string }) {
   const mutation = useGetStaffDetails();

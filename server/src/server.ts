@@ -1,12 +1,12 @@
-import express from 'express';
 import cors from 'cors';
+import express from 'express';
 
-import { PrismaClient } from '@prisma/client';
 import multer from 'multer';
+import { PrismaClient } from '@prisma/client';
+import { config as dotenvConfig } from 'dotenv';
 
 import fs from 'fs';
 import path from 'path';
-import { config as dotenvConfig } from 'dotenv';
 
 import { ErrorHandlerMiddleware, CheckValidUser } from './middleware';
 
@@ -129,7 +129,7 @@ app.get('/gettopics', CheckValidUser, upload.none(), (req, res) => {
   topicManager.getTopicHandler(req, res);
 });
 
-app.delete('/deletetopic/:id', upload.none(), (req, res) => {
+app.delete('/deletetopic/:id', CheckValidUser, upload.none(), (req, res) => {
   topicManager.deleteTopicHandler(req, res, Number(req.params.id));
 });
 

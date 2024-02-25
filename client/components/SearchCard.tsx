@@ -42,7 +42,7 @@ export default function SearchCard({
   const {
     id,
     topicname,
-    topicdisc,
+    topicdesc,
     syllabus,
     department,
     year,
@@ -50,7 +50,7 @@ export default function SearchCard({
     subjectcode,
 
     setTopicName,
-    setTopicDisc,
+    setTopicDesc,
     setSyllabus,
     setDepartment,
     setYear,
@@ -75,7 +75,7 @@ export default function SearchCard({
     const data: topicType = {
       id,
       topicname,
-      topicdisc,
+      topicdesc,
       syllabus,
       department,
       year,
@@ -86,7 +86,7 @@ export default function SearchCard({
     const defaultData: topicType = {
       id: '',
       topicname: '',
-      topicdisc: '',
+      topicdesc: '',
       syllabus: '',
       department: '',
       year: '',

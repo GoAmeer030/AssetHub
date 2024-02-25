@@ -38,7 +38,7 @@ export default function AddTopicForm({
   const {
     id,
     topicname,
-    topicdisc,
+    topicdesc,
     syllabus,
     year,
     department,
@@ -74,7 +74,7 @@ export default function AddTopicForm({
     const uploadFile: topicType = {
       id,
       topicname,
-      topicdisc,
+      topicdesc,
       syllabus,
       year,
       department,

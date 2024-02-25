@@ -15,7 +15,7 @@ import LoginForm from '@/components/form/LoginForm';
 export function Login() {
   return (
     <div className="flex h-screen w-full z-30 flex-col justify-center items-center pb-5 pt-[13vh] mt-[-8rem]">
-      <Card className="w-[90vw] max-w-[400px] relative overflow-hidden">
+      <Card className="w-[90vw] max-w-[360px] relative overflow-hidden">
         <Meteors number={20} className="absolute max-w-[400px]" />
 
         <CardHeader>

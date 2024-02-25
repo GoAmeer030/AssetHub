@@ -15,7 +15,7 @@ export const postUploadTopic = async (
   formData.append('semester', uploadFile.semester);
   formData.append('subjectCode', uploadFile.subjectcode);
   formData.append('topicName', uploadFile.topicname);
-  formData.append('topicDisc', uploadFile.topicdisc);
+  formData.append('topicDesc', uploadFile.topicdesc);
 
   const response: AxiosResponse = await axios.post(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/addtopic`,

@@ -1,6 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-
 import { Response } from 'express';
+import { PrismaClient } from '@prisma/client';
 
 import { extendedRequest } from '../../types/extendedTypes';
 
@@ -19,10 +18,18 @@ export default class TopicManager {
       return;
     }
 
+    const existingStaff = await this.prisma.staff.findUnique({
+      where: { id: staff.user.id },
+    });
+    if (!existingStaff) {
+      res.status(400).send({ error: 'Staff not found' });
+      return;
+    }
+
     await this.prisma.topic.create({
       data: {
         topicname: req.body.topicName,
-        topicdisc: req.body?.topicDisc,
+        topicdesc: req.body?.topicDesc,
         syllabus: req.body.syllabus,
         year: req.body.year,
         department: req.body.department,
@@ -98,7 +105,7 @@ export default class TopicManager {
       return;
     }
 
-    if (topic.staffid !== staff.user.id) {
+    if (topic.staffid != staff.user.id) {
       res.status(401).send({ error: 'Unauthorized' });
       return;
     }

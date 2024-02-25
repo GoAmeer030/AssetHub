@@ -83,13 +83,16 @@ export default function StaffRegisterForm() {
   return (
     <CardContent>
       <Form {...staffForm}>
-        <form onSubmit={staffForm.handleSubmit(handleRegister)}>
+        <form
+          onSubmit={staffForm.handleSubmit(handleRegister)}
+          className="flex flex-col gap-3"
+        >
           <FormField
             control={staffForm.control}
             name="staffID"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="staffID" className="ml-1">
+              <FormItem className="flex items-center justify-between gap-3">
+                <FormLabel htmlFor="staffID" className="min-w-fit mt-2">
                   Staff ID
                 </FormLabel>
                 <FormControl>
@@ -102,6 +105,7 @@ export default function StaffRegisterForm() {
                       setStaffID(e.target.value);
                       field.onChange(e.target.value);
                     }}
+                    className="w-[27ch]"
                   />
                 </FormControl>
                 <FormMessage className="ml-1" />
@@ -112,8 +116,8 @@ export default function StaffRegisterForm() {
             control={staffForm.control}
             name="staffName"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="staffName" className="ml-1">
+              <FormItem className="flex items-center justify-between gap-3">
+                <FormLabel htmlFor="staffName" className="min-w-fit mt-2">
                   Staff Name
                 </FormLabel>
                 <FormControl>
@@ -126,6 +130,7 @@ export default function StaffRegisterForm() {
                       setStaffName(e.target.value);
                       field.onChange(e.target.value);
                     }}
+                    className="w-[27ch]"
                   />
                 </FormControl>
                 <FormMessage className="ml-1" />
@@ -136,8 +141,8 @@ export default function StaffRegisterForm() {
             control={staffForm.control}
             name="designation"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="designation" className="ml-1">
+              <FormItem className="flex items-center justify-between gap-3">
+                <FormLabel htmlFor="designation" className="min-w-fit mt-2">
                   Designation
                 </FormLabel>
                 <FormControl>
@@ -150,6 +155,7 @@ export default function StaffRegisterForm() {
                       setDesignation(e.target.value);
                       field.onChange(e.target.value);
                     }}
+                    className="w-[27ch]"
                   />
                 </FormControl>
                 <FormMessage className="ml-1" />
@@ -160,8 +166,8 @@ export default function StaffRegisterForm() {
             control={staffForm.control}
             name="password"
             render={({ field }) => (
-              <FormItem>
-                <FormLabel className="ml-1">Password</FormLabel>
+              <FormItem className="flex items-center justify-between gap-3">
+                <FormLabel className="min-w-fit mt-2">Password</FormLabel>
                 <FormControl>
                   <Input
                     {...field}
@@ -171,6 +177,7 @@ export default function StaffRegisterForm() {
                       setPassword(e.target.value);
                       field.onChange(e.target.value);
                     }}
+                    className="w-[27ch]"
                   />
                 </FormControl>
                 <FormMessage className="ml-1" />
@@ -181,8 +188,10 @@ export default function StaffRegisterForm() {
             control={staffForm.control}
             name="photo"
             render={({ field: { onChange, onBlur, name } }) => (
-              <FormItem>
-                <FormLabel>Upload</FormLabel>
+              <FormItem className="flex items-center justify-between gap-3">
+                <FormLabel className="min-w-fit mt-2">
+                  Display Picture
+                </FormLabel>
                 <FormControl>
                   <Input
                     id="photo"
@@ -197,6 +206,9 @@ export default function StaffRegisterForm() {
                     }}
                     onBlur={onBlur}
                     name={name}
+                    className="text-sm file:h-full
+                                 file:mr-5 file:py-0 file:px-0
+                                 hover:file:cursor-pointer w-[27ch]"
                   />
                 </FormControl>
                 <FormMessage className="ml-1" />

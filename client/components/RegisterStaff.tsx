@@ -1,7 +1,12 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 
 import Footer from '@/components/Footer';
 import StaffRegisterForm from '@/components/form/StaffRegisterForm';
@@ -12,6 +17,9 @@ export function RegisterStaff() {
       <Card className="w-[90vw] max-w-[400px] relative overflow-hidden">
         <CardHeader>
           <CardTitle>Register</CardTitle>
+          <CardDescription>
+            Create a new account for yourself as a staff
+          </CardDescription>
         </CardHeader>
 
         <StaffRegisterForm />

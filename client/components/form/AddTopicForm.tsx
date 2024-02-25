@@ -46,8 +46,6 @@ export default function AddTopicForm({
     subjectcode,
 
     setTopicName,
-    setTopicDisc,
-    setId,
     setSyllabus,
     setYear,
     setDepartment,
@@ -94,8 +92,8 @@ export default function AddTopicForm({
       form.reset();
 
       toast({
-        title: 'File Uploaded',
-        description: 'File uploaded successfully',
+        title: 'Topic added',
+        description: 'added in the topics collection',
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -105,14 +103,13 @@ export default function AddTopicForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(handleSave)}
-        className="flex flex-col gap-3 mt-2"
+        className="flex flex-col gap-3 mt-4"
       >
         <FormField
           control={form.control}
           name="department"
           render={({ field }: { field: any }) => (
             <FormItem>
-              {/* <FormLabel>Department</FormLabel> */}
               <Select
                 onValueChange={(value) => {
                   field.onChange(value);
@@ -140,7 +137,6 @@ export default function AddTopicForm({
           name="year"
           render={({ field }: { field: any }) => (
             <FormItem>
-              {/* <FormLabel>Year</FormLabel> */}
               <Select
                 onValueChange={(value) => {
                   field.onChange(value);
@@ -168,7 +164,6 @@ export default function AddTopicForm({
           name="semester"
           render={({ field }: { field: any }) => (
             <FormItem>
-              {/* <FormLabel>Semester</FormLabel> */}
               <Select
                 onValueChange={(value) => {
                   field.onChange(value);
@@ -201,8 +196,8 @@ export default function AddTopicForm({
           control={form.control}
           name="syllabus"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="ml-1">Syllabus</FormLabel>
+            <FormItem className="flex items-center justify-between gap-3 ml-1">
+              <FormLabel className="min-w-fit mt-2">Syllabus</FormLabel>
               <FormControl>
                 <Input
                   type="number"
@@ -212,6 +207,7 @@ export default function AddTopicForm({
                     field.onChange(e.target.value);
                     setSyllabus(e.target.value);
                   }}
+                  className="w-[30ch]"
                 />
               </FormControl>
               <FormMessage className="ml-1" />
@@ -222,8 +218,8 @@ export default function AddTopicForm({
           control={form.control}
           name="subjectcode"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="ml-1">Subject Code</FormLabel>
+            <FormItem className="flex items-center justify-between gap-3 ml-1">
+              <FormLabel className="min-w-fit mt-2">Subject Code</FormLabel>
               <FormControl>
                 <Input
                   placeholder="CC1234"
@@ -232,6 +228,7 @@ export default function AddTopicForm({
                     field.onChange(e.target.value);
                     setSubjectCode(e.target.value);
                   }}
+                  className="w-[30ch]"
                 />
               </FormControl>
               <FormMessage className="ml-1" />
@@ -242,8 +239,8 @@ export default function AddTopicForm({
           control={form.control}
           name="topicname"
           render={({ field }) => (
-            <FormItem>
-              <FormLabel className="ml-1">Topic Name</FormLabel>
+            <FormItem className="flex items-center justify-between gap-3 ml-1">
+              <FormLabel className="min-w-fit mt-2">Topic Name</FormLabel>
               <FormControl>
                 <Input
                   placeholder="Newtons Laws"
@@ -252,6 +249,7 @@ export default function AddTopicForm({
                     field.onChange(e.target.value);
                     setTopicName(e.target.value);
                   }}
+                  className="w-[30ch]"
                 />
               </FormControl>
               <FormMessage className="ml-1" />

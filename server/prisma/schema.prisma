@@ -18,6 +18,7 @@ model staff {
   designation String
   photourl    String
   topic       topic[]
+  createdat   DateTime @default(now())
 }
 
 model topic {
@@ -32,13 +33,16 @@ model topic {
   staff       staff    @relation(fields: [staffid], references: [id])
   staffid     Int
   asset       asset[]
+  createdat   DateTime @default(now())
+  updatedat   DateTime @updatedAt
 }
 
 model asset {
-  id        Int    @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   assetname String
   assettype String
   asseturl  String
-  topic     topic  @relation(fields: [topicid], references: [id])
+  topic     topic    @relation(fields: [topicid], references: [id])
   topicid   Int
+  createdat DateTime @default(now())
 }

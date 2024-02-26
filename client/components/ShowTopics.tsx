@@ -1,15 +1,10 @@
 'use client';
 
 import React from 'react';
-import Image from 'next/image';
-import { saveAs } from 'file-saver';
 
 import { topicType } from '@/types/topicType';
-import { Button } from '@/components/ui/button';
 import { useParamStore } from '@/stores/paramStore';
-import { useToast } from '@/components/ui/use-toast';
 import { useDeleteTopicMutation } from '@/hooks/topicHooks';
-import { ScrollArea, ScrollBar } from '@/components/ui/scroll-area';
 import {
   Table,
   TableHeader,
@@ -18,13 +13,9 @@ import {
   TableRow,
   TableCell,
   Pagination,
-  Tooltip,
 } from '@nextui-org/react';
 
-import { DeleteIcon } from '@/components/icons/DeleteIcon';
-
 export default function ShowTopics({
-  role,
   lable,
   topics,
 }: {
@@ -32,11 +23,6 @@ export default function ShowTopics({
   lable: string;
   topics: topicType[];
 }) {
-  const { toast } = useToast();
-
-  const mutation = useDeleteTopicMutation();
-  const setTopics = useParamStore((state) => state.setTopics);
-
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 10;
 
@@ -49,22 +35,12 @@ export default function ShowTopics({
     return topics ? topics.slice(start, end) : [];
   }, [page, topics]);
 
-  const keysToShow = [
-    'S.NO',
-    'TOPIC',
-    'SYLLABUS',
-    'DEPARTMENT',
-    'YEAR',
-    'SEMESTER',
-    'SUBJECTCODE',
-    'ACTIONS',
-  ];
+  const keysToShow = ['S.no', 'Topic', 'Handled to', 'Sub syllabus'];
 
   const classNames = React.useMemo(
     () => ({
-      wrapper: ['bg-background'],
-      th: ['bg-primary', 'text-primary-foreground', 'text-center'],
-      td: ['text-center'],
+      wrapper: ['bg-transparent', 'border-0'],
+      th: ['bg-transparent'],
     }),
     [],
   );
@@ -91,9 +67,13 @@ export default function ShowTopics({
     return departementMap[id] || 'Unknown';
   };
 
+  const topContent = () => {
+    return <h1 className="ml-1 mt-3 mb-2 font-bold">{lable}</h1>;
+  };
+
   const bottomContent = () => {
     return (
-      <div className="w-full flex justify-center">
+      <div className="w-full flex justify-center mt-5 scale-75">
         <Pagination
           isCompact
           showControls
@@ -110,138 +90,44 @@ export default function ShowTopics({
 
   return (
     <>
-      <div className="flex justify-center">
-        <ScrollArea className="border-0">
-          <Table
-            isHeaderSticky={true}
-            classNames={classNames}
-            aria-label="Topic topics table"
-            topContent={
-              <h1 className="flex justify-center mt-2 mb-2">{lable}</h1>
-            }
-            bottomContent={bottomContent()}
-          >
-            <TableHeader>
-              {keysToShow.map((key, index) => (
-                <TableColumn
-                  key={index}
-                  align="center"
-                  className={
-                    key === 'S.NO' ||
-                    key === 'DEPARTMENT' ||
-                    key === 'SYLLABUS' ||
-                    key === 'YEAR'
-                      ? 'hidden md:table-cell'
-                      : ''
-                  }
-                >
-                  {key}
-                </TableColumn>
-              ))}
-            </TableHeader>
-            <TableBody emptyContent={'No files to display.'}>
-              {pageTopics.map((topic, index) => (
-                <TableRow key={index}>
-                  <TableCell className="hidden md:table-cell">
-                    {index + 1}
-                  </TableCell>
-                  <TableCell>{topic.topicname}</TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {topic.syllabus}
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {getDepartmentName(topic.department)}
-                  </TableCell>
-                  <TableCell className="hidden md:table-cell">
-                    {getYearRoman(topic.year)}
-                  </TableCell>
-                  <TableCell>{topic.semester}</TableCell>
-                  <TableCell>{topic.subjectcode}</TableCell>
-                  <TableCell>
-                    <div>
-                      {/* <Tooltip showArrow={true} content="View">
-                        <Button
-                          variant={"ghost"}
-                          size={"icon"}
-                          onClick={() =>
-                            window.open(
-                              `${process.env.NEXT_PUBLIC_SERVER_URL}/${topic.fileurl}`,
-                              "_blank"
-                            )
-                          }
-                        >
-                          <Image
-                            src="/ViewIcon.svg"
-                            alt="View"
-                            width={20}
-                            height={20}
-                          />
-                        </Button>
-                      </Tooltip>
-                      <Tooltip showArrow={true} content="Download">
-                        <Button
-                          variant={"ghost"}
-                          size={"icon"}
-                          onClick={async () => {
-                            toast({
-                              title: "Downloading",
-                              description: "Your file is downloading...",
-                            });
-
-                            const fileUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${topic.fileurl}`;
-                            const response = await fetch(fileUrl);
-                            const blob = await response.blob();
-                            const fileUrlList = topic.fileurl.split("/");
-                            const fileName = fileUrlList[fileUrlList.length - 1]
-                              .split(".")
-                              .pop();
-                            saveAs(blob, topic.filename + "." + fileName);
-                          }}
-                        >
-                          <Image
-                            src="/DownloadIcon.svg"
-                            alt="Download"
-                            width={20}
-                            height={20}
-                          />
-                        </Button>
-                      </Tooltip> */}
-                      <Tooltip
-                        showArrow={true}
-                        color={'danger'}
-                        content="Delete"
-                      >
-                        {role === 'owner' && (
-                          <Button
-                            variant={'ghost'}
-                            size={'icon'}
-                            onClick={() => {
-                              const topicId = topic.id;
-                              const newTopics = topics.filter(
-                                (topic) => topic.id !== topicId,
-                              );
-                              mutation.mutate(topicId, {
-                                onSuccess: () => {
-                                  setTopics(newTopics);
-                                },
-                              });
-                            }}
-                          >
-                            <span className="text-lg">
-                              <DeleteIcon />
-                            </span>
-                          </Button>
-                        )}
-                      </Tooltip>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-          <ScrollBar orientation="horizontal" />
-        </ScrollArea>
-      </div>
+      <Table
+        removeWrapper
+        selectionMode="single"
+        isHeaderSticky={true}
+        classNames={classNames}
+        aria-label="Topic topics table"
+        topContent={topContent()}
+        bottomContent={bottomContent()}
+        className="mb-5"
+      >
+        <TableHeader>
+          {keysToShow.map((key, index) => (
+            <TableColumn key={index}>{key}</TableColumn>
+          ))}
+        </TableHeader>
+        <TableBody emptyContent={'No files to display.'}>
+          {pageTopics.map((topic, index) => (
+            <TableRow key={index} className="cursor-pointer">
+              <TableCell>
+                <p className="text-foreground/50">{index + 1}</p>
+              </TableCell>
+              <TableCell>{topic.topicname}</TableCell>
+              <TableCell>
+                <p className="text-foreground/50">
+                  {getYearRoman(topic.year)}{' '}
+                  {getDepartmentName(topic.department)} - {topic.semester} sem
+                </p>
+              </TableCell>
+              <TableCell>
+                {topic.subjectcode}{' '}
+                <p className="text-foreground/50 inline-block">
+                  - {topic.syllabus}
+                </p>
+              </TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      </Table>
     </>
   );
 }

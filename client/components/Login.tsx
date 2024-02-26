@@ -11,6 +11,7 @@ import { Meteors } from './ui/meteors';
 
 import Footer from '@/components/Footer';
 import LoginForm from '@/components/form/LoginForm';
+import { Separator } from './ui/separator';
 
 export function Login() {
   return (
@@ -19,11 +20,10 @@ export function Login() {
         <Meteors number={20} className="absolute max-w-[400px]" />
 
         <CardHeader>
-          <CardTitle>Noter</CardTitle>
-          <CardDescription>
-            Notes and resource sharing made easy.
-          </CardDescription>
+          <CardTitle>Welcome back</CardTitle>
+          <CardDescription>Login to access your account</CardDescription>
         </CardHeader>
+        <Separator className="mt-[-0.6rem] mb-[0.8rem]" />
 
         <LoginForm />
       </Card>

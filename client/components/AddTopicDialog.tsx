@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/dialog';
 
 import AddTopicForm from '@/components/form/AddTopicForm';
+import { Separator } from './ui/separator';
 
 export default function AddTopicDialog({
   dialogTrigger,

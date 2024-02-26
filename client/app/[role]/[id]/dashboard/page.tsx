@@ -66,20 +66,24 @@ export default function Page() {
         />
       </div>
 
-      {searchResultTrigger && (
-        <>
-          <ShowTopics
-            role={'user'}
-            lable={'Files For Your Search'}
-            topics={searchTopics}
-          />
-        </>
-      )}
-      <ShowTopics
-        role={role === 'staff' ? 'owner' : 'user'}
-        lable={role === 'staff' ? 'Files Uploaded By You' : 'Files For you'}
-        topics={topics}
-      />
+      <div className="mt-5">
+        {searchResultTrigger && (
+          <>
+            <ShowTopics
+              role={'user'}
+              lable={'Topics For Your Search'}
+              topics={searchTopics}
+            />
+          </>
+        )}
+        <ShowTopics
+          role={role === 'staff' ? 'owner' : 'user'}
+          lable={role === 'staff' ? 'Topics added By You' : 'Topics For you'}
+          topics={topics}
+        />
+      </div>
+
+      <div className="h-[15vh]"></div>
     </div>
   );
 }

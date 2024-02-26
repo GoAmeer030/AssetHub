@@ -19,5 +19,5 @@ export type staffType = {
   password: string;
   staffName: string;
   designation: string;
-  photo: File | null;
+  photo: File | null | string;
 };

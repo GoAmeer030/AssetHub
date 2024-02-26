@@ -11,6 +11,8 @@ import {
 import Footer from '@/components/Footer';
 import StaffRegisterForm from '@/components/form/StaffRegisterForm';
 
+import { Separator } from '@/components/ui/separator';
+
 export function RegisterStaff() {
   return (
     <div className="flex h-screen w-full z-30 flex-col justify-center items-center pb-5 pt-[13vh] mt-[-8rem]">
@@ -21,6 +23,7 @@ export function RegisterStaff() {
             Create a new account for yourself as a staff
           </CardDescription>
         </CardHeader>
+        <Separator className="mt-[-0.4rem] mb-[0.8rem]" />
 
         <StaffRegisterForm />
       </Card>

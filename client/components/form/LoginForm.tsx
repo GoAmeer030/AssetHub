@@ -1,6 +1,5 @@
 'use client';
 
-import { z } from 'zod';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
@@ -151,7 +150,7 @@ export default function LoginForm() {
           </Button>
         </DialogTrigger>
 
-        <DialogContent className="w-[90vw] max-w-[400px]">
+        <DialogContent className="w-[90vw] max-w-[360px]">
           <DialogHeader className="pb-2">
             <DialogTitle>Sign in as Staff</DialogTitle>
           </DialogHeader>
@@ -166,7 +165,6 @@ export default function LoginForm() {
                 name="staffID"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel className="ml-1">Staff ID</FormLabel> */}
                     <FormControl>
                       <Input
                         {...field}
@@ -186,7 +184,6 @@ export default function LoginForm() {
                 name="password"
                 render={({ field }) => (
                   <FormItem>
-                    {/* <FormLabel className="ml-1">Password</FormLabel> */}
                     <FormControl>
                       <Input
                         {...field}

@@ -79,13 +79,14 @@ export default class AssetManager {
     res.status(200).send({ asset });
   };
 
-  deleteAssetHandler = async (
-    req: extendedRequest | any,
-    res: Response,
-    id: number,
-  ) => {
-    const staff = req.user;
+  deleteAssetHandler = async (req: extendedRequest | any, res: Response) => {
+    const id = parseInt(req.params.id);
+    if (isNaN(id) || id < 0) {
+      res.status(400).send({ error: 'Invalid id' });
+      return;
+    }
 
+    const staff = req.user;
     if (!staff || !('id' in staff.user)) {
       res.status(401).send({ error: 'Unauthorized' });
       return;

@@ -43,7 +43,7 @@ export default class AuthManager {
     let user;
     if ('staffID' in req.body) {
       user = await this.prisma.staff.findUnique({
-        where: { staffid: req.body.staffID },
+        where: { staffid: req.body.staffID.replace('/', '_') },
       });
 
       if (!user) {

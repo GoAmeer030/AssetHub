@@ -1,7 +1,6 @@
 'use client';
 
-import { useEffect } from 'react';
-import { PlusIcon } from '@radix-ui/react-icons';
+import { useEffect, useMemo } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
@@ -21,8 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
-import AddTopicButton from './AddTopicButton';
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
 import { topicType } from '@/types/topicType';
@@ -33,10 +30,12 @@ import { useGetTopicsMutation } from '@/hooks/topicHooks';
 export default function SearchCard({
   role,
   userId,
+  dialogTrigger: dialogTrigger,
   setDialogTrigger,
 }: {
   role: string;
   userId: string;
+  dialogTrigger: boolean;
   setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const {
@@ -60,14 +59,15 @@ export default function SearchCard({
     resetTopic,
   } = useTopicStore();
 
-  const setTopics = useParamStore((state) => state.setTopics);
-  const searchResultTrigger = useParamStore(
-    (state) => state.searchResultTrigger,
-  );
-  const setSearchResultTrigger = useParamStore(
-    (state) => state.setSearchResultTrigger,
-  );
-  const setSearchTopics = useParamStore((state) => state.setSearchTopics);
+  const {
+    topics,
+    setTopics,
+    searchResultTrigger,
+    setSearchResultTrigger,
+    searchTopics,
+    setSearchTopics,
+  } = useParamStore();
+
   const mutation = useGetTopicsMutation();
   const { toast } = useToast();
 
@@ -121,28 +121,34 @@ export default function SearchCard({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutation.isSuccess]);
 
-  useEffect(() => {
-    // console.log(userId);
-    if (userId.length != 12) {
-      const data: any = {};
-      data.staffId = Number(userId);
-      mutation.mutate(data);
+  const data = useMemo(() => {
+    const result: any = {};
+
+    if (userId.length !== 12) {
+      result.staffId = Number(userId);
     } else {
       let num = Number('20' + userId.slice(4, 6));
-      let num_copy = num;
-      for (; num % 4 !== 1; num--);
+      while (num % 4 !== 1) {
+        num--;
+      }
       const localSyllabus = num.toString();
-      const localYear = (new Date().getFullYear() - num_copy).toString();
+      const localYear = (new Date().getFullYear() - num).toString();
+
       setSyllabus(localSyllabus);
       setYear(localYear);
 
-      const data: any = {};
-      data.syllabus = localSyllabus;
-      data.year = localYear;
-      mutation.mutate(data);
+      result.syllabus = localSyllabus;
+      result.year = localYear;
     }
+
+    return result;
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [userId]);
+  }, [userId, dialogTrigger]);
+
+  useEffect(() => {
+    mutation.mutate(data);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center w-full z-20">

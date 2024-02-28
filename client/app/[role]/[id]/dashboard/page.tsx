@@ -24,26 +24,7 @@ export default function Page() {
 
   const [dialogTrigger, setDialogTrigger] = useState(false);
 
-  const topics = useParamStore((state) => state.topics);
-  const setTopics = useParamStore((state) => state.setTopics);
-  const searchTopics = useParamStore((state) => state.searchTopics);
-  const searchResultTrigger = useParamStore(
-    (state) => state.searchResultTrigger,
-  );
-
-  useMemo(() => {
-    if (dialogTrigger == false && role === 'staff') {
-      const data = {
-        staffId: userId,
-      };
-      mutation.mutate(data, {
-        onSuccess: (data) => {
-          setTopics(data?.data?.file);
-        },
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dialogTrigger]);
+  const { topics, searchResultTrigger, searchTopics } = useParamStore();
 
   return (
     <div className="w-[90%] m-auto pt-4">
@@ -62,6 +43,7 @@ export default function Page() {
         <SearchCard
           role={role}
           userId={userId}
+          dialogTrigger={dialogTrigger}
           setDialogTrigger={setDialogTrigger}
         />
       </div>

@@ -2,6 +2,7 @@ import cors from 'cors';
 import express from 'express';
 
 import multer from 'multer';
+import morgan from 'morgan';
 import { PrismaClient } from '@prisma/client';
 import { config as dotenvConfig } from 'dotenv';
 
@@ -77,6 +78,9 @@ const corsOptions = {
 };
 app.use(cors(corsOptions));
 app.use('/public', express.static('public'));
+
+// Logger
+app.use(morgan('dev'));
 
 // Prisma client configuration
 const prisma = new PrismaClient();
@@ -176,5 +180,5 @@ app.use(ErrorHandlerMiddleware);
 
 // Server configuration
 app.listen(3001, (): void => {
-  console.log('\nServer Ready\n> Port : 3001');
+  console.log('\nServer Ready\n> Port : 3001\n');
 });

@@ -99,6 +99,7 @@ export default function SearchCard({
     );
 
     if (hasChanged) {
+      // console.log('searching with data', data);
       mutation.mutate(data);
     }
   };

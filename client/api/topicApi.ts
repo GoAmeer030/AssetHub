@@ -43,8 +43,10 @@ export const getTopics = async (
     params.department = data.department;
     params.semester = data.semester;
     params.subjectCode = data.subjectcode;
-    params.fileName = data.filename;
+    params.topicName = data.topicname;
   }
+
+  // console.log('params', params);
 
   const response: AxiosResponse = await axios.get(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/gettopics`,

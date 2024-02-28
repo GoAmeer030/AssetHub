@@ -61,7 +61,7 @@ export default class TopicManager {
         'year',
         'semester',
         'subjectCode',
-        'fileName',
+        'topicName',
         'staffId',
       ];
       queryParameters.forEach((param) => {

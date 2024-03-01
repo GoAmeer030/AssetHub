@@ -3,8 +3,6 @@
 import React from 'react';
 
 import { topicType } from '@/types/topicType';
-import { useParamStore } from '@/stores/paramStore';
-import { useDeleteTopicMutation } from '@/hooks/topicHooks';
 import {
   Table,
   TableHeader,
@@ -13,6 +11,7 @@ import {
   TableRow,
   TableCell,
   Pagination,
+  Card,
 } from '@nextui-org/react';
 
 export default function ShowTopics({
@@ -90,44 +89,54 @@ export default function ShowTopics({
 
   return (
     <>
-      <Table
-        removeWrapper
-        selectionMode="single"
-        isHeaderSticky={true}
-        classNames={classNames}
-        aria-label="Topic topics table"
-        topContent={topContent()}
-        bottomContent={bottomContent()}
-        className="mb-5"
-      >
-        <TableHeader>
-          {keysToShow.map((key, index) => (
-            <TableColumn key={index}>{key}</TableColumn>
-          ))}
-        </TableHeader>
-        <TableBody emptyContent={'No files to display.'}>
-          {pageTopics.map((topic, index) => (
-            <TableRow key={index} className="cursor-pointer">
-              <TableCell>
-                <p className="text-foreground/50">{index + 1}</p>
-              </TableCell>
-              <TableCell>{topic.topicname}</TableCell>
-              <TableCell>
-                <p className="text-foreground/50">
-                  {getYearRoman(topic.year)}{' '}
-                  {getDepartmentName(topic.department)} - {topic.semester} sem
-                </p>
-              </TableCell>
-              <TableCell>
-                {topic.subjectcode}{' '}
-                <p className="text-foreground/50 inline-block">
-                  - {topic.syllabus}
-                </p>
-              </TableCell>
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
+      {pageTopics.length > 0 ? (
+        <Table
+          removeWrapper
+          selectionMode="single"
+          isHeaderSticky={true}
+          classNames={classNames}
+          aria-label="Topic topics table"
+          topContent={topContent()}
+          bottomContent={bottomContent()}
+          className="mb-5"
+        >
+          <TableHeader>
+            {keysToShow.map((key, index) => (
+              <TableColumn key={index}>{key}</TableColumn>
+            ))}
+          </TableHeader>
+          <TableBody emptyContent={'No files to display.'}>
+            {pageTopics.map((topic, index) => (
+              <TableRow key={index} className="cursor-pointer">
+                <TableCell>
+                  <p className="text-foreground/50">{index + 1}</p>
+                </TableCell>
+                <TableCell>{topic.topicname}</TableCell>
+                <TableCell>
+                  <p className="text-foreground/50">
+                    {getYearRoman(topic.year)}{' '}
+                    {getDepartmentName(topic.department)} - {topic.semester} sem
+                  </p>
+                </TableCell>
+                <TableCell>
+                  {topic.subjectcode}{' '}
+                  <p className="text-foreground/50 inline-block">
+                    - {topic.syllabus}
+                  </p>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      ) : (
+        <Card
+          isPressable
+          className="h-[30vh] w-full flex flex-col gap-1 justify-center items-center bg-transparent"
+        >
+          <p className="font-bold text-2xl">Your Topics will appear here</p>
+          <p className="font-lighter text-sm">No topics have been added yet.</p>
+        </Card>
+      )}
     </>
   );
 }

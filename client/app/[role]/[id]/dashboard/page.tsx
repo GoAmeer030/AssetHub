@@ -1,10 +1,9 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 import { useParamStore } from '@/stores/paramStore';
-import { useGetTopicsMutation } from '@/hooks/topicHooks';
 
 import ShowTopics from '@/components/ShowTopics';
 import SearchCard from '@/components/SearchCard';
@@ -15,8 +14,6 @@ import AddTopicButton from '@/components/AddTopicButton';
 export default function Page() {
   const params = useParams();
   const router = useRouter();
-
-  const mutation = useGetTopicsMutation();
 
   const role = Array.isArray(params.role) ? params.role[0] : params.role;
   const userId = Array.isArray(params.id) ? params.id[0] : params.id;
@@ -35,7 +32,7 @@ export default function Page() {
 
       <div className="flex flex-col md:flex-row gap-4">
         {role === 'staff' && (
-          <div className="flex flex-col justify-between gap-4 md:gap-6 h-full min-w-fit">
+          <div className="flex flex-col justify-between gap-3 md:gap-6 h-full min-w-fit">
             <ProfileCard userId={userId} />
             <AddTopicButton setDialogTrigger={setDialogTrigger} />
           </div>

@@ -53,7 +53,7 @@ export default function ProfileCard({ userId }: { userId: string }) {
           name="DP"
         />
 
-        <div className="flex flex-col">
+        <div className="flex flex-col mt-2">
           <p className="font-bold">{staffName || 'StaffName'}</p>
           <p className="text-small text-gray-400">
             {designation || 'Destination'}

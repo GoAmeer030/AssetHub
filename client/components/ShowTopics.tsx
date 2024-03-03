@@ -1,5 +1,6 @@
 'use client';
 
+import { useParams, useRouter } from 'next/navigation';
 import React from 'react';
 
 import { topicType } from '@/types/topicType';
@@ -22,6 +23,9 @@ export default function ShowTopics({
   lable: string;
   topics: topicType[];
 }) {
+  const params = useParams();
+  const router = useRouter();
+
   const [page, setPage] = React.useState(1);
   const rowsPerPage = 10;
 
@@ -107,7 +111,13 @@ export default function ShowTopics({
           </TableHeader>
           <TableBody emptyContent={'No files to display.'}>
             {pageTopics.map((topic, index) => (
-              <TableRow key={index} className="cursor-pointer">
+              <TableRow
+                key={index}
+                className="cursor-pointer"
+                onClick={() => {
+                  router.push(`dashboard/${topic.id}`);
+                }}
+              >
                 <TableCell>
                   <p className="text-foreground/50">{index + 1}</p>
                 </TableCell>

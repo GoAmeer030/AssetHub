@@ -27,16 +27,12 @@ import { useTopicStore } from '@/stores/topicStore';
 import { useParamStore } from '@/stores/paramStore';
 import { useGetTopicsMutation } from '@/hooks/topicHooks';
 
-export default function SearchCard({
-  role,
+export default function TopicSearchCard({
   userId,
   dialogTrigger: dialogTrigger,
-  setDialogTrigger,
 }: {
-  role: string;
   userId: string;
   dialogTrigger: boolean;
-  setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const {
     id,
@@ -49,7 +45,6 @@ export default function SearchCard({
     subjectcode,
 
     setTopicName,
-    setTopicDesc,
     setSyllabus,
     setDepartment,
     setYear,
@@ -60,11 +55,9 @@ export default function SearchCard({
   } = useTopicStore();
 
   const {
-    topics,
     setTopics,
-    searchResultTrigger,
-    setSearchResultTrigger,
-    searchTopics,
+    searchTopicResultTrigger,
+    setSearchTopicResultTrigger,
     setSearchTopics,
   } = useParamStore();
 
@@ -105,11 +98,11 @@ export default function SearchCard({
   };
 
   useEffect(() => {
-    if (mutation.isSuccess && !searchResultTrigger) {
+    if (mutation.isSuccess && !searchTopicResultTrigger) {
       setTopics(mutation.data?.data?.topic);
     }
 
-    if (mutation.isSuccess && searchResultTrigger) {
+    if (mutation.isSuccess && searchTopicResultTrigger) {
       setSearchTopics(mutation.data?.data?.topic);
 
       toast({
@@ -183,7 +176,7 @@ export default function SearchCard({
                 props={{
                   className: 'w-full',
                   onClick: () => {
-                    setSearchResultTrigger(true);
+                    setSearchTopicResultTrigger(true);
                     handleSearch();
                   },
                 }}

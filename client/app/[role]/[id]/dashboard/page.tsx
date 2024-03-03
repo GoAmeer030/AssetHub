@@ -6,7 +6,7 @@ import { useParams, useRouter } from 'next/navigation';
 import { useParamStore } from '@/stores/paramStore';
 
 import ShowTopics from '@/components/ShowTopics';
-import SearchCard from '@/components/SearchCard';
+import TopicSearchCard from '@/components/TopicSearchCard';
 import ProfileCard from '@/components/ProfileCard';
 import AddTopicDialog from '@/components/AddTopicDialog';
 import AddTopicButton from '@/components/AddTopicButton';
@@ -21,7 +21,7 @@ export default function Page() {
 
   const [dialogTrigger, setDialogTrigger] = useState(false);
 
-  const { topics, searchResultTrigger, searchTopics } = useParamStore();
+  const { topics, searchTopicResultTrigger, searchTopics } = useParamStore();
 
   return (
     <div className="w-[90%] m-auto pt-4">
@@ -37,16 +37,11 @@ export default function Page() {
             <AddTopicButton setDialogTrigger={setDialogTrigger} />
           </div>
         )}
-        <SearchCard
-          role={role}
-          userId={userId}
-          dialogTrigger={dialogTrigger}
-          setDialogTrigger={setDialogTrigger}
-        />
+        <TopicSearchCard userId={userId} dialogTrigger={dialogTrigger} />
       </div>
 
       <div className="mt-5">
-        {searchResultTrigger && (
+        {searchTopicResultTrigger && (
           <>
             <ShowTopics
               role={'user'}

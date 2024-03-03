@@ -196,7 +196,7 @@ export default function StaffRegisterForm() {
                   <Input
                     id="photo"
                     type="file"
-                    accept=".png, .jpg, .jpeg, .gif"
+                    accept=".png, .jpg, .jpeg, .gif, .webp"
                     onChange={(e) => {
                       const photo = e.target.files?.[0];
                       if (photo) {

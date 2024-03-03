@@ -16,6 +16,7 @@ import UserManager from './managers/userManager';
 import TopicManager from './managers/topicManager';
 import AuthManager from './managers/authManager';
 import AssetManager from './managers/assetManager';
+import MailManager from './managers/mailManager';
 
 // Loading env variables
 dotenvConfig();
@@ -26,6 +27,8 @@ const storage = multer.diskStorage({
     let dir;
     if (file.fieldname === 'photo') {
       dir = 'public/profilepic/';
+    } else if (file.fieldname === 'contact') {
+      dir = `public/contact/`;
     } else {
       const departmentMap = {
         1: 'CSE',
@@ -54,6 +57,8 @@ const storage = multer.diskStorage({
       req.body.staffID = req.body.staffID.replace('/', '_');
       fileName =
         req.body.staffID + '_profilepic.' + file.originalname.split('.').pop();
+    } else if (file.fieldname === 'contact') {
+      fileName = file.originalname;
     } else {
       const date = new Date();
       const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
@@ -86,10 +91,10 @@ app.use(morgan('dev'));
 const prisma = new PrismaClient();
 
 // Basic Routes
-app.get('/', (req, res) => {
-  const staffCount = prisma.staff.count();
-  const topicCount = prisma.topic.count();
-  const assetCount = prisma.asset.count();
+app.get('/', async (req, res) => {
+  const staffCount = await prisma.staff.count();
+  const topicCount = await prisma.topic.count();
+  const assetCount = await prisma.asset.count();
 
   res.status(200).send({
     staffCount,
@@ -160,19 +165,27 @@ app.post(
   upload.single('file'),
   assetManager.addAssetHandler,
 );
-
 app.get(
   '/getassets',
   CheckValidUser,
   upload.none(),
   assetManager.getAssetHandler,
 );
-
 app.delete(
   '/deleteasset/:id',
   CheckValidUser,
   upload.none(),
   assetManager.deleteAssetHandler,
+);
+
+// Mail Routes
+const mailManager = new MailManager();
+
+app.post(
+  '/sendmail',
+  CheckValidUser,
+  upload.array('contact'),
+  mailManager.sendMail,
 );
 
 // Error handling middleware

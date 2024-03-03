@@ -43,12 +43,17 @@ services:
       - CLIENT_URL=${CLIENT_URL}
       - SECRET_KEY=${SECRET_KEY}
       - DATABASE_URL=${DATABASE_URL}
+      - MAIL_SERVICE=${MAIL_SERVICE}
+      - MAIL_SERVER_HOST=${MAIL_SERVER_HOST}
+      - MAIL_SERVER_PORT=${MAIL_SERVER_PORT}
+      - MAIL_USER=${MAIL_USER}
+      - MAIL_PASSWORD=${MAIL_PASSWORD}
     depends_on:
       db:
         condition: service_healthy
     command: ['sh', '-c', 'npx prisma migrate deploy && npm start']
     healthcheck:
-      test: ["CMD", "wget", "-O", "-", "http://backend:3001"]
+      test: ['CMD', 'wget', '-O', '-', 'http://backend:3001']
       interval: 10s
       timeout: 10s
       retries: 3

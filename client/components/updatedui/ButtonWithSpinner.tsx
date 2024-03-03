@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
-import { Spinner } from "@nextui-org/react";
+import { Spinner } from '@nextui-org/react';
 
-import { Button } from "@/components/ui/button";
+import { Button } from '@/components/ui/button';
 
 interface ButtonWithSpinnerProps {
   mutation?: { isPending: boolean };

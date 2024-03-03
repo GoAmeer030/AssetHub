@@ -1,6 +1,6 @@
 'use client';
 
-import { Card, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/form/ContactForm';
@@ -16,7 +16,9 @@ export function ContactCard() {
         </CardHeader>
         <Separator className="mt-[-0.4rem] mb-[0.8rem]" />
 
-        <ContactForm />
+        <CardContent>
+          <ContactForm />
+        </CardContent>
       </Card>
 
       <Footer />

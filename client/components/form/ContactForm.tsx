@@ -1,12 +1,14 @@
 'use client';
 
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { contactFormSchema } from '@/lib/validations/ContactFormSchema';
 import { useContactMutation } from '@/hooks/contactHook';
+import { contactFormSchema } from '@/lib/validations/ContactFormSchema';
 
+import { Textarea } from '@/components/ui/textarea';
 import {
   Form,
   FormControl,
@@ -16,8 +18,6 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import { Textarea } from '@/components/ui/textarea';
-import { useEffect } from 'react';
 
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
@@ -43,16 +43,20 @@ export default function ContactForm() {
 
   return (
     <Form {...contactForm}>
-      <form onSubmit={contactForm.handleSubmit(handleSend)}>
+      <form
+        onSubmit={contactForm.handleSubmit(handleSend)}
+        className="flex flex-col gap-3"
+      >
         <FormField
           control={contactForm.control}
           name="message"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Message</FormLabel>
               <FormControl>
                 <Textarea
-                  placeholder="Report a bug, suggest a feature, or just say hi!"
-                  className="resize-none"
+                  placeholder="Report a bug, suggest a feature, or share your experience so far. We'd love to hear from you!"
+                  className="resize-none min-h-[8rem]"
                   {...field}
                 />
               </FormControl>
@@ -65,18 +69,19 @@ export default function ContactForm() {
           name="attachments"
           render={({ field }) => (
             <FormItem>
+              <FormLabel>Attachments</FormLabel>
               <FormControl>
                 <input
                   {...field}
                   id="attachments"
                   type="file"
                   multiple
-                  className="w-full"
+                  className="w-full mt-3"
                 />
               </FormControl>
-              <FormDescription>
-                Attach screenshots, logs, or any other files that can help us
-                understand your message better.
+              <FormDescription className="text-[0.7rem]">
+                Attach screenshots, screen recordings, logs, or any other files
+                that can help us understand your message better.
               </FormDescription>
               <FormMessage />
             </FormItem>
@@ -87,7 +92,7 @@ export default function ContactForm() {
           innerContent="Send"
           innerContentOnLoading="Sending"
           props={{
-            className: 'w-full',
+            className: 'w-full mt-3',
             type: 'submit',
           }}
         />

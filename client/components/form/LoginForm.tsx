@@ -104,7 +104,10 @@ export default function LoginForm() {
   return (
     <CardContent className="flex flex-col space-y-4">
       <Form {...studentForm}>
-        <form onSubmit={studentForm.handleSubmit(handleLogin)}>
+        <form
+          onSubmit={studentForm.handleSubmit(handleLogin)}
+          className="flex flex-col gap-3"
+        >
           <FormField
             control={studentForm.control}
             name="regNo"

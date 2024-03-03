@@ -14,11 +14,9 @@ export default function Page() {
   const { accessToken } = useAccessTokenStore();
 
   useEffect(() => {
-    console.log('Access token:', accessToken);
     if (accessToken) {
       mutation.mutate(accessToken);
     } else {
-      console.log('No access token found');
       router.push('/auth/signin');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

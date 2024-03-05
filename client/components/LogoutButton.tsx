@@ -25,7 +25,7 @@ export default function LogoutButton() {
   const setFiles = useParamStore((state) => state.setTopics);
   const setSearchFiles = useParamStore((state) => state.setSearchTopics);
   const setSearchResultTrigger = useParamStore(
-    (state) => state.setSearchResultTrigger,
+    (state) => state.setSearchTopicResultTrigger,
   );
 
   const [loggingOut, setLoggingOut] = useState(false);

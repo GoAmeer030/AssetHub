@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 import ShowTopics from '@/components/ShowTopics';
-import SearchCard from '@/components/SearchCard';
+import TopicSearchCard from '@/components/TopicSearchCard';
 import AddTopicDialog from '@/components/AddTopicDialog';
 import AddTopicButton from '@/components/AddTopicButton';
 
@@ -24,7 +24,7 @@ export default function Page() {
 
   const { setRole, setId } = useRoleIdStore();
 
-  const { topics, searchResultTrigger, searchTopics } = useParamStore();
+  const { topics, searchTopicResultTrigger, searchTopics } = useParamStore();
 
   // Set student details in the store
   const { setRegNo } = useStudentStore();
@@ -85,16 +85,11 @@ export default function Page() {
             <AddTopicButton setDialogTrigger={setDialogTrigger} />
           </div>
         )}
-        <SearchCard
-          role={role}
-          userId={userId}
-          dialogTrigger={dialogTrigger}
-          setDialogTrigger={setDialogTrigger}
-        />
+        <TopicSearchCard userId={userId} dialogTrigger={dialogTrigger} />
       </div>
 
       <div className="mt-5">
-        {searchResultTrigger && (
+        {searchTopicResultTrigger && (
           <>
             <ShowTopics
               role={'user'}

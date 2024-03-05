@@ -24,6 +24,6 @@ export const addTopicFormSchema = z.object({
 
   topicname: z
     .string()
-    .min(5, { message: 'Topic should have at least 5 characters' })
-    .max(30, { message: 'Topic should have at most 30 characters' }),
+    .min(5, { message: 'Topic name should have at least 5 characters' })
+    .max(30, { message: 'Topic name should have at most 30 characters' }),
 });

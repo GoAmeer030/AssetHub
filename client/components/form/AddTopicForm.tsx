@@ -128,7 +128,7 @@ export default function AddTopicForm({
                   <SelectItem value="4">EEE</SelectItem>
                 </SelectContent>
               </Select>
-              <FormMessage className="ml-1" />
+              <FormMessage className="ml-1 text-[0.7rem]" />
             </FormItem>
           )}
         />
@@ -155,7 +155,7 @@ export default function AddTopicForm({
                   <SelectItem value="4">IV</SelectItem>
                 </SelectContent>
               </Select>
-              <FormMessage className="ml-1" />
+              <FormMessage className="ml-1 text-[0.7rem]" />
             </FormItem>
           )}
         />
@@ -188,7 +188,7 @@ export default function AddTopicForm({
                   )}
                 </SelectContent>
               </Select>
-              <FormMessage className="ml-1" />
+              <FormMessage className="ml-1 text-[0.7rem]" />
             </FormItem>
           )}
         />
@@ -198,19 +198,21 @@ export default function AddTopicForm({
           render={({ field }) => (
             <FormItem className="flex items-center justify-between gap-3 ml-1">
               <FormLabel className="min-w-fit mt-2">Syllabus</FormLabel>
-              <FormControl>
-                <Input
-                  type="number"
-                  placeholder="2021"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e.target.value);
-                    setSyllabus(e.target.value);
-                  }}
-                  className="w-[30ch]"
-                />
-              </FormControl>
-              <FormMessage className="ml-1" />
+              <div className="max-w-[60%] flex flex-col gap-2">
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="2021"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                      setSyllabus(e.target.value);
+                    }}
+                    className="max-w-[100%]"
+                  />
+                </FormControl>
+                <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
+              </div>
             </FormItem>
           )}
         />
@@ -220,18 +222,20 @@ export default function AddTopicForm({
           render={({ field }) => (
             <FormItem className="flex items-center justify-between gap-3 ml-1">
               <FormLabel className="min-w-fit mt-2">Subject Code</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="CC1234"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e.target.value);
-                    setSubjectCode(e.target.value);
-                  }}
-                  className="w-[30ch]"
-                />
-              </FormControl>
-              <FormMessage className="ml-1" />
+              <div className="max-w-[60%] flex flex-col gap-2">
+                <FormControl>
+                  <Input
+                    placeholder="CC1234"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                      setSubjectCode(e.target.value);
+                    }}
+                    className="max-w-[100%]"
+                  />
+                </FormControl>
+                <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
+              </div>
             </FormItem>
           )}
         />
@@ -241,18 +245,20 @@ export default function AddTopicForm({
           render={({ field }) => (
             <FormItem className="flex items-center justify-between gap-3 ml-1">
               <FormLabel className="min-w-fit mt-2">Topic Name</FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Newtons Laws"
-                  {...field}
-                  onChange={(e) => {
-                    field.onChange(e.target.value);
-                    setTopicName(e.target.value);
-                  }}
-                  className="w-[30ch]"
-                />
-              </FormControl>
-              <FormMessage className="ml-1" />
+              <div className="max-w-[60%] flex flex-col gap-2">
+                <FormControl>
+                  <Input
+                    placeholder="Newtons Laws"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                      setTopicName(e.target.value);
+                    }}
+                    className="max-w-[100%]"
+                  />
+                </FormControl>
+                <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
+              </div>
             </FormItem>
           )}
         />

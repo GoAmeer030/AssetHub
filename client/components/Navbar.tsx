@@ -41,11 +41,18 @@ export default function Header() {
   return (
     <Navbar shouldHideOnScroll maxWidth="full" className="md:px-[3.3rem]">
       <NavbarBrand>
-        <p className="text-2xl font-bold bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
+        <p className="text-clamp text-2xl font-bold bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
           Assets Hub
         </p>
       </NavbarBrand>
       <NavbarContent justify="end">
+        {role === 'staff' && (
+          <NavbarItem>
+            <div className="flex flex-col justify-between gap-3 md:gap-6 h-full min-w-fit">
+              <AddTopicButton setDialogTrigger={setDialogTrigger} />
+            </div>
+          </NavbarItem>
+        )}
         <NavbarItem>
           <ThemeMenuButton />
         </NavbarItem>
@@ -64,17 +71,25 @@ export default function Header() {
                     name={role === 'student' ? regNum : 'DP'}
                   />
 
-                  <div className="flex flex-col h-auto">
-                    <p className="font-semibold text-sm mt-2">
+                  <div className="hidden sm:flex flex-col h-auto">
+                    <p className="font-semibold text-sm mt-2 max-w-[15ch] overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {role === 'student' ? regNo : staffName}
                     </p>
-                    <p className="text-foreground/50 text-[0.7rem] -mt-1">
+                    <p className="text-foreground/50 text-[0.7rem] -mt-1 max-w-[12ch] overflow-hidden whitespace-nowrap overflow-ellipsis">
                       {role === 'staff' ? designation : 'Student'}
                     </p>
                   </div>
                 </div>
               </DropdownTrigger>
               <DropdownMenu>
+                <DropdownItem className="flex flex-col sm:hidden gap-1 items-start justify-center">
+                  <p className="font-semibold text-sm">
+                    {role === 'student' ? regNo : staffName}
+                  </p>
+                  <p className="text-foreground/50 text-[0.7rem]">
+                    {role === 'staff' ? designation : 'Student'}
+                  </p>
+                </DropdownItem>
                 <DropdownItem color="danger">
                   <LogoutButton />
                 </DropdownItem>

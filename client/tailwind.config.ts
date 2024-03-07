@@ -27,6 +27,9 @@ const config = {
       },
     },
     extend: {
+      fontSize: {
+        clamp: 'clamp(1rem, 5vw, 1.75rem)',
+      },
       backdropFilter: {
         none: 'none',
         blur: 'blur(5px)',

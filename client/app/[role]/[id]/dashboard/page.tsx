@@ -80,11 +80,6 @@ export default function Page() {
       />
 
       <div className="flex flex-col md:flex-row gap-4">
-        {role === 'staff' && (
-          <div className="flex flex-col justify-between gap-3 md:gap-6 h-full min-w-fit">
-            <AddTopicButton setDialogTrigger={setDialogTrigger} />
-          </div>
-        )}
         <TopicSearchCard userId={userId} dialogTrigger={dialogTrigger} />
       </div>
 

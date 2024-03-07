@@ -29,7 +29,7 @@ export default function AddTopicButton({
         className="absolute h-[100%] w-[100%] z-0"
         particleColor={theme === 'dark' ? '#ffffff' : '#000000'}
       />
-      <CardContent className="mt-[1.4rem] flex gap-2 items-center z-10">
+      <div className="flex gap-2 items-center z-10 ml-2 mr-2 sm:mr-3">
         <span className="text-lg">
           <PlusIcon />
         </span>
@@ -37,7 +37,7 @@ export default function AddTopicButton({
         <div className="hidden sm:flex flex-col h-full justify-center">
           <p className="font-semibold">Add Topic</p>
         </div>
-      </CardContent>
+      </div>
     </Card>
   );
 }

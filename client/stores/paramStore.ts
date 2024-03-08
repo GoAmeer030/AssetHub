@@ -11,6 +11,7 @@ export const useParamStore = create<ParamState>((set) => ({
   assets: [],
   searchAssetResultTrigger: false,
   searchAssets: [],
+  addTopicDialogTrigger: false,
 
   setTopics: (files: topicType[]) => set({ topics: files }),
   setSearchTopicResultTrigger: (searchTopicResultTrigger: boolean) =>
@@ -22,4 +23,6 @@ export const useParamStore = create<ParamState>((set) => ({
     set({ searchAssetResultTrigger: searchAssetResultTrigger }),
   setSearchAssets: (searchFiles: assetType[]) =>
     set({ searchAssets: searchFiles }),
+  setAddTopicDialogTrigger: (addTopicDialogTrigger: boolean) =>
+    set({ addTopicDialogTrigger: addTopicDialogTrigger }),
 }));

@@ -3,21 +3,21 @@
 import { useTheme } from 'next-themes';
 import { PlusIcon } from '@radix-ui/react-icons';
 
+import { Card } from './ui/card';
 import { SparklesCore } from './ui/sparkles';
-import { Card, CardContent } from './ui/card';
 
-export default function AddTopicButton({
-  setDialogTrigger,
-}: {
-  setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+import { useParamStore } from '@/stores/paramStore';
+
+export default function AddTopicButton() {
   const { theme } = useTheme();
+  const { setAddTopicDialogTrigger } = useParamStore();
 
   return (
     <Card
       className="relative h-[2.3rem] max-w-fit cursor-pointer z-30 flex items-center justify-center"
       onClick={() => {
-        setDialogTrigger(true);
+        console.log('clicked');
+        setAddTopicDialogTrigger(true);
       }}
     >
       <SparklesCore

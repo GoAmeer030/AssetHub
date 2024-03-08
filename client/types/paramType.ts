@@ -8,6 +8,7 @@ export type ParamState = {
   assets: assetType[];
   searchAssetResultTrigger: boolean;
   searchAssets: assetType[];
+  addTopicDialogTrigger: boolean;
 
   setTopics: (files: topicType[]) => void;
   setSearchTopicResultTrigger: (searchResultTrigger: boolean) => void;
@@ -15,4 +16,5 @@ export type ParamState = {
   setAssets: (files: assetType[]) => void;
   setSearchAssetResultTrigger: (searchResultTrigger: boolean) => void;
   setSearchAssets: (searchFiles: assetType[]) => void;
+  setAddTopicDialogTrigger: (addTopicDialogTrigger: boolean) => void;
 };

@@ -26,15 +26,12 @@ import {
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
 import { topicType } from '@/types/topicType';
+import { useParamStore } from '@/stores/paramStore';
 import { useTopicStore } from '@/stores/topicStore';
 import { useUploadTopicMutation } from '@/hooks/topicHooks';
 import { addTopicFormSchema } from '@/lib/validations/AddTopicFormSchema';
 
-export default function AddTopicForm({
-  setDialogTrigger,
-}: {
-  setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+export default function AddTopicForm() {
   const {
     id,
     topicname,
@@ -54,6 +51,7 @@ export default function AddTopicForm({
 
     resetTopic,
   } = useTopicStore();
+  const { setAddTopicDialogTrigger } = useParamStore();
 
   const { toast } = useToast();
   const mutation = useUploadTopicMutation();
@@ -87,7 +85,7 @@ export default function AddTopicForm({
 
   useEffect(() => {
     if (mutation.isSuccess) {
-      setDialogTrigger(false);
+      setAddTopicDialogTrigger(false);
       resetTopic();
       form.reset();
 

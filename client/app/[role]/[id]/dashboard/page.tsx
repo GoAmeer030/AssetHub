@@ -4,9 +4,8 @@ import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 import ShowTopics from '@/components/ShowTopics';
-import TopicSearchCard from '@/components/TopicSearchCard';
 import AddTopicDialog from '@/components/AddTopicDialog';
-import AddTopicButton from '@/components/AddTopicButton';
+import TopicSearchCard from '@/components/TopicSearchCard';
 
 import { useGetStaffDetails } from '@/hooks/userHooks';
 
@@ -74,10 +73,7 @@ export default function Page() {
 
   return (
     <div className="w-[90%] m-auto pt-4">
-      <AddTopicDialog
-        dialogTrigger={dialogTrigger}
-        setDialogTrigger={setDialogTrigger}
-      />
+      <AddTopicDialog />
 
       <div className="flex flex-col md:flex-row gap-4">
         <TopicSearchCard userId={userId} dialogTrigger={dialogTrigger} />

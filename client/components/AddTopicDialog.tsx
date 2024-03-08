@@ -9,20 +9,17 @@ import {
 } from '@/components/ui/dialog';
 
 import AddTopicForm from '@/components/form/AddTopicForm';
-import { Separator } from './ui/separator';
 
-export default function AddTopicDialog({
-  dialogTrigger,
-  setDialogTrigger,
-}: {
-  dialogTrigger: boolean;
-  setDialogTrigger: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+import { useParamStore } from '@/stores/paramStore';
+
+export default function AddTopicDialog() {
+  const { addTopicDialogTrigger, setAddTopicDialogTrigger } = useParamStore();
+
   return (
     <Dialog
-      open={dialogTrigger}
+      open={addTopicDialogTrigger}
       onOpenChange={(open) => {
-        setDialogTrigger(open);
+        setAddTopicDialogTrigger(open);
       }}
     >
       <DialogContent className="sm:max-w-[425px]">
@@ -32,7 +29,7 @@ export default function AddTopicDialog({
             Add Topic by entering the details. Click save when you&apos;re done.
           </DialogDescription>
         </DialogHeader>
-        <AddTopicForm setDialogTrigger={setDialogTrigger} />
+        <AddTopicForm />
       </DialogContent>
     </Dialog>
   );

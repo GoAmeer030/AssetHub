@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import {
   Avatar,
   Dropdown,
@@ -36,8 +35,6 @@ export default function Header() {
   let regNum = regNo.toString();
   regNum = regNum.substring(10);
 
-  const [dialogTrigger, setDialogTrigger] = useState(false);
-
   return (
     <Navbar shouldHideOnScroll maxWidth="full" className="md:px-[3.3rem]">
       <NavbarBrand>
@@ -49,7 +46,7 @@ export default function Header() {
         {role === 'staff' && (
           <NavbarItem>
             <div className="flex flex-col justify-between gap-3 md:gap-6 h-full min-w-fit">
-              <AddTopicButton setDialogTrigger={setDialogTrigger} />
+              <AddTopicButton />
             </div>
           </NavbarItem>
         )}

@@ -16,7 +16,6 @@ export default function AddTopicButton() {
     <Card
       className="relative h-[2.3rem] max-w-fit cursor-pointer z-30 flex items-center justify-center"
       onClick={() => {
-        console.log('clicked');
         setAddTopicDialogTrigger(true);
       }}
     >

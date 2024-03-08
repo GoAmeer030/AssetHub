@@ -1,6 +1,6 @@
 import { create } from 'zustand';
 
-export type roleIdType = {
+export type userRoleIdType = {
   id: string;
   role: string;
 
@@ -10,7 +10,7 @@ export type roleIdType = {
   resetRoleId: () => void;
 };
 
-export const useRoleIdStore = create<roleIdType>((set) => ({
+export const useUserRoleIdStore = create<userRoleIdType>((set) => ({
   id: '',
   role: '',
 

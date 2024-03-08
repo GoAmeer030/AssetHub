@@ -8,6 +8,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useContactMutation } from '@/hooks/contactHook';
 import { contactFormSchema } from '@/lib/validations/ContactFormSchema';
 
+import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import {
   Form,
@@ -71,12 +72,13 @@ export default function ContactForm() {
             <FormItem>
               <FormLabel>Attachments</FormLabel>
               <FormControl>
-                <input
+                <Input
                   {...field}
                   id="attachments"
                   type="file"
-                  multiple
-                  className="w-full mt-3"
+                  className="text-sm file:h-full
+                             file:mr-5 file:py-0 file:px-0
+                             hover:file:cursor-pointer w-full"
                 />
               </FormControl>
               <FormDescription className="text-[0.7rem]">

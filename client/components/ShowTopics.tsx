@@ -1,7 +1,7 @@
 'use client';
 
-import { useParams, useRouter } from 'next/navigation';
-import React from 'react';
+import { useState, useMemo } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { topicType } from '@/types/topicType';
 import {
@@ -19,28 +19,24 @@ export default function ShowTopics({
   lable,
   topics,
 }: {
-  role: string;
   lable: string;
   topics: topicType[];
 }) {
-  const params = useParams();
   const router = useRouter();
 
-  const [page, setPage] = React.useState(1);
+  const [page, setPage] = useState(1);
   const rowsPerPage = 10;
 
   const pages = Math.ceil(topics?.length / rowsPerPage);
-
-  const pageTopics = React.useMemo(() => {
+  const pageTopics = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
     return topics ? topics.slice(start, end) : [];
   }, [page, topics]);
-
   const keysToShow = ['S.no', 'Topic', 'Handled to', 'Sub syllabus'];
 
-  const classNames = React.useMemo(
+  const classNames = useMemo(
     () => ({
       wrapper: ['bg-transparent', 'border-0'],
       th: ['bg-transparent'],
@@ -48,6 +44,7 @@ export default function ShowTopics({
     [],
   );
 
+  // Helper functions to retrieve the department name and year in roman
   const getDepartmentName = (id: string) => {
     const departementMap: { [key: string]: string } = {
       '1': 'CSE',
@@ -58,7 +55,6 @@ export default function ShowTopics({
 
     return departementMap[id] || 'Unknown';
   };
-
   const getYearRoman = (id: string) => {
     const departementMap: { [key: string]: string } = {
       '1': 'I',
@@ -70,10 +66,10 @@ export default function ShowTopics({
     return departementMap[id] || 'Unknown';
   };
 
+  // Top and bottom content for the table
   const topContent = () => {
     return <h1 className="ml-1 mt-3 mb-2 font-bold">{lable}</h1>;
   };
-
   const bottomContent = () => {
     return (
       <div className="w-full flex justify-center mt-5 scale-75">

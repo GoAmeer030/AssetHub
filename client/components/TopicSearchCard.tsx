@@ -20,6 +20,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
 import { topicType } from '@/types/topicType';
@@ -92,7 +93,6 @@ export default function TopicSearchCard({
     );
 
     if (hasChanged) {
-      // console.log('searching with data', data);
       mutation.mutate(data);
     }
   };
@@ -110,6 +110,7 @@ export default function TopicSearchCard({
         description: `${mutation.data?.data?.topic.length} topics found`,
       });
     }
+
     resetTopic();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutation.isSuccess]);

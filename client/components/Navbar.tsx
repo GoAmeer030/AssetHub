@@ -12,7 +12,7 @@ import {
   NavbarItem,
 } from '@nextui-org/react';
 
-import { useRoleIdStore } from '@/stores/roleIdStore';
+import { useUserRoleIdStore } from '@/stores/userRoleIdStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
 
@@ -24,7 +24,7 @@ import { ThemeMenuButton } from '@/components/ThemeMenuButton';
 export default function Header() {
   const { photo, staffName, designation } = useStaffStore();
   const { regNo } = useStudentStore();
-  const { role, id } = useRoleIdStore();
+  const { role, id } = useUserRoleIdStore();
 
   let photoUrl = photo;
   if (photoUrl === '') {

@@ -10,7 +10,7 @@ import TopicSearchCard from '@/components/TopicSearchCard';
 import { useGetStaffDetails } from '@/hooks/userHooks';
 
 import { useParamStore } from '@/stores/paramStore';
-import { useRoleIdStore } from '@/stores/roleIdStore';
+import { useUserRoleIdStore } from '@/stores/userRoleIdStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
 
@@ -21,7 +21,7 @@ export default function Page() {
   const role = Array.isArray(params.role) ? params.role[0] : params.role;
   const userId = Array.isArray(params.id) ? params.id[0] : params.id;
 
-  const { setRole, setId } = useRoleIdStore();
+  const { setRole, setId } = useUserRoleIdStore();
 
   const { topics, searchTopicResultTrigger, searchTopics } = useParamStore();
 
@@ -83,14 +83,12 @@ export default function Page() {
         {searchTopicResultTrigger && (
           <>
             <ShowTopics
-              role={'user'}
               lable={'Topics For Your Search'}
               topics={searchTopics}
             />
           </>
         )}
         <ShowTopics
-          role={role === 'staff' ? 'owner' : 'user'}
           lable={role === 'staff' ? 'Topics added By You' : 'Topics For you'}
           topics={topics}
         />

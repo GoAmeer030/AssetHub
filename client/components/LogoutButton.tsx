@@ -1,14 +1,11 @@
-import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-
-import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
 import { useToast } from '@/components/ui/use-toast';
 import { LogoutIcon } from '@/components/icons/LogoutIcon';
 
 import { useTopicStore } from '@/stores/topicStore';
 import { useParamStore } from '@/stores/paramStore';
-import { useRoleIdStore } from '@/stores/roleIdStore';
+import { useUserRoleIdStore } from '@/stores/userRoleIdStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
 import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
@@ -18,7 +15,7 @@ export default function LogoutButton() {
   const { toast } = useToast();
 
   const { resetStaff } = useStaffStore();
-  const { resetRoleId } = useRoleIdStore();
+  const { resetRoleId } = useUserRoleIdStore();
   const { resetStudent } = useStudentStore();
   const { setAccessToken } = useAccessTokenStore();
   const { resetTopic: resetFile } = useTopicStore();
@@ -27,8 +24,6 @@ export default function LogoutButton() {
   const setSearchResultTrigger = useParamStore(
     (state) => state.setSearchTopicResultTrigger,
   );
-
-  const [loggingOut, setLoggingOut] = useState(false);
 
   const handleLogout = () => {
     setAccessToken('');
@@ -42,8 +37,6 @@ export default function LogoutButton() {
     setFiles([]);
     setSearchFiles([]);
 
-    setLoggingOut(false);
-
     router.push('/auth/signin');
 
     toast({
@@ -55,25 +48,6 @@ export default function LogoutButton() {
   };
 
   return (
-    // <ButtonWithSpinner
-    //   mutation={{ isPending: loggingOut }}
-    //   innerContent={
-    //     <>
-    //       <span className="text-lg mr-2">
-    //         <LogoutIcon />
-    //       </span>
-    //       Logout
-    //     </>
-    //   }
-    //   innerContentOnLoading={'Logging Out'}
-    //   props={{
-    //     onClick: () => {
-    //       handleLogout();
-    //       setLoggingOut(true);
-    //     },
-    //     className: 'w-full',
-    //   }}
-    // />
     <p className="flex" onClick={handleLogout}>
       <span className="text-lg mr-2">
         <LogoutIcon />

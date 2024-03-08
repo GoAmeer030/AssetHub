@@ -8,10 +8,10 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Meteors } from './ui/meteors';
+import { Separator } from './ui/separator';
 
 import Footer from '@/components/Footer';
 import LoginForm from '@/components/form/LoginForm';
-import { Separator } from './ui/separator';
 
 export function Login() {
   return (

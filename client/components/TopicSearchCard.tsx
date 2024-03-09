@@ -4,7 +4,6 @@ import { useEffect, useMemo } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
-import { SearchIcon } from '@/components/icons/SearchIcon';
 import {
   Card,
   CardContent,
@@ -22,6 +21,7 @@ import {
 } from '@/components/ui/select';
 
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
+import { SearchIcon } from '@/components/icons/SearchIcon';
 
 import { topicType } from '@/types/topicType';
 import { useTopicStore } from '@/stores/topicStore';

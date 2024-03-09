@@ -20,9 +20,21 @@ export default function Page() {
   const { assets, searchAssetResultTrigger, searchAssets } = useParamStore();
 
   return (
-    <>
-      <ShowAssets assets={assets} />
-      <AssetSearchCard topicId={topicId} />
-    </>
+    <div className="w-[90%] m-auto pt-4">
+      <div className="flex flex-col md:flex-row gap-4">
+        <AssetSearchCard topicId={topicId} />
+      </div>
+
+      <div className="mt-5">
+        {searchAssetResultTrigger && (
+          <>
+            <ShowAssets assets={searchAssets} />
+          </>
+        )}
+        <ShowAssets assets={assets} />
+      </div>
+
+      <div className="h-[15vh]"></div>
+    </div>
   );
 }

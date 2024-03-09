@@ -34,7 +34,7 @@ export default function ShowTopics({
 
     return topics ? topics.slice(start, end) : [];
   }, [page, topics]);
-  const keysToShow = ['S.no', 'Topic', 'Handled to', 'Sub syllabus'];
+  const keysToShow = ['S.no', 'Topic', 'Handled To', 'Sub Syllabus'];
 
   const classNames = useMemo(
     () => ({

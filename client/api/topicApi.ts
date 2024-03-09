@@ -32,7 +32,7 @@ export const postUploadTopic = async (
 };
 
 export const getTopics = async (
-  data: topicType | any,
+  data: topicType | { staffId: string },
 ): Promise<AxiosResponse> => {
   const params: any = {};
   if ('staffId' in data) {

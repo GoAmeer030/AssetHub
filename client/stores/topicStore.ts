@@ -16,9 +16,9 @@ export const useTopicStore = create<topicState>((set) => ({
   setYear: (year: string) => set({ year }),
   setDepartment: (department: string) => set({ department }),
   setSemester: (semester: string) => set({ semester }),
-  setSubjectCode: (subjectCode: string) => set({ subjectcode: subjectCode }),
+  setSubjectCode: (subjectcode: string) => set({ subjectcode }),
   setTopicName: (topicname: string) => set({ topicname }),
-  settopicDesc: (topicDesc: string) => set({ topicDesc }),
+  setTopicDesc: (topicdesc: string) => set({ topicdesc }),
 
   resetTopic: () =>
     set({

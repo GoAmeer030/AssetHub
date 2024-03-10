@@ -16,6 +16,7 @@ import { useUserRoleIdStore } from '@/stores/userRoleIdStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
 
+import SearchBox from '@/components/SearchBox';
 import LogoutButton from '@/components/LogoutButton';
 import AddTopicButton from '@/components/AddTopicButton';
 
@@ -36,12 +37,15 @@ export default function Header() {
   regNum = regNum.substring(10);
 
   return (
-    <Navbar shouldHideOnScroll maxWidth="full" className="md:px-[3.3rem]">
+    <Navbar shouldHideOnScroll maxWidth="full" className="lg:px-[3.3rem]">
       <NavbarBrand>
         <p className="text-clamp text-2xl font-bold bg-gradient-to-r from-teal-400 via-blue-500 to-purple-500 bg-clip-text text-transparent">
-          Assets Hub
+          AssetHub
         </p>
       </NavbarBrand>
+      <NavbarContent justify="center">
+        <SearchBox />
+      </NavbarContent>
       <NavbarContent justify="end">
         {role === 'staff' && (
           <NavbarItem>

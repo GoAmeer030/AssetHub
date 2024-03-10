@@ -75,7 +75,7 @@ export default function Page() {
     <div className="w-[90%] m-auto pt-4">
       <AddTopicDialog />
 
-      <div className="flex flex-col md:flex-row gap-4">
+      {/* <div className="flex flex-col md:flex-row gap-4">
         <TopicSearchCard userId={userId} dialogTrigger={dialogTrigger} />
       </div>
 
@@ -92,7 +92,7 @@ export default function Page() {
           lable={role === 'staff' ? 'Topics added By You' : 'Topics For you'}
           topics={topics}
         />
-      </div>
+      </div> */}
 
       <div className="h-[15vh]"></div>
     </div>

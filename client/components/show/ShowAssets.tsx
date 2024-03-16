@@ -3,7 +3,6 @@
 import { useState, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 
-import { topicType } from '@/types/topicType';
 import {
   Table,
   TableHeader,
@@ -15,58 +14,50 @@ import {
   Card,
 } from '@nextui-org/react';
 
-export default function ShowTopics({
+import { assetType } from '@/types/assetType';
+
+export default function ShowAssets({
   lable,
-  topics,
+  assets,
 }: {
   lable: string;
-  topics: topicType[];
+  assets: assetType[];
 }) {
   const router = useRouter();
 
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
 
-  const pages = Math.ceil(topics?.length / rowsPerPage);
-  const pageTopics = useMemo(() => {
+  const pages = Math.ceil(assets?.length / rowsPerPage);
+  const pageAssets = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return topics ? topics.slice(start, end) : [];
-  }, [page, topics]);
-  const keysToShow = ['S.no', 'Topic', 'Handled To', 'Sub Syllabus'];
+    return assets ? assets.slice(start, end) : [];
+  }, [page, assets]);
+  const keysToShow = ['S.no', 'Asset', 'Type', 'Actions'];
+
+  const getAssetType = (id: string) => {
+    const assetTypeMap: { [key: string]: string } = {
+      '1': 'Book',
+      '2': 'Notes',
+      '3': 'Question Papers',
+      '4': 'Article',
+      '5': 'Video',
+    };
+
+    return assetTypeMap[id] || 'Unknown';
+  };
 
   const classNames = useMemo(
     () => ({
       wrapper: ['bg-transparent', 'border-0'],
-      th: ['bg-transparent'],
+      th: ['bg-transparent', 'text-center'],
+      td: ['bg-transparent', 'text-center'],
     }),
     [],
   );
 
-  // Helper functions to retrieve the department name and year in roman
-  const getDepartmentName = (id: string) => {
-    const departementMap: { [key: string]: string } = {
-      '1': 'CSE',
-      '2': 'IT',
-      '3': 'ECE',
-      '4': 'EEE',
-    };
-
-    return departementMap[id] || 'Unknown';
-  };
-  const getYearRoman = (id: string) => {
-    const departementMap: { [key: string]: string } = {
-      '1': 'I',
-      '2': 'II',
-      '3': 'III',
-      '4': 'IV',
-    };
-
-    return departementMap[id] || 'Unknown';
-  };
-
-  // Top and bottom content for the table
   const topContent = () => {
     return <h1 className="ml-1 mt-3 mb-2 font-bold">{lable}</h1>;
   };
@@ -89,7 +80,7 @@ export default function ShowTopics({
 
   return (
     <>
-      {pageTopics.length > 0 ? (
+      {pageAssets.length > 0 ? (
         <Table
           removeWrapper
           selectionMode="single"
@@ -106,29 +97,19 @@ export default function ShowTopics({
             ))}
           </TableHeader>
           <TableBody emptyContent={'No files to display.'}>
-            {pageTopics.map((topic, index) => (
-              <TableRow
-                key={index}
-                className="cursor-pointer"
-                onClick={() => {
-                  router.push(`dashboard/${topic.id}`);
-                }}
-              >
+            {pageAssets.map((asset, index) => (
+              <TableRow key={index} className="cursor-pointer">
                 <TableCell>
                   <p className="text-foreground/50">{index + 1}</p>
                 </TableCell>
-                <TableCell>{topic.topicname}</TableCell>
+                <TableCell>{asset.assetname}</TableCell>
                 <TableCell>
                   <p className="text-foreground/50">
-                    {getYearRoman(topic.year)}{' '}
-                    {getDepartmentName(topic.department)} - {topic.semester} sem
+                    {getAssetType(asset.assettype)}
                   </p>
                 </TableCell>
                 <TableCell>
-                  {topic.subjectcode}{' '}
-                  <p className="text-foreground/50 inline-block">
-                    - {topic.syllabus}
-                  </p>
+                  <p className="text-foreground/50">Actions</p>
                 </TableCell>
               </TableRow>
             ))}
@@ -139,8 +120,8 @@ export default function ShowTopics({
           isPressable
           className="h-[30vh] w-full flex flex-col gap-1 justify-center items-center bg-transparent"
         >
-          <p className="font-bold text-2xl">Your Topics will appear here</p>
-          <p className="font-lighter text-sm">No topics have been added yet.</p>
+          <p className="font-bold text-2xl">Your Assets will appear here</p>
+          <p className="font-lighter text-sm">No Assets have been added yet.</p>
         </Card>
       )}
     </>

@@ -3,20 +3,25 @@
 import { useTheme } from 'next-themes';
 import { PlusIcon } from '@radix-ui/react-icons';
 
-import { Card } from './ui/card';
-import { SparklesCore } from './ui/sparkles';
+import { Card } from '../ui/card';
+import { SparklesCore } from '../ui/sparkles';
 
 import { useParamStore } from '@/stores/paramStore';
 
 export default function AddTopicButton() {
   const { theme } = useTheme();
-  const { setAddTopicDialogTrigger } = useParamStore();
+  const { setAddTopicDialogTrigger, setAddAssetDialogTrigger, page } =
+    useParamStore();
 
   return (
     <Card
       className="relative h-[2.3rem] max-w-fit cursor-pointer z-30 flex items-center justify-center rounded-md"
       onClick={() => {
-        setAddTopicDialogTrigger(true);
+        if (page === 'topic') {
+          setAddTopicDialogTrigger(true);
+        } else {
+          setAddAssetDialogTrigger(true);
+        }
       }}
     >
       <SparklesCore
@@ -34,7 +39,9 @@ export default function AddTopicButton() {
         </span>
 
         <div className="hidden sm:flex flex-col h-full justify-center">
-          <p className="font-semibold">Add Topic</p>
+          <p className="font-semibold">
+            {page === 'topic' ? 'Add Topic' : 'Add Asset'}
+          </p>
         </div>
       </div>
     </Card>

@@ -30,23 +30,7 @@ const storage = multer.diskStorage({
     } else if (file.fieldname === 'contact') {
       dir = `public/contact/`;
     } else {
-      const departmentMap = {
-        1: 'CSE',
-        2: 'IT',
-        3: 'ECE',
-        4: 'EEE',
-      };
-      dir =
-        'public/data/' +
-        req.body.syllabus +
-        '/' +
-        departmentMap[req.body.department as keyof typeof departmentMap] +
-        '/' +
-        req.body.year +
-        '/' +
-        req.body.semester +
-        '/' +
-        req.body.subjectCode;
+      dir = 'public/data/' + req.body.topicId;
     }
     fs.mkdirSync(path.join(__dirname, '../' + dir), { recursive: true });
     cb(null, dir);
@@ -58,17 +42,18 @@ const storage = multer.diskStorage({
       fileName =
         req.body.staffID + '_profilepic.' + file.originalname.split('.').pop();
     } else if (file.fieldname === 'contact') {
-      fileName = file.originalname;
+      fileName = file.originalname.replace(/ /g, '_');
     } else {
       const date = new Date();
-      const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+      const formattedDate = `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}-${date.getHours()}_${date.getMinutes()}}`;
       fileName =
-        req.body.fileName +
+        file.originalname.replace(/ /g, '_').split('.')[0] +
         '_' +
         formattedDate +
         '.' +
         file.originalname.split('.').pop();
     }
+
     cb(null, fileName);
   },
 });
@@ -162,7 +147,7 @@ const assetManager = new AssetManager();
 app.post(
   '/addasset',
   CheckValidUser,
-  upload.single('file'),
+  upload.array('file', 1),
   assetManager.addAssetHandler,
 );
 app.get(

@@ -5,7 +5,7 @@ import { LogoutIcon } from '@/components/icons/LogoutIcon';
 
 import { useTopicStore } from '@/stores/topicStore';
 import { useParamStore } from '@/stores/paramStore';
-import { useUserRoleIdStore } from '@/stores/userRoleIdStore';
+import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
 import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';

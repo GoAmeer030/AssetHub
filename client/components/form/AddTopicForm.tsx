@@ -28,7 +28,7 @@ import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 import { topicType } from '@/types/topicType';
 import { useParamStore } from '@/stores/paramStore';
 import { useTopicStore } from '@/stores/topicStore';
-import { useUploadTopicMutation } from '@/hooks/topicHooks';
+import { useAddTopicMutation } from '@/hooks/topicHooks';
 import { addTopicFormSchema } from '@/lib/validations/AddTopicFormSchema';
 
 export default function AddTopicForm() {
@@ -54,7 +54,7 @@ export default function AddTopicForm() {
   const { setAddTopicDialogTrigger } = useParamStore();
 
   const { toast } = useToast();
-  const mutation = useUploadTopicMutation();
+  const mutation = useAddTopicMutation();
 
   const form = useForm<z.infer<typeof addTopicFormSchema>>({
     resolver: zodResolver(addTopicFormSchema),
@@ -68,7 +68,7 @@ export default function AddTopicForm() {
     },
   });
 
-  const handleSave = (data: z.infer<typeof addTopicFormSchema>) => {
+  const handleSave = () => {
     const uploadFile: topicType = {
       id,
       topicname,

@@ -60,6 +60,7 @@ export default function TopicSearchCard({
     searchTopicResultTrigger,
     setSearchTopicResultTrigger,
     setSearchTopics,
+    addTopicDialogTrigger,
   } = useParamStore();
 
   const mutation = useGetTopicsMutation();
@@ -141,8 +142,9 @@ export default function TopicSearchCard({
 
   useEffect(() => {
     mutation.mutate(data);
+    setSearchTopicResultTrigger(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data]);
+  }, [data, addTopicDialogTrigger]);
 
   return (
     <div className="flex flex-col gap-4 items-center justify-center w-full z-20">

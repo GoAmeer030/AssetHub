@@ -4,18 +4,18 @@ import { topicType } from '@/types/topicType';
 
 import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
 
-export const postUploadTopic = async (
-  uploadFile: topicType,
+export const postAddTopic = async (
+  uploadDetails: topicType,
 ): Promise<AxiosResponse> => {
   const formData = new FormData();
 
-  formData.append('syllabus', uploadFile.syllabus);
-  formData.append('year', uploadFile.year);
-  formData.append('department', uploadFile.department);
-  formData.append('semester', uploadFile.semester);
-  formData.append('subjectCode', uploadFile.subjectcode);
-  formData.append('topicName', uploadFile.topicname);
-  formData.append('topicDesc', uploadFile.topicdesc);
+  formData.append('syllabus', uploadDetails.syllabus);
+  formData.append('year', uploadDetails.year);
+  formData.append('department', uploadDetails.department);
+  formData.append('semester', uploadDetails.semester);
+  formData.append('subjectCode', uploadDetails.subjectcode);
+  formData.append('topicName', uploadDetails.topicname);
+  formData.append('topicDesc', uploadDetails.topicdesc);
 
   const response: AxiosResponse = await axios.post(
     `${process.env.NEXT_PUBLIC_SERVER_URL}/addtopic`,

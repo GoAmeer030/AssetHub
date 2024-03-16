@@ -12,13 +12,13 @@ import {
   NavbarItem,
 } from '@nextui-org/react';
 
-import { useUserRoleIdStore } from '@/stores/userRoleIdStore';
+import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
 
 import SearchBox from '@/components/SearchBox';
 import LogoutButton from '@/components/LogoutButton';
-import AddTopicButton from '@/components/AddTopicButton';
+import AddTopicButton from '@/components/updatedui/AddButton';
 
 import { ThemeMenuButton } from '@/components/ThemeMenuButton';
 
@@ -43,9 +43,9 @@ export default function Header() {
           AssetHub
         </p>
       </NavbarBrand>
-      <NavbarContent justify="center">
+      {/* <NavbarContent justify="center">
         <SearchBox />
-      </NavbarContent>
+      </NavbarContent> */}
       <NavbarContent justify="end">
         {role === 'staff' && (
           <NavbarItem>

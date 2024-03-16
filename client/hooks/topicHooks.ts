@@ -2,14 +2,14 @@
 
 import { useMutation, useQuery } from '@tanstack/react-query';
 
-import { postUploadTopic, getTopics, deleteTopic } from '@/api/topicApi';
+import { postAddTopic, getTopics, deleteTopic } from '@/api/topicApi';
 
 import { toast, useToast } from '@/components/ui/use-toast';
 
-export function useUploadTopicMutation() {
+export function useAddTopicMutation() {
   const { toast } = useToast();
   const mutation = useMutation({
-    mutationFn: postUploadTopic,
+    mutationFn: postAddTopic,
     onSuccess: () => {},
     onError: () => {
       toast({

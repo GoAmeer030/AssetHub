@@ -26,7 +26,6 @@ import { SearchIcon } from '@/components/icons/SearchIcon';
 import { useParamStore } from '@/stores/paramStore';
 import { useAssetStore } from '@/stores/assetStore';
 import { useGetAssetsMutation } from '@/hooks/assetHook';
-import { set } from 'date-fns';
 
 export default function AssetSearchCard({ topicId }: { topicId: string }) {
   const {
@@ -34,12 +33,14 @@ export default function AssetSearchCard({ topicId }: { topicId: string }) {
     searchAssetResultTrigger,
     setSearchAssetResultTrigger,
     setSearchAssets,
+    addAssetDialogTrigger,
   } = useParamStore();
   const {
     id,
     assetname,
     assettype,
     asseturl,
+    file,
     setId,
     setAssetName,
     setAssetType,
@@ -55,6 +56,7 @@ export default function AssetSearchCard({ topicId }: { topicId: string }) {
       assetname,
       assettype,
       asseturl,
+      file,
     };
 
     mutation.mutate(data);
@@ -62,8 +64,9 @@ export default function AssetSearchCard({ topicId }: { topicId: string }) {
 
   useEffect(() => {
     mutation.mutate({ topicId });
+    setSearchAssetResultTrigger(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [topicId]);
+  }, [topicId, addAssetDialogTrigger]);
 
   useEffect(() => {
     if (mutation.isSuccess && !searchAssetResultTrigger) {
@@ -134,9 +137,9 @@ export default function AssetSearchCard({ topicId }: { topicId: string }) {
             <SelectContent>
               <SelectItem value="1">Book</SelectItem>
               <SelectItem value="2">Notes</SelectItem>
-              <SelectItem value="3">Question Bank or Paper</SelectItem>
+              <SelectItem value="3">Question Papers</SelectItem>
               <SelectItem value="4">Artical</SelectItem>
-              <SelectItem value="5">YouTube Video</SelectItem>
+              <SelectItem value="5">Video</SelectItem>
             </SelectContent>
           </Select>
         </CardFooter>

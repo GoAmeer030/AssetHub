@@ -18,7 +18,6 @@ export default class AssetManager {
       res.status(401).send({ error: 'Unauthorized' });
       return;
     }
-
     let topic = await this.prisma.topic.findUnique({
       where: {
         id: Number(req.body.topicId),
@@ -40,7 +39,7 @@ export default class AssetManager {
         topicid: Number(req.body.topicId),
         assetname: req.body.assetName,
         assettype: req.body.assetType,
-        asseturl: req.body.assetUrl != '' ? req.body.assetUrl : req.file?.path,
+        asseturl: req.body.assetUrl ? req.body.assetUrl : req.files[0].path,
       },
     });
 

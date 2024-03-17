@@ -1,7 +1,7 @@
 'use client';
 
 import { z } from 'zod';
-import React, { use, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useParams } from 'next/navigation';
@@ -23,6 +23,7 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
+import { Separator } from '@/components/ui/separator';
 
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
@@ -53,6 +54,9 @@ export default function AddAssetForm() {
 
   const { toast } = useToast();
   const mutation = useAddAssetMutation();
+
+  const [isUrlDisabled, setIsUrlDisabled] = useState(false);
+  const [isFileDisabled, setIsFileDisabled] = useState(false);
 
   const form = useForm<z.infer<typeof addAssetFormSchema>>({
     resolver: zodResolver(addAssetFormSchema),
@@ -93,29 +97,6 @@ export default function AddAssetForm() {
       >
         <FormField
           control={form.control}
-          name="assetname"
-          render={({ field }) => (
-            <FormItem className="flex items-center justify-between gap-3 ml-1">
-              <FormLabel className="min-w-fit mt-2">Asset Name</FormLabel>
-              <div className="max-w-[60%] flex flex-col gap-2">
-                <FormControl>
-                  <Input
-                    placeholder="Imp 2 Questions"
-                    {...field}
-                    onChange={(e) => {
-                      field.onChange(e.target.value);
-                      setAssetName(e.target.value);
-                    }}
-                    className="max-w-[100%]"
-                  />
-                </FormControl>
-                <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
-              </div>
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="assettype"
           render={({ field }: { field: any }) => (
             <FormItem>
@@ -142,58 +123,93 @@ export default function AddAssetForm() {
             </FormItem>
           )}
         />
-        {assettype === '4' || assettype === '5' ? (
-          <FormField
-            control={form.control}
-            name="asseturl"
-            render={({ field }) => (
-              <FormItem className="flex items-center justify-between gap-3 ml-1">
-                <FormLabel className="min-w-fit mt-2">Asset Url</FormLabel>
-                <div className="max-w-[60%] flex flex-col gap-2">
-                  <FormControl>
-                    <Input
-                      placeholder="https://github.com/GoAmeer030/AssetHub"
-                      {...field}
-                      onChange={(e) => {
-                        field.onChange(e.target.value);
-                        setAssetUrl(e.target.value);
-                      }}
-                      className="max-w-[100%]"
-                    />
-                  </FormControl>
-                  <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
-                </div>
-              </FormItem>
-            )}
-          />
-        ) : (
-          <FormField
-            control={form.control}
-            name="file"
-            render={({ field: { onChange, onBlur, name } }) => (
-              <FormItem className="flex items-center justify-between gap-3 ml-1">
-                <FormLabel className="min-w-fit mt-2">File</FormLabel>
-                <div className="max-w-[60%] flex flex-col gap-2">
-                  <FormControl>
-                    <Input
-                      id="file"
-                      type="file"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (file) {
-                          setFile(file);
-                        }
-                        onChange(file);
-                      }}
-                      className="max-w-[100%]"
-                    />
-                  </FormControl>
-                  <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
-                </div>
-              </FormItem>
-            )}
-          />
-        )}
+        <FormField
+          control={form.control}
+          name="assetname"
+          render={({ field }) => (
+            <FormItem className="flex items-center justify-between gap-3 ml-1">
+              <FormLabel className="min-w-fit mt-2">Asset Name</FormLabel>
+              <div className="max-w-[60%] flex flex-col gap-2">
+                <FormControl>
+                  <Input
+                    placeholder="Imp 2 Questions"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                      setAssetName(e.target.value);
+                    }}
+                    className="max-w-[100%]"
+                  />
+                </FormControl>
+                <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
+              </div>
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="asseturl"
+          render={({ field }) => (
+            <FormItem className="flex items-center justify-between gap-3 ml-1">
+              <FormLabel className="min-w-fit mt-2">Asset Url</FormLabel>
+              <div className="max-w-[60%] flex flex-col gap-2">
+                <FormControl>
+                  <Input
+                    placeholder="https://github.com/GoAmeer030/AssetHub"
+                    {...field}
+                    onChange={(e) => {
+                      field.onChange(e.target.value);
+                      setAssetUrl(e.target.value);
+                      if (e.target.value) {
+                        setIsFileDisabled(true);
+                      } else {
+                        setIsFileDisabled(false);
+                      }
+                    }}
+                    disabled={isUrlDisabled}
+                    className="max-w-[100%]"
+                  />
+                </FormControl>
+                <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
+              </div>
+            </FormItem>
+          )}
+        />
+        <div className="flex items-center space-x-2">
+          <Separator className="w-[45%]" />
+          <span className="text-xs text-muted-foreground">OR</span>
+          <Separator className="w-[45%]" />
+        </div>
+        <FormField
+          control={form.control}
+          name="file"
+          render={({ field: { onChange, onBlur, name } }) => (
+            <FormItem className="flex items-center justify-between gap-3 ml-1">
+              <FormLabel className="min-w-fit mt-2">File</FormLabel>
+              <div className="max-w-[60%] flex flex-col gap-2">
+                <FormControl>
+                  <Input
+                    id="file"
+                    type="file"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (file) {
+                        setFile(file);
+                        setIsUrlDisabled(true);
+                      } else {
+                        setIsUrlDisabled(false);
+                      }
+                      onChange(file);
+                    }}
+                    disabled={isFileDisabled}
+                    className="max-w-[100%]"
+                  />
+                </FormControl>
+                <FormMessage className="max-w-[100%] ml-1 text-[0.7rem]" />
+              </div>
+            </FormItem>
+          )}
+        />
         <ButtonWithSpinner
           mutation={mutation}
           innerContent={'Add'}

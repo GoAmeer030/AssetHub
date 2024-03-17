@@ -14,7 +14,12 @@ import {
   Card,
 } from '@nextui-org/react';
 
+import { ViewIcon } from '@/components/icons/ViewIcon';
+import { DownloadIcon } from '@radix-ui/react-icons';
+import { DeleteIcon } from '@/components/icons/DeleteIcon';
+import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 import { assetType } from '@/types/assetType';
+import { string } from 'zod';
 
 export default function ShowAssets({
   lable,
@@ -78,12 +83,31 @@ export default function ShowAssets({
     );
   };
 
+  const handleViewClick = (url: string | null) => {
+    if (typeof url === 'string') {
+      const hasHttpOrHttps = url.startsWith('http') || url.startsWith('https');
+      const finalUrl = hasHttpOrHttps
+        ? url
+        : `${process.env.NEXT_PUBLIC_SERVER_URL}/${url}`;
+      window.open(finalUrl, '_blank');
+    }
+  };
+
+  const handleDownloadClick = (url: string | null) => {
+    if (typeof url === 'string') {
+      const hasHttpOrHttps = url.startsWith('http') || url.startsWith('https');
+      if (!hasHttpOrHttps) {
+        const finalUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${url}`;
+        window.open(finalUrl, '_blank', 'noopener,noreferrer');
+      }
+    }
+  };
+
   return (
     <>
       {pageAssets.length > 0 ? (
         <Table
           removeWrapper
-          selectionMode="single"
           isHeaderSticky={true}
           classNames={classNames}
           aria-label="Topic topics table"
@@ -98,7 +122,7 @@ export default function ShowAssets({
           </TableHeader>
           <TableBody emptyContent={'No files to display.'}>
             {pageAssets.map((asset, index) => (
-              <TableRow key={index} className="cursor-pointer">
+              <TableRow key={index}>
                 <TableCell>
                   <p className="text-foreground/50">{index + 1}</p>
                 </TableCell>
@@ -108,8 +132,32 @@ export default function ShowAssets({
                     {getAssetType(asset.assettype)}
                   </p>
                 </TableCell>
-                <TableCell>
-                  <p className="text-foreground/50">Actions</p>
+                <TableCell className="justify-between">
+                  <ButtonWithSpinner
+                    innerContent={<ViewIcon />}
+                    props={{
+                      onClick: () => handleViewClick(asset.asseturl),
+                      variant: 'icon',
+                    }}
+                  />
+                  {!(
+                    asset.asseturl?.startsWith('http') ||
+                    asset.asseturl?.startsWith('https')
+                  ) && (
+                    <ButtonWithSpinner
+                      innerContent={<DownloadIcon />}
+                      props={{
+                        onClick: () => handleDownloadClick(asset.asseturl),
+                        variant: 'icon',
+                      }}
+                    />
+                  )}
+                  <ButtonWithSpinner
+                    innerContent={<DeleteIcon />}
+                    props={{
+                      variant: 'icon',
+                    }}
+                  />
                 </TableCell>
               </TableRow>
             ))}

@@ -1,10 +1,9 @@
 'use client';
 
+import { MoonIcon, SunIcon } from '@radix-ui/react-icons';
 import { useTheme } from 'next-themes';
 import { useEffect, useState } from 'react';
-import { SunIcon, MoonIcon } from '@radix-ui/react-icons';
 
-import { SearchIcon } from './icons/SearchIcon';
 import {
   CommandDialog,
   CommandEmpty,
@@ -14,7 +13,9 @@ import {
   CommandList,
   CommandSeparator,
 } from '@/components/ui/command';
+
 import { LogoutIcon } from './icons/LogoutIcon';
+import { SearchIcon } from './icons/SearchIcon';
 
 export default function SearchBox() {
   const { setTheme } = useTheme();

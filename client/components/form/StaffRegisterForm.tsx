@@ -96,20 +96,22 @@ export default function StaffRegisterForm() {
                 <FormLabel htmlFor="staffID" className="min-w-fit mt-2">
                   Staff ID
                 </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="staffID"
-                    type="text"
-                    placeholder="a/bc/123"
-                    onChange={(e) => {
-                      setStaffID(e.target.value);
-                      field.onChange(e.target.value);
-                    }}
-                    className="w-[27ch]"
-                  />
-                </FormControl>
-                <FormMessage className="ml-1" />
+                <div className="min-w-fit flex flex-col gap-2">
+                  <FormControl>
+                    <Input
+                      {...field}
+                      id="staffID"
+                      type="text"
+                      placeholder="a/bc/123"
+                      onChange={(e) => {
+                        setStaffID(e.target.value);
+                        field.onChange(e.target.value);
+                      }}
+                      className="w-[27ch]"
+                    />
+                  </FormControl>
+                  <FormMessage className="ml-1" />
+                </div>
               </FormItem>
             )}
           />
@@ -121,20 +123,22 @@ export default function StaffRegisterForm() {
                 <FormLabel htmlFor="staffName" className="min-w-fit mt-2">
                   Staff Name
                 </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="staffName"
-                    type="text"
-                    placeholder="Guido Van Rossum"
-                    onChange={(e) => {
-                      setStaffName(e.target.value);
-                      field.onChange(e.target.value);
-                    }}
-                    className="w-[27ch]"
-                  />
-                </FormControl>
-                <FormMessage className="ml-1" />
+                <div className="min-w-fit flex flex-col gap-2">
+                  <FormControl>
+                    <Input
+                      {...field}
+                      id="staffName"
+                      type="text"
+                      placeholder="Guido Van Rossum"
+                      onChange={(e) => {
+                        setStaffName(e.target.value);
+                        field.onChange(e.target.value);
+                      }}
+                      className="w-[27ch]"
+                    />
+                  </FormControl>
+                  <FormMessage className="ml-1" />
+                </div>
               </FormItem>
             )}
           />
@@ -146,20 +150,22 @@ export default function StaffRegisterForm() {
                 <FormLabel htmlFor="designation" className="min-w-fit mt-2">
                   Designation
                 </FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    id="designation"
-                    type="text"
-                    placeholder="Professor"
-                    onChange={(e) => {
-                      setDesignation(e.target.value);
-                      field.onChange(e.target.value);
-                    }}
-                    className="w-[27ch]"
-                  />
-                </FormControl>
-                <FormMessage className="ml-1" />
+                <div className="min-w-fit flex flex-col gap-2">
+                  <FormControl>
+                    <Input
+                      {...field}
+                      id="designation"
+                      type="text"
+                      placeholder="Professor"
+                      onChange={(e) => {
+                        setDesignation(e.target.value);
+                        field.onChange(e.target.value);
+                      }}
+                      className="w-[27ch]"
+                    />
+                  </FormControl>
+                  <FormMessage className="ml-1" />
+                </div>
               </FormItem>
             )}
           />
@@ -169,19 +175,21 @@ export default function StaffRegisterForm() {
             render={({ field }) => (
               <FormItem className="flex items-center justify-between gap-3">
                 <FormLabel className="min-w-fit mt-2">Password</FormLabel>
-                <FormControl>
-                  <Input
-                    {...field}
-                    placeholder="••••••••"
-                    type="password"
-                    onChange={(e) => {
-                      setPassword(e.target.value);
-                      field.onChange(e.target.value);
-                    }}
-                    className="w-[27ch]"
-                  />
-                </FormControl>
-                <FormMessage className="ml-1" />
+                <div className="min-w-fit flex flex-col gap-2">
+                  <FormControl>
+                    <Input
+                      {...field}
+                      placeholder="••••••••"
+                      type="password"
+                      onChange={(e) => {
+                        setPassword(e.target.value);
+                        field.onChange(e.target.value);
+                      }}
+                      className="w-[27ch]"
+                    />
+                  </FormControl>
+                  <FormMessage className="ml-1 max-w-[24ch]" />
+                </div>
               </FormItem>
             )}
           />

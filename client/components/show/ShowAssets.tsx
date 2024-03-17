@@ -1,7 +1,6 @@
 'use client';
 
-import { useState, useMemo } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useMemo, useEffect } from 'react';
 
 import {
   Table,
@@ -13,13 +12,15 @@ import {
   Pagination,
   Card,
 } from '@nextui-org/react';
+import { useToast } from '@/components/ui/use-toast';
 
+import { useDeleteAssetMutation } from '@/hooks/assetHook';
+import { useParamStore } from '@/stores/paramStore';
 import { ViewIcon } from '@/components/icons/ViewIcon';
 import { DownloadIcon } from '@radix-ui/react-icons';
 import { DeleteIcon } from '@/components/icons/DeleteIcon';
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 import { assetType } from '@/types/assetType';
-import { string } from 'zod';
 
 export default function ShowAssets({
   lable,
@@ -28,18 +29,27 @@ export default function ShowAssets({
   lable: string;
   assets: assetType[];
 }) {
-  const router = useRouter();
+  const mutation = useDeleteAssetMutation();
+
+  const { toast } = useToast();
+
+  const { setAssets } = useParamStore();
 
   const [page, setPage] = useState(1);
   const rowsPerPage = 10;
 
   const pages = Math.ceil(assets?.length / rowsPerPage);
+  const sortedAssets = useMemo(() => {
+    return assets
+      ? [...assets].sort((a, b) => a.assettype.localeCompare(b.assettype))
+      : [];
+  }, [assets]);
   const pageAssets = useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
 
-    return assets ? assets.slice(start, end) : [];
-  }, [page, assets]);
+    return sortedAssets ? sortedAssets.slice(start, end) : [];
+  }, [page, sortedAssets]);
   const keysToShow = ['S.no', 'Asset', 'Type', 'Actions'];
 
   const getAssetType = (id: string) => {
@@ -93,15 +103,43 @@ export default function ShowAssets({
     }
   };
 
-  const handleDownloadClick = (url: string | null) => {
+  const handleDownloadClick = async (url: string | null) => {
     if (typeof url === 'string') {
       const hasHttpOrHttps = url.startsWith('http') || url.startsWith('https');
       if (!hasHttpOrHttps) {
         const finalUrl = `${process.env.NEXT_PUBLIC_SERVER_URL}/${url}`;
-        window.open(finalUrl, '_blank', 'noopener,noreferrer');
+        const response = await fetch(finalUrl);
+        const blob = await response.blob();
+        const fileUrlList = finalUrl.split('/');
+        const fileName = fileUrlList[fileUrlList.length - 1];
+        const blobUrl = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = blobUrl;
+        link.download = fileName;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       }
     }
   };
+
+  const handleDeleteClick = (id: string) => {
+    mutation.mutate(id);
+  };
+
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      toast({
+        title: 'Asset Deleted',
+        description: 'Asset has been deleted successfully',
+      });
+      const newAssets = assets.filter(
+        (asset) => asset.id != mutation.data?.data.id,
+      );
+      setAssets(newAssets);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [mutation.isSuccess]);
 
   return (
     <>
@@ -137,7 +175,8 @@ export default function ShowAssets({
                     innerContent={<ViewIcon />}
                     props={{
                       onClick: () => handleViewClick(asset.asseturl),
-                      variant: 'icon',
+                      variant: 'ghost',
+                      size: 'icon',
                     }}
                   />
                   {!(
@@ -148,14 +187,17 @@ export default function ShowAssets({
                       innerContent={<DownloadIcon />}
                       props={{
                         onClick: () => handleDownloadClick(asset.asseturl),
-                        variant: 'icon',
+                        variant: 'ghost',
+                        size: 'icon',
                       }}
                     />
                   )}
                   <ButtonWithSpinner
                     innerContent={<DeleteIcon />}
                     props={{
-                      variant: 'icon',
+                      onClick: () => handleDeleteClick(asset.id),
+                      variant: 'ghost',
+                      size: 'icon',
                     }}
                   />
                 </TableCell>

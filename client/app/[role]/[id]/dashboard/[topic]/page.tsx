@@ -4,7 +4,6 @@ import { useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 
 import { useParamStore } from '@/stores/paramStore';
-import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 import AddAssetDialog from '@/components/adddialog/AddAssetDialog';
 import ShowAssets from '@/components/show/ShowAssets';
 import AssetSearchCard from '@/components/searchcard/AssetSearchCard';

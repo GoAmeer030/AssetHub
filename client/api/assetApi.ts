@@ -59,3 +59,16 @@ export const getAssets = async (
 
   return response;
 };
+
+export const deleteAsset = async (assetId: string): Promise<AxiosResponse> => {
+  const response: AxiosResponse = await axios.delete(
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/deleteasset/${assetId}`,
+    {
+      headers: {
+        authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+      },
+    },
+  );
+
+  return response;
+};

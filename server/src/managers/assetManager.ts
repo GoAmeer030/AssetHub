@@ -79,6 +79,7 @@ export default class AssetManager {
   };
 
   deleteAssetHandler = async (req: extendedRequest | any, res: Response) => {
+    console.log(req.params);
     const id = parseInt(req.params.id);
     if (isNaN(id) || id < 0) {
       res.status(400).send({ error: 'Invalid id' });

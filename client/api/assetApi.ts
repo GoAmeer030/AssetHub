@@ -1,6 +1,7 @@
 import axios, { AxiosResponse } from 'axios';
 
 import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
+
 import { assetType } from '@/types/assetType';
 
 export const postAddAsset = async ({

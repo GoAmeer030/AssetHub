@@ -1,10 +1,8 @@
 'use client';
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
 import Footer from '@/components/Footer';
 import ContactForm from '@/components/form/ContactForm';
-
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 
 export function ContactCard() {

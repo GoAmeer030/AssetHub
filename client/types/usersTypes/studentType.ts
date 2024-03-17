@@ -1,11 +1,11 @@
 export type studentState = {
-    regNo: string;
+  regNo: string;
 
-    setRegNo: (regNo: string) => void;
+  setRegNo: (regNo: string) => void;
 
-    resetStudent: () => void;
-}
+  resetStudent: () => void;
+};
 
 export type studentType = {
-    regNo: string;
-}
+  regNo: string;
+};

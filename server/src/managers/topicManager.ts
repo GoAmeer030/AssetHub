@@ -1,5 +1,5 @@
-import { Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { Response } from 'express';
 
 import { extendedRequest } from '../../types/extendedTypes';
 

@@ -1,8 +1,7 @@
 'use client';
 
+import { deleteTopic, getTopics, postAddTopic } from '@/api/topicApi';
 import { useMutation, useQuery } from '@tanstack/react-query';
-
-import { postAddTopic, getTopics, deleteTopic } from '@/api/topicApi';
 
 import { toast, useToast } from '@/components/ui/use-toast';
 

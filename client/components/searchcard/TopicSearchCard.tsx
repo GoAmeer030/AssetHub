@@ -2,8 +2,7 @@
 
 import { useEffect, useMemo } from 'react';
 
-import { Input } from '@/components/ui/input';
-import { useToast } from '@/components/ui/use-toast';
+import { SearchIcon } from '@/components/icons/SearchIcon';
 import {
   Card,
   CardContent,
@@ -12,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -19,14 +19,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-
+import { useToast } from '@/components/ui/use-toast';
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
-import { SearchIcon } from '@/components/icons/SearchIcon';
+
+import { useGetTopicsMutation } from '@/hooks/topicHooks';
+
+import { useParamStore } from '@/stores/paramStore';
+import { useTopicStore } from '@/stores/topicStore';
 
 import { topicType } from '@/types/topicType';
-import { useTopicStore } from '@/stores/topicStore';
-import { useParamStore } from '@/stores/paramStore';
-import { useGetTopicsMutation } from '@/hooks/topicHooks';
 
 export default function TopicSearchCard({
   userId,

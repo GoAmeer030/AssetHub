@@ -1,8 +1,7 @@
 'use client';
 
+import { deleteAsset, getAssets, postAddAsset } from '@/api/assetApi';
 import { useMutation } from '@tanstack/react-query';
-
-import { getAssets, postAddAsset, deleteAsset } from '@/api/assetApi';
 
 import { useToast } from '@/components/ui/use-toast';
 

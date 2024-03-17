@@ -1,8 +1,7 @@
 'use client';
 
-import { useMutation } from '@tanstack/react-query';
-
 import { postContact } from '@/api/contactApi';
+import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from '@/components/ui/use-toast';
 

@@ -13,7 +13,7 @@
   "scripts": {
     "install-all": "concurrently \"cd client && npm i\" \"cd server && npm i && npx prisma generate\"",
     "dev": "concurrently \"npm run dev --prefix client\" \"npm run start --prefix server\"",
-    "format": "prettier --write",
+    "format": "prettier --write \"./**/*.{js,jsx,mjs,cjs,ts,tsx,json}\"",
     "prepare": "husky"
   },
   "config": {

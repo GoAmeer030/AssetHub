@@ -1,10 +1,11 @@
-import { create } from "zustand";
-import { studentState } from "@/types/usersTypes/studentType";
+import { create } from 'zustand';
+
+import { studentState } from '@/types/usersTypes/studentType';
 
 export const useStudentStore = create<studentState>((set) => ({
-    regNo: '',
+  regNo: '',
 
-    setRegNo: (regNo: string) => set({ regNo }),
+  setRegNo: (regNo: string) => set({ regNo }),
 
-    resetStudent: () => set({ regNo: '' })
+  resetStudent: () => set({ regNo: '' }),
 }));

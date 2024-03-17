@@ -1,5 +1,4 @@
 import { PrismaClient } from '@prisma/client';
-
 import { Response } from 'express';
 
 export default class AdminManager {

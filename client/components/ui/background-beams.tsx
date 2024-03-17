@@ -1,9 +1,8 @@
 'use client';
 
-import React from 'react';
-import { motion } from 'framer-motion';
-
 import { cn } from '@/lib/utils';
+import { motion } from 'framer-motion';
+import React from 'react';
 
 export function BackgroundBeamsDemo() {
   return (

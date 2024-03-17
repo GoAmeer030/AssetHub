@@ -1,8 +1,8 @@
 import { create } from 'zustand';
 
+import { assetType } from '@/types/assetType';
 import { ParamState } from '@/types/paramType';
 import { topicType } from '@/types/topicType';
-import { assetType } from '@/types/assetType';
 
 export const useParamStore = create<ParamState>((set) => ({
   // Topic related state

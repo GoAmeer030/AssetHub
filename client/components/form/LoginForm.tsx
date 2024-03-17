@@ -1,15 +1,21 @@
 'use client';
 
+import { staffFormSchema } from '@/lib/validations/StaffLoginFormSchema';
+import { studentFormSchema } from '@/lib/validations/StudentLoginFormSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { CardContent } from '@/components/ui/card';
-import { useToast } from '@/components/ui/use-toast';
-import { Separator } from '@/components/ui/separator';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
 import {
   Form,
   FormControl,
@@ -18,23 +24,18 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog';
-
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { useToast } from '@/components/ui/use-toast';
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
-import { staffType } from '@/types/usersTypes/staffType';
 import { useLoginMutation } from '@/hooks/auth/loginHook';
-import { studentType } from '@/types/usersTypes/studentType';
+
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
-import { staffFormSchema } from '@/lib/validations/StaffLoginFormSchema';
-import { studentFormSchema } from '@/lib/validations/StudentLoginFormSchema';
+
+import { staffType } from '@/types/usersTypes/staffType';
+import { studentType } from '@/types/usersTypes/studentType';
 
 export default function LoginForm() {
   const { regNo, setRegNo } = useStudentStore();

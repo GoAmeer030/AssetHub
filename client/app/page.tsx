@@ -1,12 +1,13 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
+import { useEffect, useMemo } from 'react';
 
+import { useVerifyTokenMutation } from '@/hooks/auth/verifyTokenHook';
+
+import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
-import { useVerifyTokenMutation } from '@/hooks/auth/verifyTokenHook';
-import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
 
 export default function Page() {
   const router = useRouter();

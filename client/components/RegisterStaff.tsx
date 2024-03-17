@@ -1,15 +1,13 @@
 'use client';
 
+import Footer from '@/components/Footer';
+import StaffRegisterForm from '@/components/form/StaffRegisterForm';
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-
-import Footer from '@/components/Footer';
-import StaffRegisterForm from '@/components/form/StaffRegisterForm';
-
 import { Separator } from '@/components/ui/separator';
 
 export function RegisterStaff() {

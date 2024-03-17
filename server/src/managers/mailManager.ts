@@ -1,9 +1,8 @@
+import { Response } from 'express';
+import fs from 'fs';
 import nodemailer from 'nodemailer';
 
-import { Response } from 'express';
 import { extendedRequest } from '../../types/extendedTypes';
-
-import fs from 'fs';
 
 export default class MailManager {
   private transporter: nodemailer.Transporter;

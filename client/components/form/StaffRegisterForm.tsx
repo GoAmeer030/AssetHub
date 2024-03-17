@@ -1,11 +1,11 @@
 'use client';
 
+import { staffRegisterFormSchema } from '@/lib/validations/RegisterStaffSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
-import { useRouter } from 'next/navigation';
-import { zodResolver } from '@hookform/resolvers/zod';
 
-import { Input } from '@/components/ui/input';
 import { CardContent } from '@/components/ui/card';
 import {
   Form,
@@ -15,13 +15,14 @@ import {
   FormLabel,
   FormMessage,
 } from '@/components/ui/form';
-
+import { Input } from '@/components/ui/input';
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
-import { staffType } from '@/types/usersTypes/staffType';
-import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStaffRegisterMutation } from '@/hooks/auth/staffRegisterHook';
-import { staffRegisterFormSchema } from '@/lib/validations/RegisterStaffSchema';
+
+import { useStaffStore } from '@/stores/usersStore/staffStore';
+
+import { staffType } from '@/types/usersTypes/staffType';
 
 export default function StaffRegisterForm() {
   const {

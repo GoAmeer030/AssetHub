@@ -1,5 +1,5 @@
-import { topicType } from '@/types/topicType';
 import { assetType } from '@/types/assetType';
+import { topicType } from '@/types/topicType';
 
 type TopicState = {
   topics: topicType[];

@@ -1,13 +1,12 @@
 'use client';
 
+import Providers from '@/app/providers';
+import { cn } from '@/lib/utils';
 import '@/styles/globals.css';
 import { Inter as FontSans } from 'next/font/google';
 
-import { cn } from '@/lib/utils';
-import { Toaster } from '@/components/ui/toaster';
-
-import Providers from '@/app/providers';
 import Header from '@/components/Navbar';
+import { Toaster } from '@/components/ui/toaster';
 
 export const fontSans = FontSans({
   subsets: ['latin'],

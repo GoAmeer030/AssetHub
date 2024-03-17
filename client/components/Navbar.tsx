@@ -12,15 +12,14 @@ import {
   NavbarItem,
 } from '@nextui-org/react';
 
-import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
-import { useStaffStore } from '@/stores/usersStore/staffStore';
-import { useStudentStore } from '@/stores/usersStore/studentStore';
-
-import SearchBox from '@/components/SearchBox';
 import LogoutButton from '@/components/LogoutButton';
+import SearchBox from '@/components/SearchBox';
+import { ThemeMenuButton } from '@/components/ThemeMenuButton';
 import AddTopicButton from '@/components/updatedui/AddButton';
 
-import { ThemeMenuButton } from '@/components/ThemeMenuButton';
+import { useStaffStore } from '@/stores/usersStore/staffStore';
+import { useStudentStore } from '@/stores/usersStore/studentStore';
+import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 
 export default function Header() {
   const { photo, staffName, designation } = useStaffStore();

@@ -1,7 +1,6 @@
+import { cn } from '@/lib/utils';
 import clsx from 'clsx';
 import React from 'react';
-
-import { cn } from '@/lib/utils';
 
 export const Meteors = ({
   number,

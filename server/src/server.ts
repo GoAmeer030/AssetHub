@@ -1,22 +1,19 @@
-import cors from 'cors';
-import express from 'express';
-
-import multer from 'multer';
-import morgan from 'morgan';
 import { PrismaClient } from '@prisma/client';
+import cors from 'cors';
 import { config as dotenvConfig } from 'dotenv';
-
+import express from 'express';
 import fs from 'fs';
+import morgan from 'morgan';
+import multer from 'multer';
 import path from 'path';
 
-import { ErrorHandlerMiddleware, CheckValidUser } from './middleware';
-
 import AdminManager from './managers/adminManager';
-import UserManager from './managers/userManager';
-import TopicManager from './managers/topicManager';
-import AuthManager from './managers/authManager';
 import AssetManager from './managers/assetManager';
+import AuthManager from './managers/authManager';
 import MailManager from './managers/mailManager';
+import TopicManager from './managers/topicManager';
+import UserManager from './managers/userManager';
+import { CheckValidUser, ErrorHandlerMiddleware } from './middleware';
 
 // Loading env variables
 dotenvConfig();

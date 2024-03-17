@@ -1,12 +1,12 @@
 'use client';
 
-import { useTheme } from 'next-themes';
 import { PlusIcon } from '@radix-ui/react-icons';
+import { useTheme } from 'next-themes';
+
+import { useParamStore } from '@/stores/paramStore';
 
 import { Card } from '../ui/card';
 import { SparklesCore } from '../ui/sparkles';
-
-import { useParamStore } from '@/stores/paramStore';
 
 export default function AddTopicButton() {
   const { theme } = useTheme();

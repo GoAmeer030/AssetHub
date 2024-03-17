@@ -1,7 +1,6 @@
-import jwt from 'jsonwebtoken';
 import { PrismaClient } from '@prisma/client';
-
 import { Request, Response } from 'express';
+import jwt from 'jsonwebtoken';
 
 import { extendedRequest } from '../../types/extendedTypes';
 

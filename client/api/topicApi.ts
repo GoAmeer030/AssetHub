@@ -1,8 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
 
-import { topicType } from '@/types/topicType';
-
 import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
+
+import { topicType } from '@/types/topicType';
 
 export const postAddTopic = async (
   uploadDetails: topicType,

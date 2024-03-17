@@ -1,5 +1,6 @@
 'use client';
 
+import AddTopicForm from '@/components/form/AddTopicForm';
 import {
   Dialog,
   DialogContent,
@@ -7,8 +8,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-
-import AddTopicForm from '@/components/form/AddTopicForm';
 
 import { useParamStore } from '@/stores/paramStore';
 

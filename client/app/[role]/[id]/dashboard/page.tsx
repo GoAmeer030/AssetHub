@@ -1,18 +1,18 @@
 'use client';
 
-import { useState, useEffect } from 'react';
 import { useParams, useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
-import ShowTopics from '@/components/show/ShowTopics';
 import AddTopicDialog from '@/components/adddialog/AddTopicDialog';
 import TopicSearchCard from '@/components/searchcard/TopicSearchCard';
+import ShowTopics from '@/components/show/ShowTopics';
 
 import { useGetStaffDetails } from '@/hooks/userHooks';
 
 import { useParamStore } from '@/stores/paramStore';
-import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
+import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 
 export default function Page() {
   const params = useParams();

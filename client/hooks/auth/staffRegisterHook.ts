@@ -1,8 +1,7 @@
+import { postStaffRegister } from '@/api/auth/staffRegister';
 import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from '@/components/ui/use-toast';
-
-import { postStaffRegister } from '@/api/auth/staffRegister';
 
 export function useStaffRegisterMutation() {
   const { toast } = useToast();

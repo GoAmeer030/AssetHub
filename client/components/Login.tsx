@@ -1,17 +1,21 @@
 /* eslint-disable react/no-unescaped-entities */
 'use client';
 
+import Footer from '@/components/Footer';
+import LoginForm from '@/components/form/LoginForm';
 import {
   Card,
   CardDescription,
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+
 import { Meteors } from './ui/meteors';
 import { Separator } from './ui/separator';
 
-import Footer from '@/components/Footer';
-import LoginForm from '@/components/form/LoginForm';
+/* eslint-disable react/no-unescaped-entities */
+
+/* eslint-disable react/no-unescaped-entities */
 
 export function Login() {
   return (

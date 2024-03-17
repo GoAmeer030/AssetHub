@@ -11,7 +11,9 @@
     "importOrder": [
         "^@nextui-org/(.*)$",
         "^@@radix-ui/(.*)$",
+        "^@tanstack/(.*)$",
         "^@/components/(.*)$",
+        "^@/api/(.*)$",
         "^@/hooks/(.*)$",
         "^@/stores/(.*)$",
         "^@/types/(.*)$",

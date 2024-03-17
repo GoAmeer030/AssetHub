@@ -1,10 +1,11 @@
-import { postVerifyToken } from '@/api/auth/verifyToken';
-import { useMutation } from '@tanstack/react-query';
-import { set } from 'date-fns';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo } from 'react';
 
+import { useMutation } from '@tanstack/react-query';
+
 import { useToast } from '@/components/ui/use-toast';
+
+import { postVerifyToken } from '@/api/auth/verifyToken';
 
 import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
 import { useStaffStore } from '@/stores/usersStore/staffStore';

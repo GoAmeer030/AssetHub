@@ -10,7 +10,7 @@ export const postAddAsset = async ({
 }: {
   uploadDetails: assetType;
   topicid: string;
-}): Promise<AxiosResponse> => {
+}) => {
   const formData = new FormData();
 
   formData.append('topicId', topicid);
@@ -23,23 +23,27 @@ export const postAddAsset = async ({
     formData.append('file', uploadDetails.file);
   }
 
-  const response: AxiosResponse = await axios.post(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/addasset`,
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+  try {
+    const response: AxiosResponse = await axios.post(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/addasset`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+        },
       },
-    },
-  );
+    );
 
-  return response;
+    return response;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
 };
 
-export const getAssets = async (
-  data: assetType | { topicId: string },
-): Promise<AxiosResponse> => {
+export const getAssets = async (data: assetType | { topicId: string }) => {
   const params: any = {};
   if ('topicId' in data) {
     params.topicId = data.topicId;
@@ -48,28 +52,40 @@ export const getAssets = async (
     params.assettype = data.assettype;
   }
 
-  const response: AxiosResponse = await axios.get(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/getassets`,
-    {
-      headers: {
-        authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+  try {
+    const response: AxiosResponse = await axios.get(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/getassets`,
+      {
+        headers: {
+          authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+        },
+        params: params,
       },
-      params: params,
-    },
-  );
+    );
 
-  return response;
+    return response;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
 };
 
-export const deleteAsset = async (assetId: string): Promise<AxiosResponse> => {
-  const response: AxiosResponse = await axios.delete(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/deleteasset/${assetId}`,
-    {
-      headers: {
-        authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+export const deleteAsset = async (assetId: string) => {
+  try {
+    const response: AxiosResponse = await axios.delete(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/deleteasset/${assetId}`,
+      {
+        headers: {
+          authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+        },
       },
-    },
-  );
+    );
 
-  return response;
+    return response;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
 };

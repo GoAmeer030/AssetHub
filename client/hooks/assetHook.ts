@@ -10,10 +10,11 @@ export function useAddAssetMutation() {
   const mutation = useMutation({
     mutationFn: postAddAsset,
     onSuccess: () => {},
-    onError: () => {
+    onError: (error) => {
       toast({
         title: 'Unable to create topic',
         description:
+          error.message ||
           'Error while creating topic! Please try again later or contact developer',
         variant: 'destructive',
       });
@@ -29,10 +30,11 @@ export function useGetAssetsMutation() {
     mutationFn: getAssets,
     retry: false,
 
-    onError: () => {
+    onError: (error) => {
       toast({
         title: 'Unable to fetch assets',
         description:
+          error.message ||
           'Error while fetching assets! Please try again later or contact developer',
         variant: 'destructive',
       });
@@ -47,10 +49,11 @@ export function useDeleteAssetMutation() {
   const mutation = useMutation({
     mutationFn: deleteAsset,
     onSuccess: () => {},
-    onError: () => {
+    onError: (error) => {
       toast({
         title: 'Unable to delete asset',
         description:
+          error.message ||
           'Error while deleting asset! Please try again later or contact developer',
         variant: 'destructive',
       });

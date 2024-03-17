@@ -4,9 +4,7 @@ import { useAccessTokenStore } from '@/stores/tokenStore/accessTokenStore';
 
 import { topicType } from '@/types/topicType';
 
-export const postAddTopic = async (
-  uploadDetails: topicType,
-): Promise<AxiosResponse> => {
+export const postAddTopic = async (uploadDetails: topicType) => {
   const formData = new FormData();
 
   formData.append('syllabus', uploadDetails.syllabus);
@@ -17,23 +15,27 @@ export const postAddTopic = async (
   formData.append('topicName', uploadDetails.topicname);
   formData.append('topicDesc', uploadDetails.topicdesc);
 
-  const response: AxiosResponse = await axios.post(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/addtopic`,
-    formData,
-    {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-        authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+  try {
+    const response: AxiosResponse = await axios.post(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/addtopic`,
+      formData,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+        },
       },
-    },
-  );
+    );
 
-  return response;
+    return response;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
 };
 
-export const getTopics = async (
-  data: topicType | { staffId: string },
-): Promise<AxiosResponse> => {
+export const getTopics = async (data: topicType | { staffId: string }) => {
   const params: any = {};
   if ('staffId' in data) {
     params.staffId = data.staffId;
@@ -48,28 +50,40 @@ export const getTopics = async (
 
   // console.log('params', params);
 
-  const response: AxiosResponse = await axios.get(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/gettopics`,
-    {
-      headers: {
-        authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+  try {
+    const response: AxiosResponse = await axios.get(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/gettopics`,
+      {
+        headers: {
+          authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+        },
+        params: params,
       },
-      params: params,
-    },
-  );
+    );
 
-  return response;
+    return response;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
 };
 
-export const deleteTopic = async (fileId: string): Promise<AxiosResponse> => {
-  const response: AxiosResponse = await axios.delete(
-    `${process.env.NEXT_PUBLIC_SERVER_URL}/deletetopic/${fileId}`,
-    {
-      headers: {
-        authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+export const deleteTopic = async (fileId: string) => {
+  try {
+    const response: AxiosResponse = await axios.delete(
+      `${process.env.NEXT_PUBLIC_SERVER_URL}/deletetopic/${fileId}`,
+      {
+        headers: {
+          authorization: `Bearer ${useAccessTokenStore.getState().accessToken}`,
+        },
       },
-    },
-  );
+    );
 
-  return response;
+    return response;
+  } catch (error: any) {
+    if (error.response) {
+      throw new Error(error.response.data.message);
+    }
+  }
 };

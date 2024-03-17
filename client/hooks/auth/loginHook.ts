@@ -14,18 +14,21 @@ export function useLoginMutation() {
   const mutation = useMutation({
     mutationFn: postLogin,
     onSuccess: (data) => {
-      const accessToken = data.data.accessToken;
-      setAccessToken(accessToken);
-      if ('staffid' in data.data.user) {
-        const staffID = data.data.user.id;
-        useStaffStore.getState().setStaffID(staffID);
+      if (data) {
+        const accessToken = data.data.accessToken;
+        setAccessToken(accessToken);
+        if ('staffid' in data.data.user) {
+          const staffID = data.data.user.id;
+          useStaffStore.getState().setStaffID(staffID);
+        }
       }
     },
-    onError: () => {
+    onError: (error) => {
       // console.log("error");
       toast({
-        title: 'Something went wrong',
+        title: 'Error while logging in!!',
         description:
+          error.message ||
           'Error while logging in!! Please try again later or contact developer',
         variant: 'destructive',
       });

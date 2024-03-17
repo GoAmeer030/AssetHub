@@ -24,7 +24,7 @@ export default class MailManager {
     const user = req.user;
 
     if (!user) {
-      res.status(401).send({ error: 'Unauthorized' });
+      res.status(401).send({ message: 'Unauthorized' });
       return;
     }
 
@@ -53,13 +53,13 @@ export default class MailManager {
 
       this.transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-          res.status(500).send({ error: 'Internal server error' });
+          res.status(500).send({ message: 'Internal server error' });
           return;
         }
         res.status(200).send();
       });
     } else {
-      res.status(400).send({ error: 'Invalid input' });
+      res.status(400).send({ message: 'Invalid input' });
     }
 
     req.files.forEach((file: Express.Multer.File) => {

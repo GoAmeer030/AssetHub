@@ -14,7 +14,7 @@ export default class TopicManager {
     const staff = req.user;
 
     if (!staff || !('id' in staff.user)) {
-      res.status(401).send({ error: 'Unauthorized' });
+      res.status(401).send({ message: 'Unauthorized' });
       return;
     }
 
@@ -22,7 +22,7 @@ export default class TopicManager {
       where: { id: staff.user.id },
     });
     if (!existingStaff) {
-      res.status(400).send({ error: 'Staff not found' });
+      res.status(400).send({ message: 'Staff not found' });
       return;
     }
 
@@ -75,7 +75,7 @@ export default class TopicManager {
     });
 
     if (!topic) {
-      res.status(400).send({ error: 'No Topics found' });
+      res.status(400).send({ message: 'No Topics found' });
       return;
     }
 
@@ -85,13 +85,13 @@ export default class TopicManager {
   deleteTopicHandler = async (req: extendedRequest | any, res: Response) => {
     const id = parseInt(req.params.id);
     if (isNaN(id) || id < 0) {
-      res.status(400).send({ error: 'Invalid id' });
+      res.status(400).send({ message: 'Invalid id' });
       return;
     }
 
     const staff = req.user;
     if (!staff || !('id' in staff.user)) {
-      res.status(401).send({ error: 'Unauthorized' });
+      res.status(401).send({ message: 'Unauthorized' });
       return;
     }
 
@@ -102,12 +102,12 @@ export default class TopicManager {
     });
 
     if (!topic) {
-      res.status(400).send({ error: 'Topic not found' });
+      res.status(400).send({ message: 'Topic not found' });
       return;
     }
 
     if (topic.staffid != staff.user.id) {
-      res.status(401).send({ error: 'Unauthorized' });
+      res.status(401).send({ message: 'Unauthorized' });
       return;
     }
 

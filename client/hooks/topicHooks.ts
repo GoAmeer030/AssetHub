@@ -10,10 +10,11 @@ export function useAddTopicMutation() {
   const mutation = useMutation({
     mutationFn: postAddTopic,
     onSuccess: () => {},
-    onError: () => {
+    onError: (error) => {
       toast({
         title: 'Unable to create topic',
         description:
+          error.message ||
           'Error while creating topic! Please try again later or contact developer',
         variant: 'destructive',
       });
@@ -28,15 +29,11 @@ export function useGetTopicsMutation() {
     mutationFn: getTopics,
     gcTime: 0,
     retry: false,
-    onSuccess: (data) => {
-      // console.log("success");
-      // console.log(data.data.file);
-    },
-    onError: () => {
-      // console.log("error");
+    onError: (error) => {
       toast({
         title: 'Something went wrong',
         description:
+          error.message ||
           'Error while fetching topics!! Please try again later or contact developer',
         variant: 'destructive',
       });
@@ -47,13 +44,17 @@ export function useGetTopicsMutation() {
 }
 
 export function useDeleteTopicMutation() {
+  const { toast } = useToast();
   const mutation = useMutation({
     mutationFn: deleteTopic,
-    onSuccess: () => {
-      // console.log("file deleted");
-    },
-    onError: () => {
-      // console.log("error");
+    onError: (error) => {
+      toast({
+        title: 'Unable to delete topic',
+        description:
+          error.message ||
+          'Error while deleting topic!! Please try again later or contact developer',
+        variant: 'destructive',
+      });
     },
   });
 

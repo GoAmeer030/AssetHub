@@ -16,10 +16,11 @@ export function useContactMutation() {
         description: 'Thank you for contacting us!',
       });
     },
-    onError: () => {
+    onError: (error) => {
       toast({
         title: 'Unable to send message',
         description:
+          error.message ||
           'Error while sending message! Please try again later or contact developer',
         variant: 'destructive',
       });

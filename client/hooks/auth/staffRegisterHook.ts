@@ -16,11 +16,12 @@ export function useStaffRegisterMutation() {
           'Staff Registered successfully!! Now you can login with your credentials.',
       });
     },
-    onError: () => {
+    onError: (error) => {
       // console.log("error");
       toast({
         title: 'Something went wrong',
         description:
+          error.message ||
           'Error while logging in!! Please try again later or contact developer',
         variant: 'destructive',
       });

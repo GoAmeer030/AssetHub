@@ -14,7 +14,7 @@ export default class AssetManager {
     const staff = req.user;
 
     if (!staff || !('id' in staff.user)) {
-      res.status(401).send({ error: 'Unauthorized' });
+      res.status(401).send({ message: 'Unauthorized' });
       return;
     }
     let topic = await this.prisma.topic.findUnique({
@@ -24,12 +24,12 @@ export default class AssetManager {
     });
 
     if (!topic) {
-      res.status(400).send({ error: 'Topic not found' });
+      res.status(400).send({ message: 'Topic not found' });
       return;
     }
 
     if (topic.staffid != staff.user.id) {
-      res.status(402).send({ error: 'Staff ID mismatch' });
+      res.status(402).send({ message: 'Staff ID mismatch' });
       return;
     }
 
@@ -49,7 +49,7 @@ export default class AssetManager {
     const user = req.user;
 
     if (!user) {
-      res.status(401).send({ error: 'Unauthorized' });
+      res.status(401).send({ message: 'Unauthorized' });
       return;
     }
 
@@ -70,7 +70,7 @@ export default class AssetManager {
     });
 
     if (!asset) {
-      res.status(400).send({ error: 'No Assets found' });
+      res.status(400).send({ message: 'No Assets found' });
       return;
     }
 
@@ -81,13 +81,13 @@ export default class AssetManager {
     console.log(req.params);
     const id = parseInt(req.params.id);
     if (isNaN(id) || id < 0) {
-      res.status(400).send({ error: 'Invalid id' });
+      res.status(400).send({ message: 'Invalid id' });
       return;
     }
 
     const staff = req.user;
     if (!staff || !('id' in staff.user)) {
-      res.status(401).send({ error: 'Unauthorized' });
+      res.status(401).send({ message: 'Unauthorized' });
       return;
     }
 
@@ -98,7 +98,7 @@ export default class AssetManager {
     });
 
     if (!asset) {
-      res.status(400).send({ error: 'Asset not found' });
+      res.status(400).send({ message: 'Asset not found' });
       return;
     }
 
@@ -109,12 +109,12 @@ export default class AssetManager {
     });
 
     if (!topic) {
-      res.status(400).send({ error: 'Topic not found' });
+      res.status(400).send({ message: 'Topic not found' });
       return;
     }
 
     if (topic.staffid != staff.user.id) {
-      res.status(402).send({ error: 'Staff ID mismatch' });
+      res.status(402).send({ message: 'Staff ID mismatch' });
       return;
     }
 

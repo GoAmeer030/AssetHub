@@ -29,12 +29,12 @@ export default class AuthManager {
           res.status(200).send(staff);
         })
         .catch((err) => {
-          res.status(500).send({ error: 'Internal Server Error' });
+          res.status(500).send({ message: 'Internal Server Error' });
         });
     } else if ('regNo' in user.user) {
       res.status(200).send({ regNo: user.user.regNo });
     } else {
-      res.status(400).send({ error: 'Invalid user' });
+      res.status(400).send({ message: 'Invalid user' });
     }
   };
 
@@ -46,12 +46,12 @@ export default class AuthManager {
       });
 
       if (!user) {
-        res.status(400).send({ error: 'User not found' });
+        res.status(400).send({ message: 'User not found' });
         return;
       }
 
       if (user.password !== req.body.password) {
-        res.status(400).send({ error: 'Invalid password' });
+        res.status(400).send({ message: 'Invalid password' });
         return;
       }
     } else {

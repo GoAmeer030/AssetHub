@@ -15,6 +15,10 @@ export default class AdminManager {
       },
     });
 
-    res.status(200).send(staff);
+    if (!staff) {
+      res.status(404).send({ message: 'Staff not found' });
+    } else {
+      res.status(200).send(staff);
+    }
   };
 }

@@ -10,6 +10,7 @@
     "jsxBracketSameLine": false,
     "importOrder": [
         "^@nextui-org/(.*)$",
+        "^@@radix-ui/(.*)$",
         "^@/components/(.*)$",
         "^@/hooks/(.*)$",
         "^@/stores/(.*)$",
@@ -18,5 +19,8 @@
         "^[./]"
     ],
     "importOrderSeparation": true,
-    "importOrderSortSpecifiers": true
+    "importOrderSortSpecifiers": true,
+    "plugins": [
+        "@trivago/prettier-plugin-sort-imports"
+    ]
 }

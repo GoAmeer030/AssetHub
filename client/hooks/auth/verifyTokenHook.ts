@@ -28,7 +28,7 @@ export function useVerifyTokenMutation() {
           setStaffID(data.data.id);
           setStaffName(data.data.staffname);
           setDesignation(data.data.designation);
-          setPhoto(data.data.photo);
+          setPhoto(data.data.photourl);
           setId(data.data.id);
           setRole('staff');
         } else {
@@ -53,24 +53,26 @@ export function useVerifyTokenMutation() {
   return mutation;
 }
 
-export function useVerifyToken() {
+export function useVerifyToken(isRedirectToDashboard = false) {
   const router = useRouter();
   const mutation = useVerifyTokenMutation();
-  const { accessToken } = useAccessTokenStore();
+  const accessToken = useAccessTokenStore.getState().accessToken;
 
   useEffect(() => {
     if (accessToken) {
       mutation.mutate(accessToken);
     } else {
       router.push('/auth/signin');
+      console.log('going to home page');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [accessToken]);
+  }, []);
 
   const success = useMemo(() => mutation.isSuccess, [mutation.isSuccess]);
+  const error = useMemo(() => mutation.isError, [mutation.isError]);
 
   useEffect(() => {
-    if (mutation.isSuccess) {
+    if (mutation.isSuccess && isRedirectToDashboard) {
       const role = useUserRoleIdStore.getState().role;
       if (role === 'staff') {
         router.push(`/staff/${useStaffStore.getState().staffID}/dashboard`);
@@ -83,5 +85,5 @@ export function useVerifyToken() {
       router.push('/auth/signin');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [success]);
+  }, [success, error]);
 }

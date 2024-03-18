@@ -1,15 +1,19 @@
 'use client';
 
 import { useParams, useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { use, useEffect } from 'react';
 
 import AddAssetDialog from '@/components/adddialog/AddAssetDialog';
 import AssetSearchCard from '@/components/searchcard/AssetSearchCard';
 import ShowAssets from '@/components/show/ShowAssets';
 
+import { useVerifyToken } from '@/hooks/auth/verifyTokenHook';
+
 import { useParamStore } from '@/stores/paramStore';
 
 export default function Page() {
+  useVerifyToken();
+
   const params = useParams();
   const router = useRouter();
 

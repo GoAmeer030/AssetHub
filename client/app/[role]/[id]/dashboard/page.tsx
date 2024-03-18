@@ -7,6 +7,7 @@ import AddTopicDialog from '@/components/adddialog/AddTopicDialog';
 import TopicSearchCard from '@/components/searchcard/TopicSearchCard';
 import ShowTopics from '@/components/show/ShowTopics';
 
+import { useVerifyToken } from '@/hooks/auth/verifyTokenHook';
 import { useGetStaffDetails } from '@/hooks/userHooks';
 
 import { useParamStore } from '@/stores/paramStore';
@@ -15,6 +16,8 @@ import { useStudentStore } from '@/stores/usersStore/studentStore';
 import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 
 export default function Page() {
+  useVerifyToken();
+
   const params = useParams();
   const router = useRouter();
 

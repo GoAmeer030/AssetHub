@@ -143,7 +143,7 @@ export default function LoginForm() {
 
       <div className="flex items-center space-x-2">
         <Separator className="w-[45%]" />
-        <span className="text-xs text-muted-foreground">OR</span>
+        <span className="text-[0.6rem] text-muted-foreground">OR</span>
         <Separator className="w-[45%]" />
       </div>
 

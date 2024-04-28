@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 
+import { DeleteIcon } from '@/components/icons/DeleteIcon';
 import { SearchIcon } from '@/components/icons/SearchIcon';
 import {
   Card,
@@ -23,12 +24,15 @@ import { useToast } from '@/components/ui/use-toast';
 import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 
 import { useGetAssetsMutation } from '@/hooks/assetHook';
+import { useDeleteTopicMutation } from '@/hooks/topicHooks';
 
 import { useAssetStore } from '@/stores/assetStore';
 import { useParamStore } from '@/stores/paramStore';
+import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 
 export default function AssetSearchCard({ topicId }: { topicId: string }) {
   const {
+    assets,
     setAssets,
     searchAssetResultTrigger,
     setSearchAssetResultTrigger,
@@ -84,14 +88,57 @@ export default function AssetSearchCard({ topicId }: { topicId: string }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutation.isSuccess]);
 
+  const { role } = useUserRoleIdStore();
+  const deleteMutation = useDeleteTopicMutation();
+
+  const handleDelete = async (id: string) => {
+    if (assets.length > 0) {
+      toast({
+        title: 'Deletion Failed',
+        variant: 'destructive',
+        description:
+          'There are still assets in this topic. Please remove them before deleting the topic.',
+      });
+    } else {
+      deleteMutation.mutate(id);
+    }
+  };
+
   return (
     <div className="flex flex-col gap-4 items-center justify-center w-full z-20">
       <Card className="w-full">
         <CardHeader>
-          <CardTitle className="font-bold">Search Assets</CardTitle>
-          <CardDescription className="text-small text-gray-400">
-            Get the assets you want!!
-          </CardDescription>
+          <>
+            <div className="flex justify-between items-center w-full">
+              <div>
+                <CardTitle className="font-bold">Search Assets</CardTitle>
+                <CardDescription className="text-small text-gray-400">
+                  Get the assets you want!!
+                </CardDescription>
+              </div>
+              {role === 'staff' && (
+                <div className="md:w-4/12 lg:w-2/12 flex">
+                  <ButtonWithSpinner
+                    mutation={deleteMutation}
+                    innerContent={
+                      <>
+                        <span className="mr-2">
+                          <DeleteIcon />
+                        </span>
+                        Delete
+                      </>
+                    }
+                    props={{
+                      className: 'w-full hover:bg-red-700',
+                      onClick: () => {
+                        handleDelete(topicId);
+                      },
+                    }}
+                  />
+                </div>
+              )}
+            </div>
+          </>
         </CardHeader>
         <CardContent className="flex">
           <>

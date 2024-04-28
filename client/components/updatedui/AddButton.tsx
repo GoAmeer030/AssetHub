@@ -8,7 +8,7 @@ import { useParamStore } from '@/stores/paramStore';
 import { Card } from '../ui/card';
 import { SparklesCore } from '../ui/sparkles';
 
-export default function AddTopicButton() {
+export default function AddButton() {
   const { theme } = useTheme();
   const { setAddTopicDialogTrigger, setAddAssetDialogTrigger, page } =
     useParamStore();

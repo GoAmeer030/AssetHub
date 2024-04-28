@@ -1,9 +1,12 @@
 'use client';
 
-import { deleteTopic, getTopics, postAddTopic } from '@/api/topicApi';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
+
+import { useMutation } from '@tanstack/react-query';
 
 import { toast, useToast } from '@/components/ui/use-toast';
+
+import { deleteTopic, getTopics, postAddTopic } from '@/api/topicApi';
 
 export function useAddTopicMutation() {
   const { toast } = useToast();
@@ -45,8 +48,13 @@ export function useGetTopicsMutation() {
 
 export function useDeleteTopicMutation() {
   const { toast } = useToast();
+  const router = useRouter();
+
   const mutation = useMutation({
     mutationFn: deleteTopic,
+    onSuccess: () => {
+      router.push('/auth/signin');
+    },
     onError: (error) => {
       toast({
         title: 'Unable to delete topic',

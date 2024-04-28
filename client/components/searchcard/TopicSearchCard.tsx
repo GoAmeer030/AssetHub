@@ -127,14 +127,25 @@ export default function TopicSearchCard({
       while (num % 4 !== 1) {
         num--;
       }
+
+      const departmentMap: { [key: string]: string } = {
+        '104': '1',
+        '205': '2',
+        '106': '3',
+        '105': '4',
+      };
+
       const localSyllabus = num.toString();
       const localYear = (new Date().getFullYear() - num).toString();
+      const localDepartment = departmentMap[userId.slice(6, 9)];
 
       setSyllabus(localSyllabus);
       setYear(localYear);
+      setDepartment(localDepartment);
 
       result.syllabus = localSyllabus;
       result.year = localYear;
+      result.department = localDepartment;
     }
 
     return result;

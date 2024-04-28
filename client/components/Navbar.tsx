@@ -15,7 +15,7 @@ import {
 import LogoutButton from '@/components/LogoutButton';
 import SearchBox from '@/components/SearchBox';
 import { ThemeMenuButton } from '@/components/ThemeMenuButton';
-import AddTopicButton from '@/components/updatedui/AddButton';
+import AddButton from '@/components/updatedui/AddButton';
 
 import { useStaffStore } from '@/stores/usersStore/staffStore';
 import { useStudentStore } from '@/stores/usersStore/studentStore';
@@ -49,7 +49,7 @@ export default function Header() {
         {role === 'staff' && (
           <NavbarItem>
             <div className="flex flex-col justify-between gap-3 md:gap-6 h-full min-w-fit">
-              <AddTopicButton />
+              <AddButton />
             </div>
           </NavbarItem>
         )}

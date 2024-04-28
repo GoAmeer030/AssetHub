@@ -116,5 +116,7 @@ export default class TopicManager {
         id: id,
       },
     });
+
+    res.status(200).send();
   };
 }

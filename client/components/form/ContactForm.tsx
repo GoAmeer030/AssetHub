@@ -72,7 +72,6 @@ export default function ContactForm() {
               <FormLabel>Attachments</FormLabel>
               <FormControl>
                 <Input
-                  {...field}
                   id="attachments"
                   type="file"
                   className="text-sm file:h-full

@@ -126,9 +126,11 @@ export default function ShowTopics({
                   </p>
                 </TableCell>
                 <TableCell>
-                  {topic.subjectcode}{' '}
-                  <p className="text-foreground/50 inline-block">
-                    - {topic.syllabus}
+                  <p>
+                    {topic.subjectcode}{' '}
+                    <p className="text-foreground/50 inline-block">
+                      - {topic.syllabus}
+                    </p>
                   </p>
                 </TableCell>
               </TableRow>

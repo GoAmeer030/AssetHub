@@ -23,7 +23,7 @@ export function useVerifyTokenMutation() {
     mutationFn: postVerifyToken,
     onSuccess: (data) => {
       if (data) {
-        console.log(data);
+        // console.log(data);
         if ('staffid' in data.data) {
           setStaffID(data.data.id);
           setStaffName(data.data.staffname);
@@ -63,7 +63,7 @@ export function useVerifyToken(isRedirectToDashboard = false) {
       mutation.mutate(accessToken);
     } else {
       router.push('/auth/signin');
-      console.log('going to home page');
+      // console.log('going to home page');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

@@ -22,6 +22,7 @@ import ButtonWithSpinner from '@/components/updatedui/ButtonWithSpinner';
 import { useDeleteAssetMutation } from '@/hooks/assetHook';
 
 import { useParamStore } from '@/stores/paramStore';
+import { useUserRoleIdStore } from '@/stores/usersStore/userRoleIdStore';
 
 import { assetType } from '@/types/assetType';
 
@@ -144,6 +145,8 @@ export default function ShowAssets({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mutation.isSuccess]);
 
+  const { role } = useUserRoleIdStore();
+
   return (
     <>
       {pageAssets.length > 0 ? (
@@ -195,14 +198,16 @@ export default function ShowAssets({
                       }}
                     />
                   )}
-                  <ButtonWithSpinner
-                    innerContent={<DeleteIcon />}
-                    props={{
-                      onClick: () => handleDeleteClick(asset.id),
-                      variant: 'ghost',
-                      size: 'icon',
-                    }}
-                  />
+                  {role === 'staff' && (
+                    <ButtonWithSpinner
+                      innerContent={<DeleteIcon />}
+                      props={{
+                        onClick: () => handleDeleteClick(asset.id),
+                        variant: 'ghost',
+                        size: 'icon',
+                      }}
+                    />
+                  )}
                 </TableCell>
               </TableRow>
             ))}

@@ -1,9 +1,12 @@
 'use client';
 
-import { deleteAsset, getAssets, postAddAsset } from '@/api/assetApi';
+import { useRouter } from 'next/navigation';
+
 import { useMutation } from '@tanstack/react-query';
 
 import { useToast } from '@/components/ui/use-toast';
+
+import { deleteAsset, getAssets, postAddAsset } from '@/api/assetApi';
 
 export function useAddAssetMutation() {
   const { toast } = useToast();
@@ -45,10 +48,14 @@ export function useGetAssetsMutation() {
 }
 
 export function useDeleteAssetMutation() {
+  const router = useRouter();
   const { toast } = useToast();
+
   const mutation = useMutation({
     mutationFn: deleteAsset,
-    onSuccess: () => {},
+    onSuccess: () => {
+      router.refresh();
+    },
     onError: (error) => {
       toast({
         title: 'Unable to delete asset',
